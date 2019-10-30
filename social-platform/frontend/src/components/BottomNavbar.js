@@ -9,7 +9,7 @@ export default function BottomNavbar() {
       <Navbar fixed="bottom" bg="light">
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Nav className="m-auto">
-            <Nav.Link as={Link} to="/">Feed</Nav.Link>
+            <Nav.Link as={Link} to="/">Feed<i class="fas fa-bullseye"></i></Nav.Link>
             <Nav.Link as={Link} to="/forum">Forum</Nav.Link>
             <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
             <Nav.Link as={Link} to="/swipe">Swipe</Nav.Link>
