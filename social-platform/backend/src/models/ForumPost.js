@@ -2,10 +2,9 @@ const mongoose = require('mongoose');
 const { db } = require('../loaders');
 const Schema = mongoose.Schema;
 
-let feedPostSchema = new Schema({
+let ForumPostSchema = new Schema({
 
     owner: String, //populate
-    likes: Number,
     comments: [], //(from table comments)
     timeStamp = Date,
     image: [],
@@ -15,6 +14,6 @@ let feedPostSchema = new Schema({
     
 })
 
-class FeedPostClass {}
+class ForumPostClass {}
 
-module.exports = db.model('ForumPost', feedPostSchema)
+module.exports = db.model('ForumPost', ForumPostSchema)
