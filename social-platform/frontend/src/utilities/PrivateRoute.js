@@ -33,7 +33,7 @@ const PrivateRoute = props => {
                 type: 'LOGOUT_USER'
             })
             setLoading(false)
-        } else if(data.loggedIn && state.isLoggedIn){
+        } else if (data.loggedIn && state.isLoggedIn) {
             setLoading(false)
         }
         setLoading(false)
@@ -43,11 +43,11 @@ const PrivateRoute = props => {
         <Route
             {...rest}
             render={props =>
-                isAuthenticated ? (
-                    <Component {...props} />
+                loading ? (
+                    <div>loading</div>
                 ) : (
-                        loading ? (
-                            <div>loading</div>
+                        isAuthenticated ? (
+                            <Component {...props} />
                         ) : (
                                 <Redirect
                                     to={{
