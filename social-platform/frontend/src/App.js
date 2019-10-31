@@ -10,7 +10,7 @@ import { Store } from './utilities/Store'
 
 function App() {
   const { state } = React.useContext(Store);
-  console.log(state.isLoggedIn)
+  console.log("logged in: ", state.isLoggedIn)
 
   return (
     <Router>
