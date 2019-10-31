@@ -3,6 +3,7 @@ import React from 'react';
 export const Store = React.createContext();
 
 const initialState = {
+    isLoggedIn: true,
     test: 'Detta är från store'
 }
 
