@@ -65,20 +65,27 @@ export default function Register() {
             allGood = true
         }
         if (allGood) {
-            login(firstName.current.value, lastName.current.value, email.current.value, password.current.value, password2.current.value)
+            register(email.current.value, password.current.value, firstName.current.value, lastName.current.value)
         }
         e.preventDefault();
     }
-    async function login(firstName, lastName, email, password, password2) {
+    async function register(email, password, firstName, lastName) {
         let data = {
-            firstName,
-            lastName,
             email,
-            password,
-            password2
+            password, 
+            firstName,
+            lastName
         }
-
         console.log(data)
+
+        let registerUser = await fetch('/api/register', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: { 'Content-Type': 'application/json'}
+        });
+
+        let result = await registerUser.json();
+        console.log(result)
         
     }
 
