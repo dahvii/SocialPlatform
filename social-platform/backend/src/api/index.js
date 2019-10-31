@@ -54,7 +54,7 @@ router.post('/api/login', (req, res) => {
             } else {
                 return res
                     .status(400)
-                    .json({ error: "password incorrect" })
+                    .json({ error: "login-error" })
             }
         });
     });

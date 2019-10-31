@@ -40,7 +40,9 @@
     color: whitesmoke;
     margin: 0;
 }
-
+.form-error-hidden{
+    opacity: 0;
+}
 .register-content{
     opacity: 0;
     -moz-transition: opacity 2.5s;
