@@ -13,9 +13,7 @@ function test(){
 }
     return (
         <div>
-            <p>Navbar</p>
-            <p>{state.test}</p>
-            <button onClick={test}>test</button>
+            {/* <p>Navbar</p> */}
         </div>
     )
 }

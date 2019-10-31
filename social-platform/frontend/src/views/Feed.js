@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function Login() {
+export default function Feed() {
     return (
         <div>
-            <p>Login</p>
+            feed view
         </div>
     )
 }
