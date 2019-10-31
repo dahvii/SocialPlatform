@@ -11,9 +11,6 @@ const mongoDBstore = new MongoDBstore({
     collection: 'mySessions'
 });
 
-app.use(express.json());
-app.use(express.static('www'));
-app.use('/', router);
 app.use(session({
     secret: 'social-secret',
     resave: false,
@@ -24,6 +21,11 @@ app.use(session({
         secure: false
     }
 }))
+
+app.use(express.json());
+app.use(express.static('www'));
+app.use('/', router);
+
 
 async function startWebServer() {
     app.listen(config.port, () => console.log('Listening on port ' + config.port));     

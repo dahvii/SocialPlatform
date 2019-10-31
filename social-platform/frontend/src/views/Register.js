@@ -98,7 +98,7 @@ export default function Register() {
                     <Form.Control required ref={firstName} className="form-controll" type="name" placeholder="Lisa" />
                     {firstNameError ?
                         <p className="form-error">Du måste fylla i ett förnamn</p>
-                        : <p className="form-error form-error-transparent">?</p>
+                        : <p className="form-error">&mvsp;</p>
                     }
                 </Form.Group>
                 <Form.Group className="form-group" controlId="exampleForm.ControlInput2">
@@ -106,7 +106,7 @@ export default function Register() {
                     <Form.Control required ref={lastName} className="form-controll" type="name" placeholder="Svensson" />
                     {lastNameError ?
                         <p className="form-error">Du måste fylla i ett efternamn</p>
-                        : <p className="form-error form-error-transparent">.</p>
+                        : <p className="form-error">&mvsp;</p>
                     }
                 </Form.Group>
                 <Form.Group className="form-group" controlId="exampleForm.ControlInput3">
@@ -114,7 +114,7 @@ export default function Register() {
                     <Form.Control required ref={email} className="form-controll" type="email" placeholder="name@example.com" />
                     {emailError ?
                         <p className="form-error">Du måste fylla i en email</p>
-                        : <p className="form-error form-error-transparent">,</p>
+                        : <p className="form-error">&mvsp;</p>
                     }
                 </Form.Group>
                 <Form.Group className="form-group" controlId="exampleForm.ControlInput4">
@@ -122,7 +122,7 @@ export default function Register() {
                     <Form.Control required ref={password} className="form-controll" type="password" placeholder="*******" />
                     {passwordError ?
                         <p className="form-error">Du måste fylla i ett lösenord</p>
-                        : <p className="form-error form-error-transparent">.,</p>
+                        : <p className="form-error">&mvsp;</p>
                     }
                 </Form.Group>
                 <Form.Group className="form-group" controlId="exampleForm.ControlInput5">
@@ -130,12 +130,12 @@ export default function Register() {
                     <Form.Control required ref={password2} className="form-controll" type="password" placeholder="*******" />
                     {password2Error ?
                         <p className="form-error">Du måste fylla i ett lösenord</p>
-                        : <p className="form-error form-error-transparent">.</p>
+                        : <p className="form-error">&mvsp;</p>
                     }
                     {
                         matchingPasswordError ? 
                         <p className="form-error">Dina lösenord ska matcha</p>
-                        : <p className="form-error form-error-transparent">.</p>
+                        : <p className="form-error form-error-transparent">&mvsp;</p>
                     }
                 </Form.Group>
                 <Button variant="light" type="submit" className="register-button">SKAPA KONTO</Button>
