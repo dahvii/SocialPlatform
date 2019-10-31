@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom'
 
 export default function Register() {
     useEffect(() => {
-        console.log("hej")
         document.body.className += " loaded"
     })
+
     const firstName = useRef();
     const lastName = useRef();
     const email = useRef();
@@ -72,24 +72,23 @@ export default function Register() {
     async function register(email, password, firstName, lastName) {
         let data = {
             email,
-            password, 
+            password,
             firstName,
             lastName
         }
-        console.log(data)
 
         let registerUser = await fetch('/api/register', {
             method: 'POST',
             body: JSON.stringify(data),
-            headers: { 'Content-Type': 'application/json'}
+            headers: { 'Content-Type': 'application/json' }
         });
 
         let result = await registerUser.json();
         console.log(result)
-        
+
     }
 
-    return (    
+    return (
         <div className="register-content">
             <Form noValidate onSubmit={validate} className="form">
                 <h1 className="form-headline">SKAPA KONTO</h1>
@@ -133,9 +132,9 @@ export default function Register() {
                         : <p className="form-error form-error-hidden">&mvsp;</p>
                     }
                     {
-                        matchingPasswordError ? 
-                        <p className="form-error">Dina lösenord ska matcha</p>
-                        : <p className="form-error form-error-hidden">&mvsp;</p>
+                        matchingPasswordError ?
+                            <p className="form-error">Dina lösenord ska matcha</p>
+                            : <p className="form-error form-error-hidden">&mvsp;</p>
                     }
                 </Form.Group>
                 <Button variant="light" type="submit" className="register-button">SKAPA KONTO</Button>

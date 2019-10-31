@@ -7,22 +7,24 @@ const initialState = {
     currentUser: ''
 }
 
-function reducer(state, action){
-    switch(action.type) {
+function reducer(state, action) {
+    switch (action.type) {
         case 'TEST':
-            return {...state, test: action.payload};
+            return { ...state, test: action.payload };
         case 'SET_LOGGEDIN':
-            return {...state, isLoggedIn: action.payload};
+            return { ...state, isLoggedIn: action.payload };
         case 'SET_CURRENT_USER':
-            return {...state, currentUser: action.payload};
+            return { ...state, currentUser: action.payload };
+        case 'LOGOUT_USER':
+            return { ...state, currentUser: '', isLoggedIn: false }
         default:
             return state;
     }
 }
 
-export function StoreProvider(props){
-    const [state, dispatch] =React.useReducer(reducer, initialState);
-    const value = {state, dispatch};
+export function StoreProvider(props) {
+    const [state, dispatch] = React.useReducer(reducer, initialState);
+    const value = { state, dispatch };
     return <Store.Provider value={value}>{props.children}
     </Store.Provider>
 }
