@@ -1,20 +1,20 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { Navbar, Nav } from 'react-bootstrap'
+import '../css/BottomNavbar.css'
 
 export default function BottomNavbar() {
 
   return (
     <div>
       <Navbar fixed="bottom" bg="light">
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Nav className="m-auto">
-            <Nav.Link as={Link} to="/">Feed<i class="fas fa-bullseye"></i></Nav.Link>
-            <Nav.Link as={Link} to="/forum">Forum</Nav.Link>
-            <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
-            <Nav.Link as={Link} to="/swipe">Swipe</Nav.Link>
-            <Nav.Link as={Link} to="/messages">Mess</Nav.Link>
-          </Nav>
+        <Nav className="navbar pr-0 pb-0">
+          <NavLink className="navbar-item" activeClassName="active" to="/forum"><i className="fas fa-align-left navbar-icon"></i><p className="navbar-title">Forum</p></NavLink>
+          <NavLink className="navbar-item" activeClassName="active" to="/swipe"><i className="fas fa-exchange-alt navbar-icon"></i><p className="navbar-title">Swipe</p></NavLink>
+          <NavLink className="navbar-item" activeClassName="active" exact to="/"><i className="fas fa-bullseye navbar-icon"></i><p className="navbar-title" >Feed</p></NavLink>
+          <NavLink className="navbar-item" activeClassName="active" to="/messages"><i className="far fa-comments navbar-icon"></i><p className="navbar-title">Mess</p></NavLink>
+          <NavLink className="navbar-item" activeClassName="active" to="/profile"><i className="far fa-user navbar-icon"></i><p className="navbar-title">Profile</p></NavLink>
+        </Nav>
       </Navbar>
     </div>
   )
