@@ -5,7 +5,7 @@ import Start from './views/Start';
 import Register from './views/Register';
 import Navbar from './components/BottomNavbar';
 import Login from './views/Login';
-import Feed from './components/Feed';
+import Feed from './views/Feed';
 import { Store } from './utilities/Store'
 
 function App() {
