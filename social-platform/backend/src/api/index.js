@@ -75,6 +75,4 @@ router.get('/api/loggedinas', (req, res) => {
     }
 })
 
-
-
 module.exports = { router };
