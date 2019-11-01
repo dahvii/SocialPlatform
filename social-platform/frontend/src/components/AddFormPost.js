@@ -11,7 +11,9 @@ export default function AddFormPost(){
     const text = useRef();
     const [titelError,setTitelError] = useState(false);
     const [textError,setTextError] = useState(false);
+    const [timeStamp,setTimeStamp] = useState(new Date);
     
+
     function validate(e) {
         let allGood = false;
         if (titel.current.value === '') {
@@ -29,19 +31,20 @@ export default function AddFormPost(){
             setTextError(false)
         }
         if (allGood) {
-            register(titel.current.value, text.current.value, owner)
+            register(titel.current.value, text.current.value, owner, timeStamp.getTime())
         }
         e.preventDefault();
     }
 
-    async function register(titel,text,owner) {
+    async function register(titel,text,owner,timeStamp) {
+        setTimeStamp(new Date)
         let data = {
             titel,
             text,
-            owner 
+            owner,
+            timeStamp
         }
         console.log(data)
-        ////////////////////////////////////////////////////////////////////???????????????????????????????????????????????????
         let registerFormPost = await fetch('/api/forum', {
             method: 'POST',
             body: JSON.stringify(data),
