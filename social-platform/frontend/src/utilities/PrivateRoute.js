@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Redirect, Route } from 'react-router-dom'
 import { Store } from '../utilities/Store';
+import Loading from '../utilities/Loading'
 
 const PrivateRoute = props => {
 
@@ -44,7 +45,7 @@ const PrivateRoute = props => {
             {...rest}
             render={props =>
                 loading ? (
-                    <div>loading</div>
+                    <Loading />
                 ) : (
                         isAuthenticated ? (
                             <Component {...props} />
