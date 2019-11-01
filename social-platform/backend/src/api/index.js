@@ -2,10 +2,14 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User')
 const bcrypt = require('bcryptjs')
+const ForumPost = require('../models/ForumPost')
 
 const dbModels = {
-    user: require('../models/User')
+    user: require('../models/User'),
+    forumPost: require('../models/ForumPost')
 }
+
+
 
 router.post('/api/register', (req, res) => {
     User.findOne({ email: req.body.email }).then(user => {
@@ -76,4 +80,15 @@ router.get('/api/loggedinas', (req, res) => {
     }
 })
 
+
+router.post('/api/forum', (req,res)=>{
+    
+   const newForumPost = new ForumPost({
+       owner: req.body.owneif (err) throw err;r,
+       titel: req.body.titel,
+       text: req.body.text
+   });
+   newForumPost.save();
+   
+})
 module.exports = { router };

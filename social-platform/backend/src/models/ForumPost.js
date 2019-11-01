@@ -6,10 +6,10 @@ let ForumPostSchema = new Schema({
 
     owner: String, //populate
     comments: [], //(from table comments)
-    timeStamp = Date,
     image: [],
     titel: String,
     text: String,
+    timeStamp: Date,
     
     
 })

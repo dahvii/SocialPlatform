@@ -1,15 +1,16 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { Form, Button, FormControl } from 'react-bootstrap'
 //import { Link } from 'react-router-dom'
-import store from '../utilities/Store'
+import {Store} from '../utilities/Store'
 export default function AddFormPost(){
-  
-    const owner = 'curent'
+    
+    const { state, dispatch } = React.useContext(Store);
+    //const owner = state.currentUser;
+    const owner = 'Test';
     const titel = useRef();
-    const textarea = useRef();
-    //const timeStamp = useRef();
+    const text = useRef();
     const [titelError,setTitelError] = useState(false);
-    const [textAreaError,setTextAreaError] = useState(false);
+    const [textError,setTextError] = useState(false);
     
     function validate(e) {
         let allGood = false;
@@ -20,28 +21,28 @@ export default function AddFormPost(){
             allGood = true;
             setTitelError(false)
         }
-        if (textarea.current.value === '') {
-            setTextAreaError(true)
+        if (text.current.value === '') {
+            setTextError(true)
             allGood = false;
         } else {
             allGood = true;
-            setTextAreaError(false)
+            setTextError(false)
         }
         if (allGood) {
-            register(titel.current.value, textarea.current.value, owner)
+            register(titel.current.value, text.current.value, owner)
         }
         e.preventDefault();
     }
 
-    async function register(titel,textarea,owner) {
+    async function register(titel,text,owner) {
         let data = {
             titel,
-            textarea,
+            text,
             owner 
         }
         console.log(data)
         ////////////////////////////////////////////////////////////////////???????????????????????????????????????????????????
-        let registerFormPost = await fetch('/api/form', {
+        let registerFormPost = await fetch('/api/forum', {
             method: 'POST',
             body: JSON.stringify(data),
             headers: { 'Content-Type': 'application/json'}
@@ -49,17 +50,13 @@ export default function AddFormPost(){
         let result = await registerFormPost.json();
         console.log(result)    
     }
-    /*
-    useEffect(() => {
-        console.log("hej")
-        document.body.className += " loaded"
-    })
-    */
-    return (    
-        <div className="register-content">
+    return (
+        <> 
+        
+        <div className="ForumPost">
             <Form noValidate onSubmit={validate} className="form">
                 <h1 className="form-headline">SKAPA en ny post</h1>
-                <Form.Group className="form-group" controlId="exampleForm.ControlInput1">
+                <Form.Group className="form-group" controlId="ForumForm.ControlInput1">
                     <Form.Label className="form-label">Titel</Form.Label>
                     <Form.Control required ref={titel} className="form-controll" type="name" placeholder="Titel" />
                     {titelError ?
@@ -67,10 +64,10 @@ export default function AddFormPost(){
                         : <p className="form-error">&mvsp;</p>
                     }
                 </Form.Group>
-                <Form.Group className="form-group" controlId="exampleForm.ControlInput2">
+                <Form.Group className="form-group" controlId="ForumForm.ControlInput2">
                     <Form.Label>Text</Form.Label>
-                    <Form.Control required ref={textarea} className="form-controll" type="name" placeholder="Post text"/>
-                    {textAreaError ?
+                    <Form.Control required ref={text} className="form-controll" type="name" placeholder="Post text"/>
+                    {textError ?
                         <p className="form-error">Du måste skriva någon text</p>
                         : <p className="form-error">&mvsp;</p>
                     }
@@ -78,5 +75,7 @@ export default function AddFormPost(){
                 <Button variant="light" type="submit" className="register-button">Post</Button>
             </Form>
         </div>
+
+        </>
     )
 }

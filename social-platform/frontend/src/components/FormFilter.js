@@ -15,7 +15,6 @@ export default function FormFilter(){
 
     return(
         <>
-        
         <Card style={{ width: '25rem' }}>
             <Card.Body>
                 <Card.Title>Sök / Filter</Card.Title>
