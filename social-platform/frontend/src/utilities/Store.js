@@ -3,13 +3,18 @@ import React from 'react';
 export const Store = React.createContext();
 
 const initialState = {
-    test: 'Detta är från store'
+    isLoggedIn: false,
+    currentUser: ''
 }
 
 function reducer(state, action){
     switch(action.type) {
         case 'TEST':
             return {...state, test: action.payload};
+        case 'SET_LOGGEDIN':
+            return {...state, isLoggedIn: action.payload};
+        case 'SET_CURRENT_USER':
+            return {...state, currentUser: action.payload};
         default:
             return state;
     }

@@ -3,12 +3,10 @@ const { db } = require('../loaders');
 const Schema = mongoose.Schema;
 
 let userSchema = new Schema({
-
-    userName: String,
     password: String,
+    email: String,
     firstName: String,
     lastName: String,
-    email: String,
     dateOfBirth: Date,
     gender: String,
     bio: String,
