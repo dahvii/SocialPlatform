@@ -43,7 +43,6 @@ router.post('/api/login', (req, res) => {
         //check password
         bcrypt.compare(password, user.password).then(isMatch => {
             if (isMatch) {
-                console.log(isMatch)
                 const sessUser = {
                     id: user._id,
                     email: user.email,
@@ -72,6 +71,8 @@ router.delete('/api/logout', (req, res) => {
 router.get('/api/loggedinas', (req, res) => {
     if(req.session.user){
         res.json(req.session.user)
+    } else {
+        res.json({error: "Not logged in"})
     }
 })
 

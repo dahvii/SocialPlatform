@@ -7,7 +7,7 @@ export default function Feed() {
     console.log("från feed: " ,state.currentUser)
     return (
         <div>
-            feed view
+            <p>Feed view</p>
         </div>
     )
 }

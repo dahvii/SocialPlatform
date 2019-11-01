@@ -6,11 +6,14 @@ import Register from './views/Register';
 import Navbar from './components/BottomNavbar';
 import Login from './views/Login';
 import Feed from './views/Feed';
+import Profile from './views/Profile';
+import Swipe from './views/Swipe';
+import Messages from './views/Messages';
+import PrivateRoute from './utilities/PrivateRoute'
 import { Store } from './utilities/Store'
 
 function App() {
   const { state } = React.useContext(Store);
-  console.log("logged in: ", state.isLoggedIn)
 
   return (
     <Router>
@@ -18,11 +21,13 @@ function App() {
         { state.isLoggedIn ? 
           <Navbar /> : ''
         }
-        <Route exact path="/" component={Feed} />
-        <Route path="/start" component={Start} />
-        <Route path="/register" component={Register} />
-        <Route path="/login" component={Login} />
-        <Route path="/Forum" component={Forum} />
+        <PrivateRoute exact path="/" component={Feed} isAuthenticated={state.isLoggedIn} redirectPath="/login"/>
+        <PrivateRoute exact path="/swipe" component={Swipe} isAuthenticated={state.isLoggedIn} redirectPath="/login"/>
+        <PrivateRoute exact path="/profile" component={Profile} isAuthenticated={state.isLoggedIn} redirectPath="/login"/>
+        <PrivateRoute exact path="/messages" component={Messages} isAuthenticated={state.isLoggedIn} redirectPath="/login"/>
+        <PrivateRoute path="/start" component={Start} isAuthenticated={!state.isLoggedIn} redirectPath="/"/>
+        <PrivateRoute path="/register" component={Register} isAuthenticated={!state.isLoggedIn} redirectPath="/"/>
+        <PrivateRoute path="/login" component={Login} isAuthenticated={!state.isLoggedIn} redirectPath="/"/>
       </div>
     </Router>
   );
