@@ -46,6 +46,12 @@ router.post('/api/login', (req, res) => {
                 const sessUser = {
                     id: user._id,
                     email: user.email,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    profilePictures: user.profilePictures,
+                    interests: user.interests,
+                    matches: user.matches,
+                    characteristics: user.characteristics,
                     loggedIn: true
                 };
                 req.session.user = sessUser;
