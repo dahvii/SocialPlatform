@@ -16,7 +16,10 @@ router.post('/api/register', (req, res) => {
                 email: req.body.email,
                 password: req.body.password,
                 firstName: req.body.firstName,
-                lastName: req.body.lastName
+                lastName: req.body.lastName,
+                gender: '',
+                dateOfBirth: '',
+                bio: ''
             });
             bcrypt.genSalt(10, (err, salt) => {
                 bcrypt.hash(newUser.password, salt, (err, hash) => {
