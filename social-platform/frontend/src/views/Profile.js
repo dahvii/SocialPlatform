@@ -25,16 +25,6 @@ export default function Profile() {
         setImages(images)
     }, [])
 
-    const logout = async () => {
-        let result = await fetch('/api/logout', {
-            method: 'DELETE'
-        });
-        result = await result.json()
-        if (result.success) {
-            dispatch({ type: "LOGOUT_USER" })
-        }
-    }
-
     const profilePictures = images.map(image => (
         <Carousel.Item key={image.id}>
             <img
@@ -67,7 +57,7 @@ export default function Profile() {
                     <div className="bio"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus quo eum ipsam reprehenderit saepe nesciunt perferendis repudiandae. Rem quod necessitatibus voluptas. Laudantium sint debitis ad eveniet eum vitae excepturi commodi.</p></div>
                 </div>
             </div>
-            <Button onClick={logout}>Log out</Button>
+            
         </div>
     )
 }

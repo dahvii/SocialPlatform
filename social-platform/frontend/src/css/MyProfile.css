@@ -1,0 +1,25 @@
+.profile-picture{
+    margin-top: 3vh;
+    margin-bottom: 2vh;
+    border: 2px solid white;
+}
+
+.myprofile-info{
+    display: flex;
+    justify-content: center;
+}
+
+.myprofile-buttons{
+    border-radius: 50%;
+}
+
+.btn-light{
+    display: inline-flex;
+    flex-direction: row;
+border-radius: 40px;  
+align-items: center;  
+}
+
+.fa-eye, .fa-cog{
+font-size: 2rem;
+}
