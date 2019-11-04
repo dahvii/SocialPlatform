@@ -12,9 +12,29 @@ export default function EditProfile() {
 
     })
 
-    const handleGenderOptionChange = (e) =>{
-        console.log(e.target.value)
+    const handleGenderOptionChange = (e) => {
         setCheckedGender(e.target.value)
+    }
+
+    const handleBioChange = (e) => {
+        console.log(e.target.value)
+        setUserBio(e.target.value)
+    }
+
+    async function updateProfile(){
+        let data = {
+            userBio,
+            checkedGender
+        }
+        let updatedUser = await fetch(`/api/update/${state.currentUser.id}`, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+            headers: { 'Content-Type': 'application/json' }
+        });
+
+        // let result = await updatedUser.json()
+        // console.log(result)
+
     }
 
     return (
@@ -24,7 +44,7 @@ export default function EditProfile() {
                 <Form>
                     <Form.Group controlId="exampleForm.ControlTextarea1">
                         <Form.Label>Om dig (max 200 tecken)</Form.Label>
-                        <Form.Control as="textarea" rows="3" defaultValue={userBio} maxLength="200" />
+                        <Form.Control as="textarea" rows="3" defaultValue={userBio} onChange={handleBioChange} maxLength="200" />
                     </Form.Group>
                 </Form>
                 <Form>
@@ -56,7 +76,7 @@ export default function EditProfile() {
                     </div>
                 </Form>
                 <h4>Intressen</h4>
-                <Button>Uppdatera profil</Button>
+                <Button onClick={updateProfile}>Uppdatera profil</Button>
             </div>
         </div>
     )

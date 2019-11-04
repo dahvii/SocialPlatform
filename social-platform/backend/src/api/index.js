@@ -2,10 +2,12 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User')
 const bcrypt = require('bcryptjs')
+const ObjectId = require('mongodb').ObjectId
 
 const dbModels = {
     user: require('../models/User')
 }
+
 
 router.post('/api/register', (req, res) => {
     User.findOne({ email: req.body.email }).then(user => {
@@ -87,6 +89,8 @@ router.get('/api/loggedinas', (req, res) => {
     }
 })
 
+
+
 router.get('/api/person/:id', async (req, res) => {
     let result = await dbModels["user"].findOne({ _id: req.params.id });
     console.log(result)
@@ -102,6 +106,15 @@ router.get('/api/person/:id', async (req, res) => {
         profilePictures: result.profilePictures
     }
     res.json(publicUser);
+})
+
+router.put('/api/update/:id', async (req, res) => {
+    let id = req.params.id;
+
+
+    // let result = await dbModels["user"].findOne({_id: id});
+    let result = await User.findOneAndUpdate({_id: id}, { $set: { bio: req.body.userBio, gender: req.body.checkedGender}})
+    console.log(result)
     
 })
 
