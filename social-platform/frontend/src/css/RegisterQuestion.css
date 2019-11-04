@@ -1,0 +1,21 @@
+.question-headline{
+    color: whitesmoke;
+}
+
+.question-register-button{
+    width: 80%;
+    border-radius: 50px;
+    padding: 8px 60px 8px 60px;
+    color: #eb6f6d;
+    margin-top: 18%;
+}
+.register-questions{
+    color:whitesmoke;
+    font-size: 140%;
+}
+
+.radio-check{
+    text-align: left;
+    margin-left: 3em;
+}
+

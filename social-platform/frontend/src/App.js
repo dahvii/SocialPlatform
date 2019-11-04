@@ -6,6 +6,7 @@ import Register from './views/Register';
 import Navbar from './components/BottomNavbar';
 import Login from './views/Login';
 import Feed from './views/Feed';
+import AfterRegister from './views/AfterRegister';
 import { Store } from './utilities/Store'
 
 function App() {
@@ -20,8 +21,9 @@ function App() {
         }
         <Route exact path="/" component={Feed} />
         <Route path="/start" component={Start} />
-        <Route path="/register" component={Register} />
+        <Route exact path="/register" component={Register} />
         <Route path="/login" component={Login} />
+        <Route path="/register/questions" component={AfterRegister} />
       </div>
     </Router>
   );
