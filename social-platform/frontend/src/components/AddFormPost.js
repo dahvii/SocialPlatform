@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react'
 import { Form, Button, FormControl } from 'react-bootstrap'
 //import { Link } from 'react-router-dom'
 import {Store} from '../utilities/Store'
+import '../css/AddForumPost.css'
 export default function AddFormPost(){
     
     const { state, dispatch } = React.useContext(Store);
@@ -51,20 +52,20 @@ export default function AddFormPost(){
             headers: { 'Content-Type': 'application/json'}
         });
         let result = await registerFormPost.json();
-        console.log(result)    
+        console.log(result)
     }
+    
     return (
         <> 
-        
         <div className="ForumPost">
             <Form noValidate onSubmit={validate} className="form">
-                <h1 className="form-headline">SKAPA en ny post</h1>
+                <h1 className="form-headline">Skapa en ny post</h1>
                 <Form.Group className="form-group" controlId="ForumForm.ControlInput1">
                     <Form.Label className="form-label">Titel</Form.Label>
                     <Form.Control required ref={titel} className="form-controll" type="name" placeholder="Titel" />
                     {titelError ?
                         <p className="form-error">Du måste fylla i en Titel</p>
-                        : <p className="form-error">&mvsp;</p>
+                        : <p className="form-error-hidden">&mvsp;</p>
                     }
                 </Form.Group>
                 <Form.Group className="form-group" controlId="ForumForm.ControlInput2">
@@ -72,7 +73,7 @@ export default function AddFormPost(){
                     <Form.Control required ref={text} className="form-controll" type="name" placeholder="Post text"/>
                     {textError ?
                         <p className="form-error">Du måste skriva någon text</p>
-                        : <p className="form-error">&mvsp;</p>
+                        : <p className="form-error-hidden">&mvsp;</p>
                     }
                 </Form.Group>  
                 <Button variant="light" type="submit" className="register-button">Post</Button>

@@ -1,0 +1,7 @@
+.form-error{
+    color: whitesmoke;
+}
+.form-error-hidden{
+    opacity: 0;
+    margin: 0;
+}
