@@ -9,8 +9,7 @@ export default function EditProfile() {
     const [checkedGender, setCheckedGender] = useState(state.currentUser.gender)
 
     useEffect(() => {
-        console.log(state.currentUser.gender)
-        console.log(userBio)
+
     })
 
     const handleGenderOptionChange = (e) =>{

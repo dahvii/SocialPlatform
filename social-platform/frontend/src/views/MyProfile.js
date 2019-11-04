@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, {} from 'react'
 import { Store } from '../utilities/Store'
 import { Image, Button } from 'react-bootstrap'
 import '../css/MyProfile.css'

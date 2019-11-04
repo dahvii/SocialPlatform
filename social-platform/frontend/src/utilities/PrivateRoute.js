@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Redirect, Route } from 'react-router-dom'
+import useLifeCycle from '../utilities/useLifeCycle';
 import { Store } from '../utilities/Store';
 import Loading from '../utilities/Loading'
 
@@ -9,9 +10,9 @@ const PrivateRoute = props => {
     const { state, dispatch } = React.useContext(Store);
     const [loading, setLoading] = useState(true)
 
-    useEffect(() => {
-        checkLoginStatus()
-    }, []);
+    useLifeCycle({
+        mount: () => checkLoginStatus()
+    })
 
     const checkLoginStatus = async () => {
         let data = await fetch("/api/loggedinas");

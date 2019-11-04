@@ -1,22 +1,25 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Carousel } from 'react-bootstrap'
+import { Carousel } from 'react-bootstrap'
 import { Store } from '../utilities/Store'
 import imageLoader from '../utilities/ImageHandler';
+import useLifeCycle from '../utilities/useLifeCycle';
 import '../css/Profile.css'
 
 export default function Profile(props) {
-    const { state, dispatch } = React.useContext(Store);
+    const { state} = React.useContext(Store);
     const [images, setImages] = useState([])
     const [profile, setProfile] = useState({})
     const [loading, setLoading] = useState(true)
 
-    useEffect(() => {
-        const images = imageLoader();
-        setImages(images)
-        getFriend()
-    }, [])
+    useLifeCycle({
+        mount: () => {
+            const images = imageLoader();
+            setImages(images)
+            getProfile()
+        }
+    })
 
-    const getFriend = async () => {
+    const getProfile = async () => {
         let result = await (await fetch("/api/person/" + props.match.params.id)).json();
         console.log(result);
         setProfile(result)
