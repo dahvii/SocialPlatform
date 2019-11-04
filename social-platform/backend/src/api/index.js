@@ -51,9 +51,11 @@ router.post('/api/login', (req, res) => {
                     email: user.email,
                     firstName: user.firstName,
                     lastName: user.lastName,
+                    gender: user.gender,
                     profilePictures: user.profilePictures,
                     interests: user.interests,
                     matches: user.matches,
+                    bio: user.bio,
                     characteristics: user.characteristics,
                     loggedIn: true
                 };
@@ -83,6 +85,24 @@ router.get('/api/loggedinas', (req, res) => {
     } else {
         res.json({error: "Not logged in"})
     }
+})
+
+router.get('/api/person/:id', async (req, res) => {
+    let result = await dbModels["user"].findOne({ _id: req.params.id });
+    console.log(result)
+    const publicUser = {
+        id: result._id,
+        firstName: result.firstName,
+        bio: result.bio,
+        dateOfBirth: result.dateOfBirth,
+        gender: result.gender,
+        characteristics: result.characteristics,
+        interests: result.interests,
+        matches: result.matches,
+        profilePictures: result.profilePictures
+    }
+    res.json(publicUser);
+    
 })
 
 module.exports = { router };

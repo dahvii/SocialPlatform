@@ -8,16 +8,16 @@
     display: flex;
     justify-content: center;
 }
-
+/* 
 .myprofile-buttons{
     border-radius: 50%;
-}
+} */
 
-.btn-light{
+.profile-button{
     display: inline-flex;
     flex-direction: row;
-border-radius: 40px;  
-align-items: center;  
+    border-radius: 40px;  
+    align-items: center;  
 }
 
 .fa-eye, .fa-cog{

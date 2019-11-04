@@ -11,7 +11,7 @@ const PrivateRoute = props => {
 
     useEffect(() => {
         checkLoginStatus()
-    });
+    }, []);
 
     const checkLoginStatus = async () => {
         let data = await fetch("/api/loggedinas");
