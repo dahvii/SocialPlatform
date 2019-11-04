@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
+import '../css/FilterForum.css'
 export default function FormFilter(){
     
     const [titel,setTitel] = useState('');
@@ -12,30 +13,18 @@ export default function FormFilter(){
     const createNewPost= ()=>{
         
     }
-
     return(
         <>
-        <Card style={{ width: '25rem' }}>
+        <Card>
             <Card.Body>
-                <Card.Title>Sök / Filter</Card.Title>
-                <Form className="searchPage">
-                    <div className="container-fluid ">
-                        <div className="row ">
-                            <Form.Group className="col-md-8" controlId="formGridName">
-                                <Form.Label>Sök</Form.Label>
-                                <Form.Control name="name" placeholder="Titel" />
-                            </Form.Group>
-                            <Form.Group className="col-md-4 sortBy" controlId="formGridState">
-                                <Form.Label >Sort/Filter</Form.Label>
-                                <Form.Control as="select" name="sortBy" placeholder="Nyast">
-                                    <option value="titel">Titel</option>
-                                    <option value="mostcoments">Mest Comenterad</option>
-                                </Form.Control >
-                            </Form.Group>
-                        </div>
-                    </div>
-                </Form>
-                
+                <Card.Title >Sortering</Card.Title>
+                <Form.Group controlId="formGridState">
+                <Form.Label className="forum-filter-label">Sortering</Form.Label>
+                <Form.Control as="select">
+                    <option>Nyast</option>
+                    <option>Mest komenterad</option>
+                </Form.Control>
+            </Form.Group>
             </Card.Body>
         </Card>
         </>
