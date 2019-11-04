@@ -82,4 +82,10 @@ router.get('/api/loggedinas', (req, res) => {
     }
 })
 
+router.get('/api/users', (req, res) => {
+    User.find()
+      .then(user => res.json(user))
+      .catch(err => res.status(400).json('Error: ' + err));
+  });
+
 module.exports = { router };
