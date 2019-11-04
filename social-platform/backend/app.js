@@ -23,6 +23,7 @@ app.use(session({
 }))
 
 app.use(express.json());
+app.use('/uploads', express.static('uploads'))
 app.use(express.static('www'));
 app.use('/', router);
 

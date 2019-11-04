@@ -2,9 +2,35 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User')
 const bcrypt = require('bcryptjs')
+const multer = require('multer')
+const uuid = require('uuid')
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './uploads/');
+    },
+    filename: function (req, file, cb) {
+        cb(null, uuid());
+    }
+})
+const fileFilter = (req, file, cb) => {
+    //reject a file
+    if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' ){
+        cb(null, true)
+    } else {
+        cb(null, false)
+    }
+};
+const upload = multer({
+    storage: storage, 
+    limits: {
+        fileSize: 1024 * 1024 * 5
+    },
+    fileFilter: fileFilter
+});
 
 const dbModels = {
-    user: require('../models/User')
+    user: require('../models/User'),
+    feedPost: require('../models/FeedPost')
 }
 
 router.post('/api/register', (req, res) => {
@@ -36,7 +62,7 @@ router.post('/api/login', (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
     //Find user by email
-    User.findOne({email}).then(user => {
+    User.findOne({ email }).then(user => {
         if (!user) {
             return res.status(404).json({ error: "login-error" })
         }
@@ -66,20 +92,33 @@ router.post('/api/login', (req, res) => {
 });
 
 router.delete('/api/logout', (req, res) => {
-    if(req.session.user){
+    if (req.session.user) {
         delete req.session.user;
-        res.json({success: 'logged out'});
-    } else{
-        res.json({error: 'no user logged in'})
+        res.json({ success: 'logged out' });
+    } else {
+        res.json({ error: 'no user logged in' })
     }
 });
 
 router.get('/api/loggedinas', (req, res) => {
-    if(req.session.user){
+    if (req.session.user) {
         res.json(req.session.user)
     } else {
-        res.json({error: "Not logged in"})
+        res.json({ error: "Not logged in" })
     }
+})
+
+router.post('/api/new-post', upload.single('feedImage'), (req, res) => {
+    console.log(req.file);
+    const newPost = new dbModels.feedPost({
+        text: req.body.text,
+        owner: req.body.owner,
+        timeStamp: req.body.date,
+        likes: req.body.likes,
+        feedImage: req.file.path
+    })
+    newPost.save()
+        .then(res.status(200).json({ status: 200 }))
 })
 
 module.exports = { router };
