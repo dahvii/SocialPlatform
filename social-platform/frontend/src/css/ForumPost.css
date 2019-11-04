@@ -1,0 +1,11 @@
+.timestamp{
+    color: gray;
+    margin-bottom: 0;
+}
+
+.titel{
+    font-size: 1.50rem;
+}
+.form-controll{
+    border-radius: 0;
+}
