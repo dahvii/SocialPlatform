@@ -82,13 +82,18 @@ router.get('/api/loggedinas', (req, res) => {
 
 
 router.post('/api/forum', (req,res)=>{
-    
    const newForumPost = new ForumPost({
-       owner: req.body.owneif (err) throw err;r,
+       owner: req.body.owner,
        titel: req.body.titel,
-       text: req.body.text
+       text: req.body.text,
+       timeStamp: req.body.timeStamp
    });
-   newForumPost.save();
-   
+   newForumPost.save();   
+})
+
+
+router.get('/api/forum', async (req,res)=>{
+    let resoult = await dbModels.forumPost.find();
+    res.json(resoult);
 })
 module.exports = { router };
