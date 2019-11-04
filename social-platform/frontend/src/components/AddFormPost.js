@@ -54,7 +54,7 @@ export default function AddFormPost(){
         let result = await registerFormPost.json();
         console.log(result)
     }
-    
+
     return (
         <> 
         <div className="ForumPost">
@@ -68,14 +68,15 @@ export default function AddFormPost(){
                         : <p className="form-error-hidden">&mvsp;</p>
                     }
                 </Form.Group>
-                <Form.Group className="form-group" controlId="ForumForm.ControlInput2">
-                    <Form.Label>Text</Form.Label>
-                    <Form.Control required ref={text} className="form-controll" type="name" placeholder="Post text"/>
+                <Form.Group className="form-group" controlId="textarea">
+                    <Form.Label>Post text</Form.Label>
+                    <Form.Control required ref={text} className="form-controll" as="textarea" rows="3" placeholder="Post text" />
                     {textError ?
                         <p className="form-error">Du måste skriva någon text</p>
                         : <p className="form-error-hidden">&mvsp;</p>
                     }
-                </Form.Group>  
+                </Form.Group>
+
                 <Button variant="light" type="submit" className="register-button">Post</Button>
             </Form>
         </div>
