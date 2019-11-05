@@ -7,11 +7,11 @@ import { Store } from '../utilities/Store'
 
 export default function Swipe() {
     const { state } = React.useContext(Store);
-    const { showDetails, setShowDetails } = useState(false);
-    const { people, setPeople } = useState("test");
-    const { endOfSwipe, setEndOfSwipe } = useState(false);
-    const { displayedPersonindex, setDisplayedPersonindex } = useState(0);
-    const { currUserId } = useState(state.currentUser.id);
+    const [showDetails, setShowDetails] = useState(false);
+    const [people, setPeople] = useState(getUsers());
+    const [endOfSwipe, setEndOfSwipe] = useState(false);
+    const [displayedPersonindex, setDisplayedPersonindex] = useState(0);
+    const [currUserId]  = useState(state.currentUser.id);
 
     console.log(people);
 
