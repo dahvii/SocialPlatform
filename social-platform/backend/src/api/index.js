@@ -4,7 +4,7 @@ const User = require('../models/User')
 const bcrypt = require('bcryptjs')
 const multer = require('multer')
 const uuid = require('uuid')
-// const sharp = require('sharp')
+const sharp = require('sharp')
 const path = require('path')
 const fs = require('fs')
 const storage = multer.diskStorage({
@@ -17,14 +17,15 @@ const storage = multer.diskStorage({
 })
 const fileFilter = (req, file, cb) => {
     //reject a file
-    if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' ){
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
         cb(null, true)
+
     } else {
         cb(null, false)
     }
 };
 const upload = multer({
-    storage: storage, 
+    storage: storage,
     // limits: {
     //     fileSize: 1024 * 1024 * 5
     // },
@@ -111,41 +112,45 @@ router.get('/api/loggedinas', (req, res) => {
     }
 })
 
+router.get('/api/image/hej', (req, res) => {
+    let pathName = path.join(__dirname, '/../../' , 'uploads/resized/e5f0d5c3-9ef4-45c1-8afe-135a98186c39')
+    // const { fileid } = req.params;
+    console.log(pathName);
+    res.sendFile(pathName);
+});
+
 router.post('/api/new-image', upload.single('feedImage'), async (req, res) => {
-    console.log("req.file: ", req.file);
-    if(req.file){
-        console.log("det funkade");
-        res.json({file: req.file.path, success: "it worked"})
-    } else{
-        console.log("Det funkade inte");
-        res.json({error: "something went wrong"})
+    const { filename: image } = req.file
+    console.log(req.file.destination, 'resized', image)
+    await sharp(req.file.path)
+        .resize(500, 700)
+        .jpeg({ quality: 80 })
+        .toFile(
+            path.resolve(req.file.destination, 'resized', image)
+        )
+    fs.unlinkSync(req.file.path)
+
+    if (req.file) {
+        res.json({ file: req.file.path, success: "it worked" })
+    } else {
+        res.json({ error: "something went wrong" })
     }
 })
 
 router.post('/api/new-post', async (req, res) => {
-    console.log(req.body);
-    if(req.body){
+    if (req.body) {
         const newPost = new dbModels.feedPost({
             text: req.body.text,
             owner: req.body.owner,
             timeStamp: req.body.date,
             likes: req.body.likes,
-            feedImage: req.body.image
+            feedImage: req.body.resizedImage
         })
         newPost.save()
-        .then(res.status(200).json({ status: 200 }))
-    } else{
-        res.status(400).json({status: 400})
+            .then(res.status(200).json({ status: 200 }))
+    } else {
+        res.status(400).json({ status: 400 })
     }
-   
-    // await sharp(req.file.path)
-    // .resize(500)
-    // .jpeg({quality: 50})
-    // .toFile(
-    //     path.resolve(req.file.destination, 'resized', req.file.path)
-    // )
-    // fs.unlinkSync(req.file.path)
-
 })
 
 module.exports = { router };
