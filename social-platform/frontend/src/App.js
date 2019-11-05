@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react'
 import './css/App.css';
 import {BrowserRouter as Router, Route } from 'react-router-dom';
 import Start from './views/Start';
@@ -14,6 +14,9 @@ import { Store } from './utilities/Store'
 
 function App() {
   const { state } = React.useContext(Store);
+  const { people, setPeople } = useState("test");
+
+  console.log("app ",people);
 
   return (
     <Router>
