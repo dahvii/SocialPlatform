@@ -89,8 +89,8 @@ router.post('/api/forum', (req,res)=>{
        timeStamp: req.body.timeStamp
    });
    newForumPost.save();   
+   res.json({ok: "ok"})
 })
-
 
 router.get('/api/forum', async (req,res)=>{
     let resoult = await dbModels.forumPost.find();
@@ -101,8 +101,6 @@ router.get('/api/onepost/:id', async (req,res)=>{
     let resoult = await dbModels.forumPost.findOne({ _id: req.params.id });
     res.json(resoult);
 })
-
-
 
 
 module.exports = { router };
