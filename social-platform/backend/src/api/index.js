@@ -86,6 +86,17 @@ router.get('/api/users', (req, res) => {
     User.find()
       .then(user => res.json(user))
       .catch(err => res.status(400).json('Error: ' + err));
-  });
+});
+
+router.put('/api/like/:id', async (req, res) => {
+    let result = await User.findOneAndUpdate({_id: req.params.id}, { $push: { likes: req.body.likedUser}})
+    console.log(result) 
+})
+
+/* to be continued
+router.put('/api/reject/:id', async (req, res) => {
+    let result = await User.findOneAndUpdate({_id: req.params.id}, { $set: { bio: req.body.userBio, gender: req.body.checkedGender}})
+    console.log(result) 
+})*/
 
 module.exports = { router };

@@ -12,6 +12,8 @@ let userSchema = new Schema({
     bio: String,
     interests: [], //(from table interests)
     characteristics: [], //(from table characteristics)
+    likes: [], //array of users 
+    rejects: [], //array of users 
     matches: [],
     profilePictures: []
 
