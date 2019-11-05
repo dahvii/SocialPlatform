@@ -11,8 +11,23 @@ const PrivateRoute = props => {
     const [loading, setLoading] = useState(true)
 
     useLifeCycle({
-        mount: () => checkLoginStatus()
+        mount: () => {
+            checkLoginStatus()
+        }
     })
+
+    const checkCurrentUser = async (id) => {
+        console.log("HEJHEJ")
+        let data = await fetch('/api/person/' + id)
+        try {
+            data = await data.json();
+        } catch { }
+
+        dispatch({
+            type: 'SET_CURRENT_USER',
+            payload: data
+        })
+    }
 
     const checkLoginStatus = async () => {
         let data = await fetch("/api/loggedinas");
@@ -26,9 +41,10 @@ const PrivateRoute = props => {
                 payload: true
             })
             dispatch({
-                type: 'SET_CURRENT_USER',
+                type: 'SET_CURRENT_SESSION',
                 payload: data
             })
+            checkCurrentUser(data.id)
             setLoading(false)
         } else if (!data.loggedIn && state.isLoggedIn === true) {
             dispatch({

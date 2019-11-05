@@ -21,7 +21,6 @@ export default function Profile(props) {
 
     const getProfile = async () => {
         let result = await (await fetch("/api/person/" + props.match.params.id)).json();
-        console.log(result);
         setProfile(result)
         setLoading(false)
     }
