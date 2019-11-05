@@ -96,4 +96,13 @@ router.get('/api/forum', async (req,res)=>{
     let resoult = await dbModels.forumPost.find();
     res.json(resoult);
 })
+
+router.get('/api/forum/:id', async (req,res)=>{
+    let resoult = await dbModels.forumPost.findOne({ _id: req.params.id });
+    res.json(resoult);
+})
+
+
+
+
 module.exports = { router };
