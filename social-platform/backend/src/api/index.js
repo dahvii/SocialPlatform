@@ -97,7 +97,7 @@ router.get('/api/forum', async (req,res)=>{
     res.json(resoult);
 })
 
-router.get('/api/forum/:id', async (req,res)=>{
+router.get('/api/onepost/:id', async (req,res)=>{
     let resoult = await dbModels.forumPost.findOne({ _id: req.params.id });
     res.json(resoult);
 })

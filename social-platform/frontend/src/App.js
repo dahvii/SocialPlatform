@@ -31,7 +31,7 @@ function App() {
         <PrivateRoute path="/register" component={Register} isAuthenticated={!state.isLoggedIn} redirectPath="/"/>
         <PrivateRoute path="/login" component={Login} isAuthenticated={!state.isLoggedIn} redirectPath="/"/>
         <PrivateRoute path="/forum" component={Forum} isAuthenticated={state.isLoggedIn} redirectPath="/start"/>
-        <PrivateRoute exact path="/forum/:id" component={OnePost} isAuthenticated={state.isLoggedIn} redirectPath="/start" />
+        <PrivateRoute exact path="/onepost/:id" component={OnePost} isAuthenticated={state.isLoggedIn} redirectPath="/start" />
       </div>
     </Router>
   );

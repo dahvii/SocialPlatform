@@ -8,14 +8,17 @@ export default function OnePost(props) {
     const [post, setPost] = useState({});
     const [comments, setComments] = useState({});
     const [haveLocktFordata, setHaveLocktFordata] = useState(false);
+   
     useEffect(() => {
-        getOnePost()
-    }, [])
+    if(!haveLocktFordata){
+        getOnePost();
+    }       
+    })
 
     const getOnePost = async() =>{
         setHaveLocktFordata(true)
         setLoading(false)
-        const data = await fetch('/api/forum/' + props.match.params.id);
+        const data = await fetch('/api/onepost/' + props.match.params.id);
         const result = await data.json();
         setPost(result);
         console.log(result);
@@ -34,7 +37,6 @@ export default function OnePost(props) {
                 <Card.Text>{post.text}</Card.Text>
             </Card.Body>
             </Card>
-            
         </>
     )
 }
