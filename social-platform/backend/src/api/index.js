@@ -99,4 +99,10 @@ router.put('/api/reject/:id', async (req, res) => {
     console.log(result) 
 })*/
 
+router.put('/api/update/:id', (req, res) => {
+    User.findByIdAndUpdate(req.params.id, req.body)
+    .then(user => res.json('Updated successfully!'))
+    .catch(err => res.status(400).json('Error: ' + err));
+    })
+
 module.exports = { router };
