@@ -55,7 +55,7 @@ export default function Profile(props) {
                         <p>5 km</p>
                     </div>
                     <hr />
-                    <div className="bio"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus quo eum ipsam reprehenderit saepe nesciunt perferendis repudiandae. Rem quod necessitatibus voluptas. Laudantium sint debitis ad eveniet eum vitae excepturi commodi.</p></div>
+                    <div className="bio"><p>{state.currentUser.bio}</p></div>
                 </div>
             </div>
 

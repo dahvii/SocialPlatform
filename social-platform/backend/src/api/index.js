@@ -109,11 +109,7 @@ router.get('/api/person/:id', async (req, res) => {
 })
 
 router.put('/api/update/:id', async (req, res) => {
-    let id = req.params.id;
-
-
-    // let result = await dbModels["user"].findOne({_id: id});
-    let result = await User.findOneAndUpdate({_id: id}, { $set: { bio: req.body.userBio, gender: req.body.checkedGender}})
+    let result = await User.findOneAndUpdate({_id: req.params.id}, { $set: { bio: req.body.userBio, gender: req.body.checkedGender}})
     console.log(result)
     
 })
