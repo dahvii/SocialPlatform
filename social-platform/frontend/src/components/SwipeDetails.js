@@ -5,7 +5,6 @@ export default class SwipeDetails extends Component {
         return (
             <div>
                 <div>User Name, Age</div>
-                <div>BILD KARUSELL</div>
                 <div>Stad</div>
                 <div>icon X km bort</div>
                 <div>BIO  lorem ipsum osv osv osvlorem ipsum osv osv osvlorem ipsum osv osv osvlorem ipsum osv osv osvlorem ipsum osv osv osvlorem ipsum osv osv osvlorem ipsum osv osv osvlorem ipsum osv osv osvlorem ipsum osv osv osvlorem ipsum osv osv osvlorem ipsum osv osv osvlorem ipsum osv osv osvlorem ipsum osv osv osvlorem ipsum osv osv osvlorem ipsum osv osv osvlorem ipsum osv osv osv </div>
