@@ -3,7 +3,7 @@ import { Form, Button, FormControl } from 'react-bootstrap'
 //import { Link } from 'react-router-dom'
 import {Store} from '../utilities/Store'
 import '../css/AddForumPost.css'
-export default function AddFormPost(){
+export default function AddFormPost(props){
     
     const { state, dispatch } = React.useContext(Store);
     //const owner = state.currentUser;
@@ -46,6 +46,8 @@ export default function AddFormPost(){
             timeStamp
         }
         console.log(data)
+        console.log(props);
+      
         let registerFormPost = await fetch('/api/forum', {
             method: 'POST',
             body: JSON.stringify(data),
@@ -53,6 +55,8 @@ export default function AddFormPost(){
         });
         let result = await registerFormPost.json();
         console.log(result)
+        props.showNewPost();
+        
     }
 
     return (
@@ -80,7 +84,6 @@ export default function AddFormPost(){
                 <Button variant="light" type="submit" className="register-button">Post</Button>
             </Form>
         </div>
-
         </>
     )
 }

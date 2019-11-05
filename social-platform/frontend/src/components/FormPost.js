@@ -1,46 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, } from 'react';
 import Card from 'react-bootstrap/Card';
 import '../css/ForumPost.css'
-export default function FormPost(){
-
-    const [owner,setOwner] = useState('');
-    const [titel,setTitel] = useState('');
-    const [text,setText] = useState('');
-    const [comments,setComments] = useState([]);
-    const [timeStamp,setTimeStamp] = useState(new Date(1572602979453));
-    const [image,setImage] = useState([]);
-    const [post, setPost] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [haveLocktFordata, setHaveLocktFordata] = useState(false);
-
-    const getAllForumPost = async() =>{
-        setHaveLocktFordata(true)
-        setLoading(false)
-        const data = await fetch('/api/forum');
-        const result = await data.json();
-        setPost(result); 
-    }
-    
-    useEffect(() => {
-      if(!haveLocktFordata){
-        getAllForumPost();
-        }
-    })    
-    
+export default function FormPost(props){
+    //<Card.Text className="timestamp">Skapad {timeStamp.toLocaleTimeString(undefined, { timeStyle: "short" })}</Card.Text>
     return(  
-        <>
-        {loading ? '':
-        post.map((post, index) => 
-        <div key={index}>
-             <Card className="Postcard">
-            <Card.Body>
-                <Card.Text className="timestamp">Skapad {timeStamp.toLocaleTimeString(undefined, { timeStyle: "short" })}</Card.Text>
-                <Card.Title className="titel">{post.titel}</Card.Title>
-                <Card.Text>{post.text}</Card.Text>
+        <Card className="Postcard">
+            <Card.Body> 
+                <Card.Title className="titel">{props.post.timeStamp}</Card.Title>
+                <Card.Title className="titel">{props.post.titel}</Card.Title>
+                <Card.Title className="titel">Skriven av { props.post.owner}</Card.Title>
+                <Card.Text>{props.post.text}</Card.Text>
             </Card.Body>
-            </Card>
-        </div> 
-            )}
-        </>
-    )
+        </Card> 
+            )
+    
 }
+
+/*
+<div className="friendsList" to="/OnePost">
+    <Link to={`/forum/${post._id}`} className="linkStyle">
+
+    </Link>
+</div>
+
+*/
+
