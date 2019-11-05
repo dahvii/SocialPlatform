@@ -4,6 +4,9 @@ const User = require('../models/User')
 const bcrypt = require('bcryptjs')
 const multer = require('multer')
 const uuid = require('uuid')
+// const sharp = require('sharp')
+const path = require('path')
+const fs = require('fs')
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './uploads/');
@@ -22,9 +25,9 @@ const fileFilter = (req, file, cb) => {
 };
 const upload = multer({
     storage: storage, 
-    limits: {
-        fileSize: 1024 * 1024 * 5
-    },
+    // limits: {
+    //     fileSize: 1024 * 1024 * 5
+    // },
     fileFilter: fileFilter
 });
 
@@ -108,17 +111,41 @@ router.get('/api/loggedinas', (req, res) => {
     }
 })
 
-router.post('/api/new-post', upload.single('feedImage'), (req, res) => {
-    console.log(req.file);
-    const newPost = new dbModels.feedPost({
-        text: req.body.text,
-        owner: req.body.owner,
-        timeStamp: req.body.date,
-        likes: req.body.likes,
-        feedImage: req.file.path
-    })
-    newPost.save()
+router.post('/api/new-image', upload.single('feedImage'), async (req, res) => {
+    console.log("req.file: ", req.file);
+    if(req.file){
+        console.log("det funkade");
+        res.json({file: req.file.path, success: "it worked"})
+    } else{
+        console.log("Det funkade inte");
+        res.json({error: "something went wrong"})
+    }
+})
+
+router.post('/api/new-post', async (req, res) => {
+    console.log(req.body);
+    if(req.body){
+        const newPost = new dbModels.feedPost({
+            text: req.body.text,
+            owner: req.body.owner,
+            timeStamp: req.body.date,
+            likes: req.body.likes,
+            feedImage: req.body.image
+        })
+        newPost.save()
         .then(res.status(200).json({ status: 200 }))
+    } else{
+        res.status(400).json({status: 400})
+    }
+   
+    // await sharp(req.file.path)
+    // .resize(500)
+    // .jpeg({quality: 50})
+    // .toFile(
+    //     path.resolve(req.file.destination, 'resized', req.file.path)
+    // )
+    // fs.unlinkSync(req.file.path)
+
 })
 
 module.exports = { router };
