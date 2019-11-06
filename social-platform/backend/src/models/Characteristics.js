@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { db } = require('../loaders');
 const Schema = mongoose.Schema;
 
-let charateristicsSchema = new Schema({
+let characteristicsSchema = new Schema({
 
     name: String,
     value: Number
@@ -11,4 +11,4 @@ let charateristicsSchema = new Schema({
 
 class CharateristicsClass {}
 
-module.exports = db.model('Charateristics', charateristicsSchema)
+module.exports = db.model('Charateristics', characteristicsSchema)

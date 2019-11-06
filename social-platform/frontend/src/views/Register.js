@@ -110,7 +110,7 @@ export default function Register() {
                 </Form.Group>
                 <Form.Group className="form-group" controlId="exampleForm.ControlInput3">
                     <Form.Label>Email address</Form.Label>
-                    <Form.Control required ref={email} className="form-controll" type="email" placeholder="name@example.com" />
+                    <Form.Control required ref={email} className="form-controll" type="email" placeholder="name@example.com" autoComplete="email" />
                     {emailError ?
                         <p className="form-error">Du måste fylla i en email</p>
                         : <p className="form-error form-error-hidden">&mvsp;</p>
@@ -118,7 +118,7 @@ export default function Register() {
                 </Form.Group>
                 <Form.Group className="form-group" controlId="exampleForm.ControlInput4">
                     <Form.Label>Lösenord</Form.Label>
-                    <Form.Control required ref={password} className="form-controll" type="password" placeholder="*******" />
+                    <Form.Control required ref={password} className="form-controll" type="password" placeholder="*******" autoComplete="new-password" />
                     {passwordError ?
                         <p className="form-error">Du måste fylla i ett lösenord</p>
                         : <p className="form-error form-error-hidden">&mvsp;</p>
@@ -126,7 +126,7 @@ export default function Register() {
                 </Form.Group>
                 <Form.Group className="form-group" controlId="exampleForm.ControlInput5">
                     <Form.Label>Upprepa lösenord</Form.Label>
-                    <Form.Control required ref={password2} className="form-controll" type="password" placeholder="*******" />
+                    <Form.Control required ref={password2} className="form-controll" type="password" placeholder="*******" autoComplete="new-password" />
                     {password2Error ?
                         <p className="form-error">Du måste fylla i ett lösenord</p>
                         : <p className="form-error form-error-hidden">&mvsp;</p>

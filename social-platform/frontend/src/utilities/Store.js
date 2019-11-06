@@ -3,16 +3,20 @@ import React from 'react';
 export const Store = React.createContext();
 
 const initialState = {
+    image: '',
     isLoggedIn: false,
-    currentUser: ''
+    currentUser: '',
+    currentSession: ''
 }
 
 function reducer(state, action) {
     switch (action.type) {
         case 'TEST':
-            return { ...state, test: action.payload };
+            return { ...state, image: action.payload };
         case 'SET_LOGGEDIN':
             return { ...state, isLoggedIn: action.payload };
+        case 'SET_CURRENT_SESSION':
+            return { ...state, currentSession: action.payload };
         case 'SET_CURRENT_USER':
             return { ...state, currentUser: action.payload };
         case 'LOGOUT_USER':
