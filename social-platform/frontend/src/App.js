@@ -28,7 +28,7 @@ function App() {
 
 const checkCurrentUser = async (id) => {
     console.log("HEJHEJ")
-    let data = await fetch('/api/person/' + id)
+    let data = await fetch('/api/currentUser/' + id)
     try {
         data = await data.json();
     } catch { }

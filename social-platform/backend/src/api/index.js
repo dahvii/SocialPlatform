@@ -134,7 +134,9 @@ router.get('/api/currentuser/:id', async (req, res) => {
         characteristics: result.characteristics,
         interests: result.interests,
         matches: result.matches,
-        profilePictures: result.profilePictures
+        profilePictures: result.profilePictures,
+        likes: result.likes,
+        rejects: result.rejects
     }
     res.json(currentUser)
 })
@@ -194,15 +196,15 @@ router.get('/api/users', (req, res) => {
 });
 
 router.put('/api/like/:id', async (req, res) => {
-    let result = await User.findOneAndUpdate({_id: req.params.id}, { $push: { likes: req.body.likedUser}})
-    console.log(result) 
+    await User.findOneAndUpdate({_id: req.params.id}, { $push: { likes: req.body.likedUser}})
+    res.json({ success: true })
 })
 
-/* to be continued
+
 router.put('/api/reject/:id', async (req, res) => {
-    let result = await User.findOneAndUpdate({_id: req.params.id}, { $set: { bio: req.body.userBio, gender: req.body.checkedGender}})
-    console.log(result) 
-})*/
+    await User.findOneAndUpdate({_id: req.params.id}, { $push: { rejects: req.body.rejectUser}})
+    res.json({ success: true })
+})
 
 router.put('/api/update/:id', (req, res) => {
     User.findByIdAndUpdate(req.params.id, req.body)

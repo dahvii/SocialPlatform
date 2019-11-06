@@ -11,19 +11,13 @@ export default function Swipe() {
     const [people, setPeople] = useState([]);
     const [endOfSwipe, setEndOfSwipe] = useState(false);
     const [displayedPersonindex, setDisplayedPersonindex] = useState(0);
-    const [currUserId, setCurrUserId]  = useState(state.currentUser.id);
+    const [currUserId]  = useState(state.currentUser.id);
+    const [currUser]  = useState(state.currentUser);
 
-    useEffect(() => {    
-        console.log("currUserId", currUserId);
-        console.log("curr user",state.currentUser);
-        console.log("state",state);
 
-        
-         
+    useEffect(() => {   
         getUsers();
     },[]);
-
-    //make sure to read in initial people 
 
     //later to be an algorithm to find suitable matches 
     //but for now read on all users 
@@ -31,7 +25,7 @@ export default function Swipe() {
         console.log("getUsers()");
         let response = await fetch('/api/users');
         let data = await response.json();
-        console.log("data ", data);
+        //console.log("data ", data);
         filterThePeople(data);
     }
     
@@ -45,6 +39,7 @@ export default function Swipe() {
             //for(like of curr)
 
         }) 
+        //take away people you already rejected 
     
         setPeople(newArray);
         if (newArray.length === 0) {
@@ -58,40 +53,40 @@ export default function Swipe() {
     }
 
     async function like() {
-
         let data = {
             likedUser: people[displayedPersonindex]._id
         }    
 
-        let test = await fetch('/api/like/'+currUserId, {
+        await fetch('/api/like/'+currUserId, {
             method: "PUT",
             body: JSON.stringify(data),
             headers: { 'Content-Type': 'application/json'}
-        })
-
-        let result = await test.json();
-        console.log(result)
-        
-
+        })        
         nextPerson();
     }
 
-    function reject() {
-        console.log("reject");
+    async function reject() {
+        let data = {
+            rejectUser: people[displayedPersonindex]._id
+        }    
+
+        await fetch('/api/reject/'+currUserId, {
+            method: "PUT",
+            body: JSON.stringify(data),
+            headers: { 'Content-Type': 'application/json'}
+        })        
+
         nextPerson();
     }
 
     function nextPerson() {
-        console.log("nextperson ");
         let newIndex = displayedPersonindex + 1;
         if (newIndex >= people.length) {
             //if array ended - show a endofSwipe-promt or something
             setEndOfSwipe(true);
-            console.log("if");
         } else {
             //take next person in array and show their profile
             setDisplayedPersonindex(newIndex);
-            console.log("else");
         }
     }
 
