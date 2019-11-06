@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Link } from 'react';
 import Button from 'react-bootstrap/Button';
 import AddForumPost from '../components/AddFormPost';
 import FormFilter from '../components/FormFilter';
@@ -35,13 +35,24 @@ export default function Forum() {
           }
       }) 
 
+    
+
     return (
         <>
         <Button className="costumBtn" onClick={()=>  showNewPost() } >Skapa nytt Inlägg</Button>
-        <Button className="costumBtn" onClick={()=>  showFormSearch() } >Sotering</Button>    
+        <Button className="costumBtn" onClick={()=>  showFormSearch() } >Sotering</Button> 
             {newForumPost === true ? <AddForumPost showNewPost = {showNewPost}/>  : '' }
             {forumSearch === true ? <FormFilter />  : '' }    
-            {post.map((post, index) => <FormPost key ={index} post={post}/> )}
+            {post.map((post, index) => <FormPost key ={index} post={post}/>)}
             </>
     )
 }
+/*
+
+<div className="friendsList" to="/OnePost">
+    <Link to={`/forum/${post._id}`} className="linkStyle">
+
+    </Link>
+</div>
+
+*/
