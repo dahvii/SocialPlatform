@@ -23,10 +23,6 @@ export default function OnePost(props) {
         setPost(result);
         console.log(result);
     }
-
-
-
-
     return (
         <>
         <Card className="Postcard">

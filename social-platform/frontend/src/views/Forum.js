@@ -34,9 +34,7 @@ export default function Forum() {
           getAllForumPost();
           }
       }) 
-
     
-
     return (
         <>
         <Button className="costumBtn" onClick={()=>  showNewPost() } >Skapa nytt Inlägg</Button>
@@ -47,12 +45,3 @@ export default function Forum() {
             </>
     )
 }
-/*
-
-<div className="friendsList" to="/OnePost">
-    <Link to={`/forum/${post._id}`} className="linkStyle">
-
-    </Link>
-</div>
-
-*/

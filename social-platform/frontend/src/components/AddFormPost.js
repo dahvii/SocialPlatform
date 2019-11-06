@@ -6,7 +6,7 @@ import '../css/AddForumPost.css'
 export default function AddFormPost(props){
     
     const { state, dispatch } = React.useContext(Store);
-    const owner = state.currentUser;
+    const owner = state.currentUser.firstName;
     const titel = useRef();
     const text = useRef();
     const [titelError,setTitelError] = useState(false);
@@ -55,7 +55,6 @@ export default function AddFormPost(props){
         let result = await registerFormPost.json();
         console.log(result)
         props.showNewPost();
-        
     }
 
     return (
