@@ -7,9 +7,12 @@ let feedPostSchema = new Schema({
     owner: String, //populate
     likes: Number,
     comments: [], //(from table comments)
-    timeStamp = Date,
-    image: [],
+    timeStamp: Date,
     text: String,
+    feedImage: {
+        type: String,
+
+    }
     
 })
 

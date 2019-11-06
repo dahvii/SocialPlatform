@@ -1,0 +1,10 @@
+.add-feed-button{
+    border-radius: 50%;
+    position: fixed;
+    bottom: 10vh;
+    right: 6vw;
+}
+
+.plus-icon{
+    font-size: 2em;
+}
