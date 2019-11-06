@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useRef } from 'react'
 import '../css/EditProfile.css'
 import { Form, Button } from 'react-bootstrap'
 import { Store } from '../utilities/Store'
@@ -6,11 +6,10 @@ import { Store } from '../utilities/Store'
 export default function EditProfile() {
     const { state, dispatch } = React.useContext(Store);
     const [userBio, setUserBio] = useState(state.currentUser.bio);
-    const [checkedGender, setCheckedGender] = useState(state.currentUser.gender)
+    const [checkedGender, setCheckedGender] = useState(state.currentUser.gender);
+    const [userInterests, setUserInterests] = useState(["Simma", "Svampplockning", "Something", "blablabla", "testestestst"]);
+    const newInterest = useRef();
 
-    useEffect(() => {
-
-    })
 
     const handleGenderOptionChange = (e) => {
         setCheckedGender(e.target.value)
@@ -18,6 +17,19 @@ export default function EditProfile() {
 
     const handleBioChange = (e) => {
         setUserBio(e.target.value)
+    }
+
+    const addInterest = () => {
+        if (!newInterest.current.value.length) {
+            console.log("no can do")
+        } else {
+            setUserInterests([...userInterests, newInterest.current.value])
+            newInterest.current.value = ''
+        }
+    }
+
+    const handleRemoveInterest = (interest) => {
+        setUserInterests(userInterests.filter(item => item !== interest))
     }
 
     const updateStateWithNewProfile = async () => {
@@ -56,7 +68,7 @@ export default function EditProfile() {
             <h2>Redigera profil</h2>
             <div className="edit-profile-content">
                 <Form>
-                    <Form.Group controlId="exampleForm.ControlTextarea1">
+                    <Form.Group controlId="userBio">
                         <Form.Label>Om dig (max 200 tecken)</Form.Label>
                         <Form.Control as="textarea" rows="3" defaultValue={userBio} onChange={handleBioChange} maxLength="200" />
                     </Form.Group>
@@ -90,8 +102,20 @@ export default function EditProfile() {
                     </div>
                 </Form>
                 <h4>Intressen</h4>
-                <Button onClick={updateProfile}>Uppdatera profil</Button>
+                <Form>
+                    <Form.Group controlId="interests">
+                        <Form.Label>Lägg till intresse</Form.Label>
+                        <Form.Control as="textarea" rows="1" maxLength="30" ref={newInterest} />
+                    </Form.Group>
+                </Form>
+                <Button onClick={addInterest}>Lägg till intresse</Button>
+                <div className="edit-profile-all-interests">
+                    {
+                        userInterests.map(interest => <div key={interest} className="edit-profile-interest">{interest} <i className="fas fa-times-circle" onClick={() => handleRemoveInterest(interest)}></i></div>)
+                    }
+                </div>
             </div>
+            <Button className="update-profile" onClick={updateProfile}>Uppdatera profil</Button>
         </div>
     )
 }

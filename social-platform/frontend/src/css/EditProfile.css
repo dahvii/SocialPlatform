@@ -2,3 +2,14 @@
     text-align: left;
     padding: 10px;
 }
+
+.edit-profile-all-interests{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.edit-profile-interest{
+    background-color: rgba(104, 0, 0, 0.795);
+    border-radius: 10px;
+    padding: 7px;
+}
