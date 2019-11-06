@@ -4,7 +4,7 @@ import { Form, Button } from 'react-bootstrap'
 import { Store } from '../utilities/Store'
 
 export default function EditProfile() {
-    const { state } = React.useContext(Store);
+    const { state, dispatch } = React.useContext(Store);
     const [userBio, setUserBio] = useState(state.currentUser.bio);
     const [checkedGender, setCheckedGender] = useState(state.currentUser.gender)
 
@@ -17,25 +17,39 @@ export default function EditProfile() {
     }
 
     const handleBioChange = (e) => {
-        console.log(e.target.value)
         setUserBio(e.target.value)
     }
 
-    async function updateProfile(){
+    const updateStateWithNewProfile = async () => {
+        console.log("lalalalal")
+        let data = await fetch('/api/currentuser/' + state.currentUser.id)
+        data = await data.json()
+        dispatch({
+            type: 'SET_CURRENT_USER',
+            payload: data
+        })
+    }
+
+    const updateProfile = async () => {
+        console.log("blablabla")
         let data = {
             userBio,
             checkedGender
         }
-        let updatedUser = await fetch(`/api/update/${state.currentUser.id}`, {
+        let result = await fetch(`/api/update/${state.currentUser.id}`, {
             method: 'PUT',
             body: JSON.stringify(data),
             headers: { 'Content-Type': 'application/json' }
         });
 
-        // let result = await updatedUser.json()
-        // console.log(result)
+        result = await result.json()
+        console.log(result)
 
+        updateStateWithNewProfile()
     }
+
+
+
 
     return (
         <div>

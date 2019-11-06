@@ -1,13 +1,13 @@
 import React, { useRef, useState } from 'react'
 import { Form, Button } from 'react-bootstrap';
-import {Store } from '../utilities/Store'
+import { Store } from '../utilities/Store'
 import '../css/login.css'
 
 export default function Login(props) {
     const email = useRef();
     const password = useRef();
     const [loginError, setLoginError] = useState(false)
-    const { dispatch} = React.useContext(Store);
+    const { dispatch } = React.useContext(Store);
 
     function validate(e) {
         let allGood = false;
@@ -26,31 +26,26 @@ export default function Login(props) {
             setLoginError(false)
         }
 
-        if(allGood){
+        if (allGood) {
             login(email.current.value, password.current.value)
         }
         e.preventDefault();
     }
 
-    async function login(email, password){
-        console.log(email, password)
+    async function login(email, password) {
         let data = {
             email,
             password
         }
-        console.log("data: " , data)
-
-
         let loginUser = await fetch('/api/login', {
             method: "POST",
             body: JSON.stringify(data),
-            headers: { 'Content-Type': 'application/json'}
+            headers: { 'Content-Type': 'application/json' }
         })
 
         let result = await loginUser.json();
-        console.log(result)
 
-        if(result.error === "login-error"){
+        if (result.error === "login-error") {
             setLoginError(true);
         } else {
             dispatch({
@@ -58,12 +53,25 @@ export default function Login(props) {
                 payload: true
             });
             dispatch({
-                type: "SET_CURRENT_USER",
+                type: 'SET_CURRENT_SESSION',
                 payload: result.sessUser
             })
+            checkCurrentUser(result.sessUser.id)
             props.history.push('/')
         }
 
+    }
+
+    const checkCurrentUser = async (id) => {
+        let data = await fetch('/api/person/' + id)
+        try {
+            data = await data.json();
+        } catch { }
+
+        dispatch({
+            type: 'SET_CURRENT_USER',
+            payload: data
+        })
     }
 
 

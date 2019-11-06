@@ -4,7 +4,8 @@ export const Store = React.createContext();
 
 const initialState = {
     isLoggedIn: false,
-    currentUser: ''
+    currentUser: '',
+    currentSession: ''
 }
 
 function reducer(state, action) {
@@ -13,6 +14,8 @@ function reducer(state, action) {
             return { ...state, test: action.payload };
         case 'SET_LOGGEDIN':
             return { ...state, isLoggedIn: action.payload };
+        case 'SET_CURRENT_SESSION':
+            return { ...state, currentSession: action.payload };
         case 'SET_CURRENT_USER':
             return { ...state, currentUser: action.payload };
         case 'LOGOUT_USER':

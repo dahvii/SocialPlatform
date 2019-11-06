@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Carousel } from 'react-bootstrap'
 import { Store } from '../utilities/Store'
 import imageLoader from '../utilities/ImageHandler';
@@ -21,7 +21,6 @@ export default function Profile(props) {
 
     const getProfile = async () => {
         let result = await (await fetch("/api/person/" + props.match.params.id)).json();
-        console.log(result);
         setProfile(result)
         setLoading(false)
     }
