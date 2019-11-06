@@ -56,7 +56,7 @@ const checkLoginStatus = async () => {
             type: 'SET_CURRENT_SESSION',
             payload: data
         })
-        checkCurrentUser(data.id)
+        await checkCurrentUser(data.id)
         setLoading(false)
     } else if (!data.loggedIn && state.isLoggedIn === true) {
         dispatch({
