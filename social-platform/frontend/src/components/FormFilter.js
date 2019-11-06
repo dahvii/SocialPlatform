@@ -15,8 +15,8 @@ export default function FormFilter(){
     }
     return(
         <>
-        <Card>
-            <Card.Body>
+        <Card className="Postcard">
+            <Card.Body >
                 <Card.Title >Sortering</Card.Title>
                 <Form.Group controlId="formGridState">
                 <Form.Label className="forum-filter-label">Sortering</Form.Label>

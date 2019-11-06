@@ -1,5 +1,4 @@
 .timestamp{
-    color: gray;
     margin-bottom: 0;
 }
 
@@ -11,4 +10,7 @@
 }
 .ForumPost{
     margin-bottom: 1rem;
+}
+.Postcard{
+    color: black;
 }

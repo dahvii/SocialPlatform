@@ -6,8 +6,7 @@ import '../css/AddForumPost.css'
 export default function AddFormPost(props){
     
     const { state, dispatch } = React.useContext(Store);
-    //const owner = state.currentUser;
-    const owner = 'Test';
+    const owner = state.currentUser;
     const titel = useRef();
     const text = useRef();
     const [titelError,setTitelError] = useState(false);

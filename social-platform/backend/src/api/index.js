@@ -35,7 +35,7 @@ const upload = multer({
 
 const dbModels = {
     user: require('../models/User'),
-    forumPost: require('../models/ForumPost')
+    forumPost: require('../models/ForumPost'),
     feedPost: require('../models/FeedPost')
 }
 
