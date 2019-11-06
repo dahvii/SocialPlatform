@@ -22,7 +22,6 @@ export default function Swipe() {
     //later to be an algorithm to find suitable matches 
     //but for now read on all users 
     async function getUsers() {
-        console.log("getUsers()");
         let response = await fetch('/api/users');
         let data = await response.json();
         //console.log("data ", data);
@@ -52,30 +51,15 @@ export default function Swipe() {
         setShowDetails(change);
     }
 
-    async function like() {
+    async function likeOrReject(opinion) {        
         let data = {
-            likedUser: people[displayedPersonindex]._id
-        }    
-
-        await fetch('/api/like/'+currUserId, {
+            judgedPerson: people[displayedPersonindex]._id
+        }            
+        await fetch('/api/'+opinion+'/'+currUserId, {
             method: "PUT",
             body: JSON.stringify(data),
             headers: { 'Content-Type': 'application/json'}
         })        
-        nextPerson();
-    }
-
-    async function reject() {
-        let data = {
-            rejectUser: people[displayedPersonindex]._id
-        }    
-
-        await fetch('/api/reject/'+currUserId, {
-            method: "PUT",
-            body: JSON.stringify(data),
-            headers: { 'Content-Type': 'application/json'}
-        })        
-
         nextPerson();
     }
 
@@ -109,8 +93,8 @@ export default function Swipe() {
                     </div>
 
                     <div>
-                        <Button onClick={like} ><span role="img" aria-label="like">❤️</span></Button>
-                        <Button onClick={reject} ><span role="img" aria-label="reject">👎</span></Button>
+                        <Button onClick={()=>likeOrReject("like")} ><span role="img" aria-label="like">❤️</span></Button>
+                        <Button onClick={()=>likeOrReject("reject")} ><span role="img" aria-label="reject">👎</span></Button>
                     </div>
                 </div>
             }

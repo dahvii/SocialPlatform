@@ -196,13 +196,13 @@ router.get('/api/users', (req, res) => {
 });
 
 router.put('/api/like/:id', async (req, res) => {
-    await User.findOneAndUpdate({_id: req.params.id}, { $push: { likes: req.body.likedUser}})
+    await User.findOneAndUpdate({_id: req.params.id}, { $push: { likes: req.body.judgedPerson}})
     res.json({ success: true })
 })
 
 
 router.put('/api/reject/:id', async (req, res) => {
-    await User.findOneAndUpdate({_id: req.params.id}, { $push: { rejects: req.body.rejectUser}})
+    await User.findOneAndUpdate({_id: req.params.id}, { $push: { rejects: req.body.judgedPerson}})
     res.json({ success: true })
 })
 
