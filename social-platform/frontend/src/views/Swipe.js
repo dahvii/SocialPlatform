@@ -8,19 +8,20 @@ import { Store } from '../utilities/Store'
 export default function Swipe() {
     const { state } = React.useContext(Store);
     const [showDetails, setShowDetails] = useState(false);
-    const [people, setPeople] = useState(getUsers());
+    const [people, setPeople] = useState([]);
     const [endOfSwipe, setEndOfSwipe] = useState(false);
     const [displayedPersonindex, setDisplayedPersonindex] = useState(0);
-    const [currUserId]  = useState(state.currentUser.id);
+    const [currUserId, setCurrUserId]  = useState(state.currentUser.id);
 
-    console.log(people);
+    useEffect(() => {    
+        console.log("currUserId", currUserId);
+        console.log("curr user",state.currentUser);
+        console.log("state",state);
 
-    useEffect(() => {
-        console.log('id', currUserId);
         
-        
-        //getUsers();
-    })
+         
+        getUsers();
+    },[]);
 
     //make sure to read in initial people 
 
@@ -31,7 +32,17 @@ export default function Swipe() {
         
         let response = await fetch('/api/users');
         let data = await response.json();
-        //this.setState({ people: data, displayedPersonindex: 0 })
+        //console.log("currUserId", currUserId);
+        
+        let newArray = data.filter(function(item) {
+            //console.log(item._id);
+            
+            return item._id !== currUserId;
+        });
+        console.log(data);
+        
+        console.log(newArray);
+        
         setPeople(data);
         if (data.length === 0) {
             //this.setState({ endOfSwipe: true })
@@ -95,7 +106,7 @@ export default function Swipe() {
 
     return (
         <div>
-            {endOfSwipe &&
+            {!endOfSwipe &&
                 <div>
                     <Carousel></Carousel>
 
