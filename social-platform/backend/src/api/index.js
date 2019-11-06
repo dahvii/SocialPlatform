@@ -207,16 +207,9 @@ router.put('/api/reject/:id', async (req, res) => {
 })
 
 router.put('/api/match', async (req, res) => {
-    let currUser= await User.findOne({ _id: req.body.currUser});
-    let matchedPerson= await User.findOne({ _id: req.body.match});
-
-    currUser.matches.push(matchedPerson);
-    matchedPerson.matches.push(currUser);
-    currUser.save().then(
-        matchedPerson.save().then(
-            res.json({ status: 200 })
-        ).catch(err => res.status(400).json('Error: ' + err)) 
-    ).catch(err => res.status(400).json('Error: ' + err));
+    await User.findOneAndUpdate({_id: req.body.currUser}, { $push: { matches: req.body.match}}).catch(err => res.status(400).json('Error: ' + err));
+    await User.findOneAndUpdate({_id: req.body.match}, { $push: { matches:  req.body.currUser}}).catch(err => res.status(400).json('Error: ' + err));
+    res.json({ success: true })
 })
 
 router.get('/api/populated/:id', async (req, res) => {
