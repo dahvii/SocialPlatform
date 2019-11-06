@@ -8,6 +8,7 @@ export default function Login(props) {
     const password = useRef();
     const [loginError, setLoginError] = useState(false)
     const { dispatch} = React.useContext(Store);
+    
 
     function validate(e) {
         let allGood = false;
@@ -76,7 +77,7 @@ export default function Login(props) {
                     <Form.Control required ref={email} className="form-controll" type="email" placeholder="lisa@live.se" />
                     {loginError ?
                         <p className="form-error">Du måste fylla i ett förnamn</p>
-                        : <p className="form-error form-error-hidden">&mvsp;</p>
+                        : <p className="form-error form-error-hidden">&nbsp;</p>
                     }
                 </Form.Group>
                 <Form.Group className="form-group" controlId="exampleForm.ControlInput2">
@@ -84,7 +85,7 @@ export default function Login(props) {
                     <Form.Control required ref={password} className="form-controll" type="name" placeholder="Svensson" />
                     {loginError ?
                         <p className="form-error">Du måste fylla i ett efternamn</p>
-                        : <p className="form-error form-error-hidden">&mvsp;</p>
+                        : <p className="form-error form-error-hidden">&nbsp;</p>
                     }
                 </Form.Group>
 

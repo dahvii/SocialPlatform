@@ -1,11 +1,12 @@
 import React from 'react';
 import './css/App.css';
-import {BrowserRouter as Router, Route } from 'react-router-dom';
+import {BrowserRouter as Router } from 'react-router-dom';
 import Start from './views/Start';
 import Register from './views/Register';
 import Navbar from './components/BottomNavbar';
 import Login from './views/Login';
 import Feed from './views/Feed';
+import NewFeed from './views/NewFeed';
 import Profile from './views/Profile';
 import Swipe from './views/Swipe';
 import Messages from './views/Messages';
@@ -22,6 +23,7 @@ function App() {
           <Navbar /> : ''
         }
         <PrivateRoute exact path="/" component={Feed} isAuthenticated={state.isLoggedIn} redirectPath="/start"/>
+        <PrivateRoute exact path="/new-feed-post" component={NewFeed} isAuthenticated={state.isLoggedIn} redirectPath="/start"/>
         <PrivateRoute exact path="/swipe" component={Swipe} isAuthenticated={state.isLoggedIn} redirectPath="/start"/>
         <PrivateRoute exact path="/profile" component={Profile} isAuthenticated={state.isLoggedIn} redirectPath="/start"/>
         <PrivateRoute exact path="/messages" component={Messages} isAuthenticated={state.isLoggedIn} redirectPath="/start"/>
