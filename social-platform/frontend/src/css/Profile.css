@@ -1,0 +1,29 @@
+.profile-info{
+    text-align: left;
+    padding: 10px;
+}
+
+.name-age{
+    display: flex;
+}
+
+.hometown, .location{
+    display: flex;
+    align-items: center;
+}
+
+.fa-home, .fa-map-marker-alt{
+    width: 30px;
+}
+
+.hometown p{
+    margin: 0;
+}
+
+.location p{
+    margin: 0;
+}
+
+
+
+

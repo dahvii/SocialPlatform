@@ -2,10 +2,12 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User')
 const bcrypt = require('bcryptjs')
+const ObjectId = require('mongodb').ObjectId
 
 const dbModels = {
     user: require('../models/User')
 }
+
 
 router.post('/api/register', (req, res) => {
     User.findOne({ email: req.body.email }).then(user => {
@@ -16,7 +18,10 @@ router.post('/api/register', (req, res) => {
                 email: req.body.email,
                 password: req.body.password,
                 firstName: req.body.firstName,
-                lastName: req.body.lastName
+                lastName: req.body.lastName,
+                gender: '',
+                dateOfBirth: '',
+                bio: ''
             });
             bcrypt.genSalt(10, (err, salt) => {
                 bcrypt.hash(newUser.password, salt, (err, hash) => {
@@ -48,9 +53,11 @@ router.post('/api/login', (req, res) => {
                     email: user.email,
                     firstName: user.firstName,
                     lastName: user.lastName,
+                    gender: user.gender,
                     profilePictures: user.profilePictures,
                     interests: user.interests,
                     matches: user.matches,
+                    bio: user.bio,
                     characteristics: user.characteristics,
                     loggedIn: true
                 };
@@ -80,6 +87,31 @@ router.get('/api/loggedinas', (req, res) => {
     } else {
         res.json({error: "Not logged in"})
     }
+})
+
+
+
+router.get('/api/person/:id', async (req, res) => {
+    let result = await dbModels["user"].findOne({ _id: req.params.id });
+    console.log(result)
+    const publicUser = {
+        id: result._id,
+        firstName: result.firstName,
+        bio: result.bio,
+        dateOfBirth: result.dateOfBirth,
+        gender: result.gender,
+        characteristics: result.characteristics,
+        interests: result.interests,
+        matches: result.matches,
+        profilePictures: result.profilePictures
+    }
+    res.json(publicUser);
+})
+
+router.put('/api/update/:id', async (req, res) => {
+    let result = await User.findOneAndUpdate({_id: req.params.id}, { $set: { bio: req.body.userBio, gender: req.body.checkedGender}})
+    console.log(result)
+    
 })
 
 router.get('/api/users', (req, res) => {
