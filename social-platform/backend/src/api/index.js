@@ -37,6 +37,7 @@ const dbModels = {
     feedPost: require('../models/FeedPost')
 }
 
+
 router.post('/api/register', (req, res) => {
     User.findOne({ email: req.body.email }).then(user => {
         if (user) {
@@ -46,7 +47,10 @@ router.post('/api/register', (req, res) => {
                 email: req.body.email,
                 password: req.body.password,
                 firstName: req.body.firstName,
-                lastName: req.body.lastName
+                lastName: req.body.lastName,
+                gender: '',
+                dateOfBirth: '',
+                bio: ''
             });
             bcrypt.genSalt(10, (err, salt) => {
                 bcrypt.hash(newUser.password, salt, (err, hash) => {
@@ -75,13 +79,6 @@ router.post('/api/login', (req, res) => {
             if (isMatch) {
                 const sessUser = {
                     id: user._id,
-                    email: user.email,
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                    profilePictures: user.profilePictures,
-                    interests: user.interests,
-                    matches: user.matches,
-                    characteristics: user.characteristics,
                     loggedIn: true
                 };
                 req.session.user = sessUser;
@@ -110,6 +107,43 @@ router.get('/api/loggedinas', (req, res) => {
     } else {
         res.json({ error: "Not logged in" })
     }
+})
+
+router.get('/api/person/:id', async (req, res) => {
+    let result = await dbModels["user"].findOne({ _id: req.params.id });
+    const publicUser = {
+        id: result._id,
+        firstName: result.firstName,
+        bio: result.bio,
+        dateOfBirth: result.dateOfBirth,
+        gender: result.gender,
+        interests: result.interests,
+        profilePictures: result.profilePictures
+    }
+    res.json(publicUser);
+})
+
+router.get('/api/currentuser/:id', async (req, res) => {
+    let result = await dbModels["user"].findOne({ _id: req.params.id });
+    const currentUser = {
+        id: result._id,
+        firstName: result.firstName,
+        bio: result.bio,
+        dateOfBirth: result.dateOfBirth,
+        gender: result.gender,
+        characteristics: result.characteristics,
+        interests: result.interests,
+        matches: result.matches,
+        profilePictures: result.profilePictures
+    }
+    res.json(currentUser)
+})
+
+router.put('/api/update/:id', async (req, res) => {
+    let result = await User.findOneAndUpdate({ _id: req.params.id }, { $set: { bio: req.body.userBio, gender: req.body.checkedGender } })
+    
+    console.log(result)
+    res.json({success: true})
 })
 
 router.get('/api/image/hej', (req, res) => {
