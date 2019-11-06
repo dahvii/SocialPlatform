@@ -16,6 +16,7 @@ export default function Profile(props) {
             const images = imageLoader();
             setImages(images)
             getProfile()
+            console.log(state.currentUser)
         }
     })
 

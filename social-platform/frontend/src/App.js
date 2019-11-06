@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './css/App.css';
-import {BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import Start from './views/Start';
 import Register from './views/Register';
 import Navbar from './components/BottomNavbar';
@@ -17,77 +17,78 @@ import EditProfile from './views/EditProfile';
 import useLifeCycle from './utilities/useLifeCycle';
 
 function App() {
-  const { state, dispatch } = React.useContext(Store);
-  const [loading, setLoading] = useState(true)
+    const { state, dispatch } = React.useContext(Store);
+    const [loading, setLoading] = useState(true)
 
-  useLifeCycle({
-    mount: () => {
-        checkLoginStatus()
-    }
-})
-
-const checkCurrentUser = async (id) => {
-    console.log("HEJHEJ")
-    let data = await fetch('/api/currentUser/' + id)
-    try {
-        data = await data.json();
-    } catch { }
-
-    dispatch({
-        type: 'SET_CURRENT_USER',
-        payload: data
+    useLifeCycle({
+        mount: () => {
+            checkLoginStatus()
+        }
     })
-}
 
-const checkLoginStatus = async () => {
-    let data = await fetch("/api/loggedinas");
-    try {
-        data = await data.json();
-    } catch {
-    }
-    if (data.loggedIn && state.isLoggedIn === false) {
+
+    const checkCurrentUser = async (id) => {
+        console.log("HEJHEJ")
+        let data = await fetch('/api/currentuser/' + id)
+        try {
+            data = await data.json();
+        } catch { }
+
         dispatch({
-            type: 'SET_LOGGEDIN',
-            payload: true
-        })
-        dispatch({
-            type: 'SET_CURRENT_SESSION',
+            type: 'SET_CURRENT_USER',
             payload: data
         })
-        await checkCurrentUser(data.id)
-        setLoading(false)
-    } else if (!data.loggedIn && state.isLoggedIn === true) {
-        dispatch({
-            type: 'LOGOUT_USER'
-        })
-        setLoading(false)
-    } else if (data.loggedIn && state.isLoggedIn) {
+    }
+
+    const checkLoginStatus = async () => {
+        let data = await fetch("/api/loggedinas");
+        try {
+            data = await data.json();
+        } catch {
+        }
+        if (data.loggedIn && state.isLoggedIn === false) {
+            dispatch({
+                type: 'SET_LOGGEDIN',
+                payload: true
+            })
+            dispatch({
+                type: 'SET_CURRENT_SESSION',
+                payload: data
+            })
+            await checkCurrentUser(data.id)
+            setLoading(false)
+        } else if (!data.loggedIn && state.isLoggedIn === true) {
+            dispatch({
+                type: 'LOGOUT_USER'
+            })
+            setLoading(false)
+        } else if (data.loggedIn && state.isLoggedIn) {
+            setLoading(false)
+        }
         setLoading(false)
     }
-    setLoading(false)
-}
 
 
-  return (
-    <Router>
-      <div className="App">
-        { state.isLoggedIn ? 
-          <Navbar /> : ''
-        }
-        <PrivateRoute exact path="/" component={Feed} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start"/>
-        <PrivateRoute exact path="/swipe" component={Swipe} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start"/>
-        <PrivateRoute exact path="/profile" component={Profile} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start"/>
-        <PrivateRoute exact path="/messages" component={Messages} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start"/>
-        <PrivateRoute exact path="/myprofile" component={MyProfile} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start"/>
-        <PrivateRoute exact path="/profile/:id" component={Profile} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
-        <PrivateRoute exact path="/edit-profile" component={EditProfile} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
-        <PrivateRoute exact path="/new-feed-post" component={NewFeed} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
-        <PrivateRoute path="/start" component={Start} isAuthenticated={!state.isLoggedIn} loading={loading} redirectPath="/"/>
-        <PrivateRoute path="/register" component={Register} isAuthenticated={!state.isLoggedIn} loading={loading} redirectPath="/"/>
-        <PrivateRoute path="/login" component={Login} isAuthenticated={!state.isLoggedIn} loading={loading} redirectPath="/"/>
-      </div>
-    </Router>
-  );
+    return (
+        <Router>
+            <div className="App">
+                {state.isLoggedIn ?
+                    <Navbar /> : ''
+                }
+                <PrivateRoute exact path="/" component={Feed} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
+                <PrivateRoute exact path="/swipe" component={Swipe} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
+                <PrivateRoute exact path="/profile" component={Profile} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
+                <PrivateRoute exact path="/messages" component={Messages} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
+                <PrivateRoute exact path="/myprofile" component={MyProfile} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
+                <PrivateRoute exact path="/profile/:id" component={Profile} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
+                <PrivateRoute exact path="/edit-profile" component={EditProfile} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
+                <PrivateRoute exact path="/new-feed-post" component={NewFeed} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
+                <PrivateRoute path="/start" component={Start} isAuthenticated={!state.isLoggedIn} loading={loading} redirectPath="/" />
+                <PrivateRoute path="/register" component={Register} isAuthenticated={!state.isLoggedIn} loading={loading} redirectPath="/" />
+                <PrivateRoute path="/login" component={Login} isAuthenticated={!state.isLoggedIn} loading={loading} redirectPath="/" />
+            </div>
+        </Router>
+    );
 }
 
 export default App;
