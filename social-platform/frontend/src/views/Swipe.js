@@ -29,50 +29,49 @@ export default function Swipe() {
     //but for now read on all users 
     async function getUsers() {
         console.log("getUsers()");
-        
         let response = await fetch('/api/users');
         let data = await response.json();
-        //console.log("currUserId", currUserId);
-        
-        let newArray = data.filter(function(item) {
-            //console.log(item._id);
-            
+        console.log("data ", data);
+        filterThePeople(data);
+    }
+    
+    function filterThePeople(data){    
+        //take away currrUser from the list                
+        let newArray = data.filter(function(item) {            
             return item._id !== currUserId;
         });
-        console.log(data);
-        
-        console.log(newArray);
-        
-        setPeople(data);
-        if (data.length === 0) {
-            //this.setState({ endOfSwipe: true })
+        //take away people you already liked
+        let test = newArray.map(function (person) {
+            //for(like of curr)
+
+        }) 
+    
+        setPeople(newArray);
+        if (newArray.length === 0) {
             setEndOfSwipe(true);
-        }
+        }        
     }
 
     function changeView() {
         let change = showDetails ? false : true;
-        //this.setState({ showDetails: change })
         setShowDetails(change);
     }
 
     async function like() {
-        console.log("like");
-        /*
-                //nedan skissat för nu, inväntar merge och refactorering från johan 
-                let data = {
-                    likedUser: "currViewedPerson"
-                }    
+
+        let data = {
+            likedUser: people[displayedPersonindex]._id
+        }    
+
+        let test = await fetch('/api/like/'+currUserId, {
+            method: "PUT",
+            body: JSON.stringify(data),
+            headers: { 'Content-Type': 'application/json'}
+        })
+
+        let result = await test.json();
+        console.log(result)
         
-                let test = await fetch('/api/like/'+"currUserID", {
-                    method: "PUT",
-                    body: JSON.stringify(data),
-                    headers: { 'Content-Type': 'application/json'}
-                })
-        
-                let result = await test.json();
-                console.log(result)
-        */
 
         nextPerson();
     }
@@ -84,19 +83,13 @@ export default function Swipe() {
 
     function nextPerson() {
         console.log("nextperson ");
-        //let newIndex = this.state.displayedPersonindex + 1;
         let newIndex = displayedPersonindex + 1;
-        console.log("new Index ", newIndex);
-        console.log("lenght of people array ", people.length);
-
         if (newIndex >= people.length) {
             //if array ended - show a endofSwipe-promt or something
-            //this.setState({ endOfSwipe: true })
             setEndOfSwipe(true);
             console.log("if");
         } else {
             //take next person in array and show their profile
-            //this.setState({ displayedPersonindex: newIndex });
             setDisplayedPersonindex(newIndex);
             console.log("else");
         }
