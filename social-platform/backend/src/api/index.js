@@ -141,30 +141,30 @@ router.get('/api/currentuser/:id', async (req, res) => {
 
 router.put('/api/update/:id', async (req, res) => {
     let result = await User.findOneAndUpdate({ _id: req.params.id }, { $set: { bio: req.body.userBio, gender: req.body.checkedGender } })
-    
+
     console.log(result)
-    res.json({success: true})
+    res.json({ success: true })
 })
 
 router.get('/api/image/hej', (req, res) => {
-    let pathName = path.join(__dirname, '/../../' , 'uploads/resized/e5f0d5c3-9ef4-45c1-8afe-135a98186c39')
+    let pathName = path.join(__dirname, '/../../', 'uploads/resized/e5f0d5c3-9ef4-45c1-8afe-135a98186c39')
     // const { fileid } = req.params;
     console.log(pathName);
     res.sendFile(pathName);
 });
 
 router.post('/api/new-image', upload.single('feedImage'), async (req, res) => {
-    const { filename: image } = req.file
-    console.log(req.file.destination, 'resized', image)
-    await sharp(req.file.path)
-        .resize(500, 700)
-        .jpeg({ quality: 80 })
-        .toFile(
-            path.resolve(req.file.destination, 'resized', image)
-        )
-    fs.unlinkSync(req.file.path)
-
     if (req.file) {
+        const { filename: image } = req.file
+        console.log(req.file.destination, 'resized', image)
+        await sharp(req.file.path)
+            .resize(500, 700)
+            .jpeg({ quality: 80 })
+            .toFile(
+                path.resolve(req.file.destination, 'resized', image)
+            )
+        fs.unlinkSync(req.file.path)
+
         res.json({ file: req.file.path, success: "it worked" })
     } else {
         res.json({ error: "something went wrong" })
