@@ -19,6 +19,12 @@ export default function Swipe() {
         getUsers();
     },[]);
 
+    async function getPopulatedUser(){
+        let response = await fetch('/api/populated/'+currUserId);
+        let data = await response.json();
+        console.log("populated ", data);
+
+    }
     //later to be an algorithm to find suitable matches 
     //but for now read on all users 
     async function getUsers() {
@@ -60,7 +66,27 @@ export default function Swipe() {
             body: JSON.stringify(data),
             headers: { 'Content-Type': 'application/json'}
         })        
+        //check for match!
+        if(opinion === "like"){
+            checkForMatch(people[displayedPersonindex]);
+        }
         nextPerson();
+    }
+
+    async function checkForMatch(likedPerson){
+       if(likedPerson.likes.includes(currUserId)){
+            console.log("ITS A MATCH"); 
+
+            let data = {
+                match: likedPerson._id,
+                currUser: currUserId
+            }            
+            await fetch('/api/match', {
+                method: "PUT",
+                body: JSON.stringify(data),
+                headers: { 'Content-Type': 'application/json'}
+            })             
+        }
     }
 
     function nextPerson() {
