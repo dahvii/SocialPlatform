@@ -141,9 +141,8 @@ router.get('/api/currentuser/:id', async (req, res) => {
 })
 
 router.put('/api/add-interest', async (req, res) => {
-    const interests = req.body.map(s => { return { name: s } })
     let bulkOperations = []
-    for (let interest of interests) {
+    for (let interest of req.body) {
         let upsertDoc = {
             'updateOne': {
                 'filter': { name: interest.name },
@@ -158,7 +157,7 @@ router.put('/api/add-interest', async (req, res) => {
 })
 
 router.put('/api/update/:id', async (req, res) => {
-    let interests = await Interest.find({name: {$in: req.body.userInterests}})
+    let interests = await Interest.find({name: {$in: req.body.userInterests.map(interest=>interest.name)}})
     console.log(interests)
     let result = await User.findOneAndUpdate({ _id: req.params.id },
         {

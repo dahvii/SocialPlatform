@@ -5,10 +5,12 @@ import { Store } from '../utilities/Store'
 
 export default function EditProfile() {
     const { state, dispatch } = React.useContext(Store);
+    console.log(state.currentUser.interests)
     const [userBio, setUserBio] = useState(state.currentUser.bio);
     const [checkedGender, setCheckedGender] = useState(state.currentUser.gender);
-    const [userInterests, setUserInterests] = useState(['Simma', 'Spela golf', 'Fiska']);
+    const [userInterests, setUserInterests] = useState(state.currentUser.interests);
     const newInterest = useRef();
+    console.log(userInterests)
 
 
     const handleGenderOptionChange = (e) => {
@@ -23,7 +25,7 @@ export default function EditProfile() {
         if (!newInterest.current.value.length) {
             console.log("no can do")
         } else {
-            setUserInterests([...userInterests, newInterest.current.value])
+            setUserInterests([...userInterests, {name: newInterest.current.value}])
             newInterest.current.value = ''
         }
     }
@@ -42,7 +44,9 @@ export default function EditProfile() {
     }
 
     const updateProfile = async () => {
-        await addInterestDB()
+        if (userInterests.length > 0) {
+            await addInterestDB()
+        }
         let data = {
             userBio,
             checkedGender,
@@ -61,6 +65,7 @@ export default function EditProfile() {
     }
 
     const addInterestDB = async () => {
+        console.log(userInterests)
         let data = userInterests
         let result = await fetch('/api/add-interest', {
             method: 'PUT',
@@ -122,7 +127,7 @@ export default function EditProfile() {
                 <Button onClick={addInterest}>Lägg till intresse</Button>
                 <div className="edit-profile-all-interests">
                     {
-                        userInterests.map(interest => <div key={interest.name} className="edit-profile-interest">{interest} <i className="fas fa-times-circle" onClick={() => handleRemoveInterest(interest)}></i></div>)
+                        userInterests.map(interest => <div key={interest.name} className="edit-profile-interest">{interest.name} <i className="fas fa-times-circle" onClick={() => handleRemoveInterest(interest)}></i></div>)
                     }
                 </div>
             </div>
