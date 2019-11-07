@@ -46,6 +46,10 @@ export default function Profile(props) {
             <Carousel interval={null} fade={true}>
                 {profilePictures}
             </Carousel>
+
+            {props.displayedPerson && 
+            <div onClick={props.changeView}>KLICKA HÄR FÖR ATT KOMMA TBK TILL PREVIEW</div> 
+            }
             <div className="profile-info">
                 <div className="name-age">
                     <h3>{profile.firstName}&nbsp;-</h3 >&nbsp;<h3>25</h3>

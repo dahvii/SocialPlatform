@@ -1,0 +1,18 @@
+.btn-group{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 6%;
+    margin-top: 6%;
+}
+.like-reject-btn  {
+    height: 8vh;
+    width: 22vw;
+    background-color: #f8f9fa!important;
+    border-radius: 25px;
+    margin-left: 5vw;
+    margin-right: 5vw;
+}
+.like-reject-btn > img  {
+    height: 6vh;
+    margin-top: 1vh;
+}

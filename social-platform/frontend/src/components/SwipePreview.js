@@ -1,17 +1,46 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react'
+import { Carousel } from 'react-bootstrap'
+import imageLoader from '../utilities/ImageHandler';
+import useLifeCycle from '../utilities/useLifeCycle';
+import '../css/SwipePreview.css'
 
-export default class SwipePreview extends Component {
+export default function Profile(props) {
+    const [images, setImages] = useState([]);
 
-    render(){
-       // console.log("swipepreview props.user ",this.props.user);
-        
-        return (
-            <div> 
-                <div>{this.props.user ? this.props.user.firstName: "" }</div>
-                <div>Stad</div>
-                <div>icon X km bort</div>
-                <div>kort bio första meningarna lixxx</div>
-            </div>
-        )
-    }
+    useEffect(() => {
+        console.log("preview props", props);
+    })
+
+    useLifeCycle({
+        mount: () => {
+            const images = imageLoader();
+            setImages(images)    
+        }
+    })
+
+    const profilePictures = images.map(image => (
+        <Carousel.Item key={image.id}>
+            <img
+                className="d-block carousel-img"
+                src={image.src}
+                alt="First slider"
+            />
+        </Carousel.Item>
+    ))
+
+    return (
+        <div>
+            <Carousel interval={null} fade={true}>
+                {profilePictures}
+            </Carousel>
+            {props.displayedPerson && 
+            <div className="preview-info" onClick={props.changeView}>
+                <div className="name-age">
+                    <h3>{props.displayedPerson.firstName}&nbsp;-</h3 >&nbsp;<h3>25</h3>
+                </div>
+                <div className="bio"><p>{props.displayedPerson.bio.length > 40 ? props.displayedPerson.bio.substring(0, 40)+'...': props.displayedPerson.bio}</p></div>
+            </div>}
+        </div>
+    )
 }
+

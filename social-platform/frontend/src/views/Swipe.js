@@ -72,16 +72,14 @@ export default function Swipe() {
         <div>
             {!endOfSwipe &&
                 <div>
-                    <div onClick={changeView}>
-                        {!showDetails &&
-                            <SwipePreview user={people[displayedPersonindex]} ></SwipePreview>
-                        }
+                    {!showDetails &&
+                        <SwipePreview displayedPerson={people[displayedPersonindex]} changeView={changeView} ></SwipePreview>
+                    }
 
-                        {showDetails &&
-                            <Profile displayedPerson={people[displayedPersonindex]} ></Profile>
-                        }
-                    </div>
-
+                    {showDetails &&
+                        <Profile displayedPerson={people[displayedPersonindex]} changeView={changeView}></Profile>
+                    }
+                
                     <LikeRejectBtn callback = {btnCallback} displayedPerson = {people[displayedPersonindex]}></LikeRejectBtn>
                 </div>
             }

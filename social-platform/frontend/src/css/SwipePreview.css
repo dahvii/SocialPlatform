@@ -1,0 +1,23 @@
+.preview-info{
+    text-align: left;
+    margin-top: -19%;
+    z-index: 5;
+    position: relative;
+
+}
+
+.name-age{
+    display: flex;
+}
+
+.carousel-img{
+    width: 130vw;
+    margin-left: -15vw;
+}
+
+ol {
+    bottom: auto !important;
+}
+
+
+
