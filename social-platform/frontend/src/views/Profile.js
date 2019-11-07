@@ -15,8 +15,13 @@ export default function Profile(props) {
         mount: () => {
             const images = imageLoader();
             setImages(images)
-            getProfile()
-            console.log(state.currentUser)
+            console.log("Profile props",props);
+            
+            if(props.displayedPerson){
+                setProfile(props.displayedPerson)
+            }else{
+                getProfile()
+            }
         }
     })
 
@@ -43,7 +48,7 @@ export default function Profile(props) {
             </Carousel>
             <div className="profile-info">
                 <div className="name-age">
-                    <h3>{state.currentUser.firstName}&nbsp;-</h3 >&nbsp;<h3>25</h3>
+                    <h3>{profile.firstName}&nbsp;-</h3 >&nbsp;<h3>25</h3>
                 </div>
                 <div className="town-location">
                     <div className="hometown">
@@ -55,7 +60,7 @@ export default function Profile(props) {
                         <p>5 km</p>
                     </div>
                     <hr />
-                    <div className="bio"><p>{state.currentUser.bio}</p></div>
+                    <div className="bio"><p>{profile.bio}</p></div>
                 </div>
             </div>
 

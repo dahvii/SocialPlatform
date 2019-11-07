@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import SwipeDetails from '../components/SwipeDetails';
+import React, { useState } from 'react'
 import SwipePreview from '../components/SwipePreview';
-import Carousel from '../components/Carousel';
-import { Button } from 'reactstrap';
+import LikeRejectBtn from '../components/LikeRejectBtn.js';
 import { Store } from '../utilities/Store'
+import Profile from './Profile';
+import useLifeCycle from '../utilities/useLifeCycle';
 
 export default function Swipe() {
     const { state } = React.useContext(Store);
@@ -12,12 +12,12 @@ export default function Swipe() {
     const [endOfSwipe, setEndOfSwipe] = useState(false);
     const [displayedPersonindex, setDisplayedPersonindex] = useState(0);
     const [currUserId]  = useState(state.currentUser.id);
-    const [currUser]  = useState(state.currentUser);
 
-
-    useEffect(() => {   
-        getUsers();
-    },[]);
+    useLifeCycle({
+        mount: () => {
+            getUsers();
+        }
+    })
 
     async function getPopulatedUser(){
         let response = await fetch('/api/populated/'+currUserId);
@@ -40,10 +40,6 @@ export default function Swipe() {
             return item._id !== currUserId;
         });
         //take away people you already liked
-        let test = newArray.map(function (person) {
-            //for(like of curr)
-
-        }) 
         //take away people you already rejected 
     
         setPeople(newArray);
@@ -57,38 +53,6 @@ export default function Swipe() {
         setShowDetails(change);
     }
 
-    async function likeOrReject(opinion) {        
-        let data = {
-            judgedPerson: people[displayedPersonindex]._id
-        }            
-        await fetch('/api/'+opinion+'/'+currUserId, {
-            method: "PUT",
-            body: JSON.stringify(data),
-            headers: { 'Content-Type': 'application/json'}
-        })        
-        //check for match!
-        if(opinion === "like"){
-            checkForMatch(people[displayedPersonindex]);
-        }
-        nextPerson();
-    }
-
-    async function checkForMatch(likedPerson){
-       if(likedPerson.likes.includes(currUserId)){
-            console.log("ITS A MATCH"); 
-
-            let data = {
-                match: likedPerson._id,
-                currUser: currUserId
-            }            
-            await fetch('/api/match', {
-                method: "PUT",
-                body: JSON.stringify(data),
-                headers: { 'Content-Type': 'application/json'}
-            })             
-        }
-    }
-
     function nextPerson() {
         let newIndex = displayedPersonindex + 1;
         if (newIndex >= people.length) {
@@ -100,28 +64,25 @@ export default function Swipe() {
         }
     }
 
-
+    const btnCallback = () => {
+        nextPerson();   
+    }
 
     return (
         <div>
             {!endOfSwipe &&
                 <div>
-                    <Carousel></Carousel>
-
                     <div onClick={changeView}>
                         {!showDetails &&
                             <SwipePreview user={people[displayedPersonindex]} ></SwipePreview>
                         }
 
                         {showDetails &&
-                            <SwipeDetails user={people[displayedPersonindex]} ></SwipeDetails>
+                            <Profile displayedPerson={people[displayedPersonindex]} ></Profile>
                         }
                     </div>
 
-                    <div>
-                        <Button onClick={()=>likeOrReject("like")} ><span role="img" aria-label="like">❤️</span></Button>
-                        <Button onClick={()=>likeOrReject("reject")} ><span role="img" aria-label="reject">👎</span></Button>
-                    </div>
+                    <LikeRejectBtn callback = {btnCallback} displayedPerson = {people[displayedPersonindex]}></LikeRejectBtn>
                 </div>
             }
 
