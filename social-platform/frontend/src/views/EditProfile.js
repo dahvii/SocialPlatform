@@ -2,16 +2,82 @@ import React, { useState, useRef } from 'react'
 import '../css/EditProfile.css'
 import { Form, Button } from 'react-bootstrap'
 import { Store } from '../utilities/Store'
+import Autosuggest from 'react-autosuggest';
+import useLifeCycle from '../utilities/useLifeCycle'
 
 export default function EditProfile() {
     const { state, dispatch } = React.useContext(Store);
-    console.log(state.currentUser.interests)
     const [userBio, setUserBio] = useState(state.currentUser.bio);
     const [checkedGender, setCheckedGender] = useState(state.currentUser.gender);
     const [userInterests, setUserInterests] = useState(state.currentUser.interests);
+    const [value, setValue] = useState('');
+    const [suggestions, setSuggestions] = useState([]);
+    
     const newInterest = useRef();
-    console.log(userInterests)
+    const newInterestTest = useRef();
+    const [interestsFromDb, setInterestsFromDb] = useState([])
 
+    const test = [
+        {
+            _id: "b0hjk23791",
+            name: "test1"
+        },
+        {
+            _id: "dwjdlka7289382932",
+            name: "test2"
+        }
+    ]
+
+    useLifeCycle({
+        mount: () => {
+           getAllInterests()
+           console.log("db: ", interestsFromDb)
+           console.log(test)
+        }
+    })
+
+    
+
+    const getAllInterests = async () => {
+        let data = await fetch('/api/get-interests');
+        data = await data.json()
+        setInterestsFromDb(data)
+    }
+
+    const getSuggestions = value => {
+        const inputValue = value.trim().toLowerCase();
+        const inputLength = inputValue.length;
+
+        return inputLength === 0 ? [] : interestsFromDb.filter(lang =>
+            lang.name.toLowerCase().slice(0, inputLength) === inputValue
+        );
+    };
+
+    const getSuggestionValue = suggestion => suggestion.name;
+
+    const renderSuggestion = suggestion => (
+        <div>
+            {suggestion.name}
+        </div>
+    );
+
+    const onChange = (event, { newValue }) => {
+        setValue(newValue)
+    };
+
+    const onSuggestionsFetchRequested = ({ value }) => {
+        setSuggestions(getSuggestions(value))
+    };
+
+    const onSuggestionsClearRequested = () => {
+        setSuggestions([])
+    };
+
+    const inputProps = {
+        placeholder: 'Lägg till ett intresse',
+        value,
+        onChange: onChange
+    };
 
     const handleGenderOptionChange = (e) => {
         setCheckedGender(e.target.value)
@@ -22,10 +88,10 @@ export default function EditProfile() {
     }
 
     const addInterest = () => {
-        if (!newInterest.current.value.length) {
+        if (!newInterestTest.current.props.inputProps.value) {
             console.log("no can do")
         } else {
-            setUserInterests([...userInterests, {name: newInterest.current.value}])
+            setUserInterests([...userInterests, { name: newInterestTest.current.props.inputProps.value }])
             newInterest.current.value = ''
         }
     }
@@ -59,13 +125,11 @@ export default function EditProfile() {
         });
 
         result = await result.json()
-        console.log(result)
 
         updateStateWithNewProfile()
     }
 
     const addInterestDB = async () => {
-        console.log(userInterests)
         let data = userInterests
         let result = await fetch('/api/add-interest', {
             method: 'PUT',
@@ -132,6 +196,15 @@ export default function EditProfile() {
                 </div>
             </div>
             <Button className="update-profile" onClick={updateProfile}>Uppdatera profil</Button>
+            <Autosuggest
+                suggestions={suggestions}
+                onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+                onSuggestionsClearRequested={onSuggestionsClearRequested}
+                getSuggestionValue={getSuggestionValue}
+                renderSuggestion={renderSuggestion}
+                inputProps={inputProps}
+                ref={newInterestTest}
+            />
         </div>
     )
 }

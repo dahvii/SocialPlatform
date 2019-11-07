@@ -140,6 +140,11 @@ router.get('/api/currentuser/:id', async (req, res) => {
     res.json(currentUser)
 })
 
+router.get('/api/get-interests', async (req, res) => {
+    let result = await Interest.find()
+    res.json(result)
+})
+
 router.put('/api/add-interest', async (req, res) => {
     let bulkOperations = []
     for (let interest of req.body) {
