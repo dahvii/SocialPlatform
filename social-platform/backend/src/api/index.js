@@ -221,6 +221,11 @@ router.put('/api/update/:id', (req, res) => {
     User.findByIdAndUpdate(req.params.id, req.body)
     .then(user => res.json('Updated successfully!'))
     .catch(err => res.status(400).json('Error: ' + err));
-    })
+})
+
+router.delete('/api/delete/:id', (req, res) => {
+    User.deleteOne({ _id: req.params.id }, function (err) {}).then(user => res.json('deleted successfully!'))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
 
 module.exports = { router };
