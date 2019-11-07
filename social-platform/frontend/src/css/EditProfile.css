@@ -10,22 +10,64 @@
 
 .edit-profile-interest{
     background-color: rgba(104, 0, 0, 0.795);
-    border-radius: 10px;
-    padding: 7px;
+    border-radius: 20px;
+    padding: 5px 10px;
+}
+
+.textarea-container, .add-interest-container{
+  position: relative;
+  width: 100%;
+}
+
+.bio-length{
+  color: darkgrey;
+  font-size: 0.7rem;
+  border-radius: .25rem;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.add-interest-icon{
+  font-size: 1.7rem;
+  color: rgb(48, 194, 48);
+  position: absolute;
+  top: -2.5px;
+  right: 3px;
+}
+
+.selection{
+  background-color: #f09795;;
+  border-radius: .25rem;
+  padding: .50rem;
+  /* -webkit-box-shadow: inset 0px 1px 13px -2px rgba(99,43,43,0.71);
+  -moz-box-shadow: inset 0px 1px 13px -2px rgba(99,43,43,0.71);
+  box-shadow: inset 0px 1px 13px -2px rgba(99,43,43,0.71);  */
+  -webkit-box-shadow: inset 1px 0px 15px -7px rgba(99,43,43,0.71);
+-moz-box-shadow: inset 1px 0px 15px -7px rgba(99,43,43,0.71);
+box-shadow: inset 1px 0px 15px -7px rgba(99,43,43,0.71);
 }
 
 .react-autosuggest__container {
     position: relative;
   }
+
+  .react-autosuggest__input{
+    border-radius: 20px;
+    width: 100%;
+    padding: 5px;
+    padding-right: 35px;
+    border: none;
+  }
   
   .react-autosuggest__input--focused {
     outline: none;
   }
-  
+/*   
   .react-autosuggest__input--open {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-  }
+  } */
   
   .react-autosuggest__suggestions-container {
     display: none;
@@ -36,7 +78,7 @@
     position: absolute;
     top: 51px;
     width: 280px;
-    color: black;
+    color: rgb(109, 101, 101);
     background-color: #fff;
     border: 1px solid #aaa;
     z-index: 99;

@@ -10,29 +10,14 @@ export default function EditProfile() {
     const [userBio, setUserBio] = useState(state.currentUser.bio);
     const [checkedGender, setCheckedGender] = useState(state.currentUser.gender);
     const [userInterests, setUserInterests] = useState(state.currentUser.interests);
-    const [value, setValue] = useState('');
+    const [interestInput, setInterestInput] = useState('');
     const [suggestions, setSuggestions] = useState([]);
-
     const newInterest = useRef();
-    const newInterestTest = useRef();
     const [interestsFromDb, setInterestsFromDb] = useState([])
-
-    const test = [
-        {
-            _id: "b0hjk23791",
-            name: "test1"
-        },
-        {
-            _id: "dwjdlka7289382932",
-            name: "test2"
-        }
-    ]
 
     useLifeCycle({
         mount: () => {
             getAllInterests()
-            console.log("db: ", interestsFromDb)
-            console.log(test)
         }
     })
 
@@ -62,7 +47,7 @@ export default function EditProfile() {
     );
 
     const onChange = (event, { newValue }) => {
-        setValue(newValue)
+        setInterestInput(newValue)
     };
 
     const onSuggestionsFetchRequested = ({ value }) => {
@@ -75,7 +60,7 @@ export default function EditProfile() {
 
     const inputProps = {
         placeholder: 'Lägg till ett intresse',
-        value,
+        value: interestInput,
         onChange: onChange
     };
 
@@ -88,14 +73,16 @@ export default function EditProfile() {
     }
 
     const addInterest = () => {
-        if (!newInterestTest.current.props.inputProps.value) {
-            console.log("no can do")
+        if (!newInterest.current.props.inputProps.value) {
+            console.log("no can do") // display errormessage empty
+        } else if (interestInput.length > 20) {
+            console.log("TOOO BIG") // display errormessage too long
         } else {
-            setUserInterests([...userInterests, { name: newInterestTest.current.props.inputProps.value }])
-            newInterest.current.value = ''
+            setUserInterests([...userInterests, { name: interestInput }])
+            setInterestInput('')
         }
     }
-
+    
     const handleRemoveInterest = (interest) => {
         setUserInterests(userInterests.filter(item => item !== interest))
     }
@@ -147,14 +134,17 @@ export default function EditProfile() {
         <div>
             <h2>Redigera profil</h2>
             <div className="edit-profile-content">
-                <Form>
+                <Form className="mb-2">
                     <Form.Group controlId="userBio">
-                        <Form.Label>Om dig (max 200 tecken)</Form.Label>
-                        <Form.Control as="textarea" rows="3" defaultValue={userBio} onChange={handleBioChange} maxLength="200" />
+                        <Form.Label>Berätta lite om dig själv</Form.Label>
+                        <div className="textarea-container">
+                            <Form.Control as="textarea" className="bio-text" rows="3" defaultValue={userBio} onChange={handleBioChange} maxLength="200" />
+                            <div className="bio-length">{userBio.length}/200</div>
+                        </div>
                     </Form.Group>
                 </Form>
-                <Form>
-
+                <Form className="selection">
+                    <h4>Kön</h4>
                     <div className="form-check">
                         <label>
                             <input
@@ -169,7 +159,7 @@ export default function EditProfile() {
                     </div>
 
                     <div className="form-check">
-                        <label>
+                        <label className="m-0">
                             <input
                                 type="radio"
                                 value="Female"
@@ -181,24 +171,29 @@ export default function EditProfile() {
                         </label>
                     </div>
                 </Form>
-                <h4>Intressen</h4>
-                <Button onClick={addInterest}>Lägg till intresse</Button>
-                <div className="edit-profile-all-interests">
-                    {
-                        userInterests.map(interest => <div key={interest.name} className="edit-profile-interest">{interest.name} <i className="fas fa-times-circle" onClick={() => handleRemoveInterest(interest)}></i></div>)
-                    }
-                </div>
+                <Form className="selection mt-2">
+                    <h4>Intressen</h4>
+                    <div className="edit-profile-all-interests">
+                        {
+                            userInterests.map(interest => <div key={interest.name} className="edit-profile-interest mr-1">{interest.name} <i className="fas fa-times-circle" onClick={() => handleRemoveInterest(interest)}></i></div>)
+                        }
+                    </div>
+                    {/* <Button onClick={addInterest}>Lägg till intresse</Button> */}
+                    <div className="add-interest-container mt-2">
+                        <Autosuggest
+                            suggestions={suggestions}
+                            onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+                            onSuggestionsClearRequested={onSuggestionsClearRequested}
+                            getSuggestionValue={getSuggestionValue}
+                            renderSuggestion={renderSuggestion}
+                            inputProps={inputProps}
+                            ref={newInterest}
+                        />
+                        <div className="add-interest-icon"><i className="fas fa-plus-circle" onClick={addInterest}></i></div>
+                    </div>
+                </Form>
             </div>
             <Button className="update-profile" onClick={updateProfile}>Uppdatera profil</Button>
-            <Autosuggest
-                suggestions={suggestions}
-                onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-                onSuggestionsClearRequested={onSuggestionsClearRequested}
-                getSuggestionValue={getSuggestionValue}
-                renderSuggestion={renderSuggestion}
-                inputProps={inputProps}
-                ref={newInterestTest}
-            />
         </div>
     )
 }
