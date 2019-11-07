@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User')
+const Interest = require('../models/Interests')
 const bcrypt = require('bcryptjs')
 const multer = require('multer')
 const uuid = require('uuid')
@@ -124,7 +125,7 @@ router.get('/api/person/:id', async (req, res) => {
 })
 
 router.get('/api/currentuser/:id', async (req, res) => {
-    let result = await dbModels["user"].findOne({ _id: req.params.id });
+    let result = await dbModels["user"].findOne({ _id: req.params.id }).populate('interests');
     const currentUser = {
         id: result._id,
         firstName: result.firstName,
@@ -139,8 +140,34 @@ router.get('/api/currentuser/:id', async (req, res) => {
     res.json(currentUser)
 })
 
+router.put('/api/add-interest', async (req, res) => {
+    const interests = req.body.map(s => { return { name: s } })
+    let bulkOperations = []
+    for (let interest of interests) {
+        let upsertDoc = {
+            'updateOne': {
+                'filter': { name: interest.name },
+                'update': interest,
+                'upsert': true
+            }
+        };
+        bulkOperations.push(upsertDoc);
+    }
+    let result = await Interest.bulkWrite(bulkOperations)
+    res.json(result)
+})
+
 router.put('/api/update/:id', async (req, res) => {
-    let result = await User.findOneAndUpdate({ _id: req.params.id }, { $set: { bio: req.body.userBio, gender: req.body.checkedGender } })
+    let interests = await Interest.find({name: {$in: req.body.userInterests}})
+    console.log(interests)
+    let result = await User.findOneAndUpdate({ _id: req.params.id },
+        {
+            $set: {
+                bio: req.body.userBio,
+                gender: req.body.checkedGender,
+                interests
+            },
+        }, { upsert: true })
 
     console.log(result)
     res.json({ success: true })
