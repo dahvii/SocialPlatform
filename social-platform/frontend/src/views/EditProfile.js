@@ -12,7 +12,7 @@ export default function EditProfile() {
     const [userInterests, setUserInterests] = useState(state.currentUser.interests);
     const [value, setValue] = useState('');
     const [suggestions, setSuggestions] = useState([]);
-    
+
     const newInterest = useRef();
     const newInterestTest = useRef();
     const [interestsFromDb, setInterestsFromDb] = useState([])
@@ -30,13 +30,13 @@ export default function EditProfile() {
 
     useLifeCycle({
         mount: () => {
-           getAllInterests()
-           console.log("db: ", interestsFromDb)
-           console.log(test)
+            getAllInterests()
+            console.log("db: ", interestsFromDb)
+            console.log(test)
         }
     })
 
-    
+
 
     const getAllInterests = async () => {
         let data = await fetch('/api/get-interests');
@@ -182,12 +182,6 @@ export default function EditProfile() {
                     </div>
                 </Form>
                 <h4>Intressen</h4>
-                <Form>
-                    <Form.Group controlId="interests">
-                        <Form.Label>Lägg till intresse</Form.Label>
-                        <Form.Control as="textarea" rows="1" maxLength="30" ref={newInterest} />
-                    </Form.Group>
-                </Form>
                 <Button onClick={addInterest}>Lägg till intresse</Button>
                 <div className="edit-profile-all-interests">
                     {
