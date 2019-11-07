@@ -46,17 +46,17 @@ export default function AddCommentsToPost(props) {
 
     return (
         <>
-        <div className="ForumPost">
+        <div className="ForumPost forum-comment">
             <Form noValidate onSubmit={validate} className="form">
                 <Form.Group className="form-group" controlId="textarea">
                     <Form.Label>Kommentars text</Form.Label>
                     <Form.Control required ref={text} className="form-controll" as="textarea" rows="3" placeholder="Post text" />
                     {textError ?
-                        <p className="form-error">Du måste skriva någon text</p>
+                        <p className="form-error">Du måste skriva någon Komentar</p>
                         : <p className="form-error-hidden">&mvsp;</p>
                     }
                 </Form.Group>
-                <Button variant="light" type="submit" className="register-button">Kommentera</Button>
+                <Button variant="light" type="submit" className="comment-button">Kommentera</Button>
             </Form>
         </div>
         </>

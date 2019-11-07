@@ -3,6 +3,7 @@ import Card from 'react-bootstrap/Card';
 import AddCommentsForm from '../components/AddCommentsToPost';
 import FormComment from '../components/ForumComments';
 import Button from 'react-bootstrap/Button';
+import '../css/Comments.css'
 export default function OnePost(props) {
     const [loading, setLoading] = useState(true);
     const [post, setPost] = useState({});
@@ -40,7 +41,7 @@ export default function OnePost(props) {
     
     return (
         <>
-        <Card className="Postcard">
+        <Card className="Postcard one-post">
             <Card.Body> 
                 <Card.Title className="titel">{post.timeStamp}</Card.Title>
                 <Card.Title className="titel">{post.titel}</Card.Title>
@@ -49,7 +50,7 @@ export default function OnePost(props) {
             </Card.Body>
             </Card>
             {comments.map((comment, index) => <FormComment key ={index} comment={comment}/>)}
-            <Button className="costumBtn" onClick={()=>  showNewComment() } >Skapa nytt Inlägg</Button>
+            <Button className="costumBtn" onClick={()=>  showNewComment() } >Lägg till komentar</Button>
             {newComment === true ? <AddCommentsForm showNewComment = {showNewComment} forumPostId={props.match.params.id} />  : '' }
         </>
     )

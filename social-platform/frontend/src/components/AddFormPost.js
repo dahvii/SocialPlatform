@@ -55,7 +55,7 @@ export default function AddFormPost(props){
         <> 
         <div className="ForumPost">
             <Form noValidate onSubmit={validate} className="form">
-                <h1 className="form-headline">Skapa en ny post</h1>
+                <h1 className="form-titel">Skapa en ny post</h1>
                 <Form.Group className="form-group" controlId="ForumForm.ControlInput1">
                     <Form.Label className="form-label">Titel</Form.Label>
                     <Form.Control required ref={titel} className="form-controll" type="name" placeholder="Titel" />
@@ -73,7 +73,7 @@ export default function AddFormPost(props){
                     }
                 </Form.Group>
 
-                <Button variant="light" type="submit" className="register-button">Post</Button>
+                <Button variant="light" type="submit" className="post-button">Post</Button>
             </Form>
         </div>
         </>

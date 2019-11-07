@@ -1,7 +1,6 @@
 .timestamp{
     margin-bottom: 0;
 }
-
 .titel{
     font-size: 1.50rem;
 }
@@ -13,7 +12,14 @@
 }
 .Postcard{
     color: black;
+    margin: 25px 0px;
+    background-color: whitesmoke;
 }
 .forumLink{
     color: black;
+}
+.add-filter-btn{
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
