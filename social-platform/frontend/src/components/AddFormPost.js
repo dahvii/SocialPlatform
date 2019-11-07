@@ -31,22 +31,17 @@ export default function AddFormPost(props){
             setTextError(false)
         }
         if (allGood) {
-            register(titel.current.value, text.current.value, owner, timeStamp.getTime())
+            register(titel.current.value, text.current.value)
         }
         e.preventDefault();
     }
 
-    async function register(titel,text,owner,timeStamp) {
+    async function register(titel,text) {
         setTimeStamp(new Date)
         let data = {
             titel,
-            text,
-            owner,
-            timeStamp
+            text
         }
-        console.log(data)
-        console.log(props);
-      
         let registerFormPost = await fetch('/api/forum', {
             method: 'POST',
             body: JSON.stringify(data),
@@ -56,7 +51,6 @@ export default function AddFormPost(props){
         console.log(result)
         props.showNewPost();
     }
-
     return (
         <> 
         <div className="ForumPost">

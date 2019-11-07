@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { db } = require('../loaders');
+const { ObjectId } = require('mongoose').Types;
 const Schema = mongoose.Schema;
 
 let userSchema = new Schema({
@@ -14,7 +15,6 @@ let userSchema = new Schema({
     characteristics: [], //(from table characteristics)
     matches: [],
     profilePictures: []
-
 })
 
 class UserClass {}

@@ -11,7 +11,7 @@ export default function FormPost(props){
             <Card.Body> 
                 <Card.Title className="titel">{props.post.timeStamp}</Card.Title>
                 <Card.Title className="titel">{props.post.titel}</Card.Title>
-                <Card.Title className="titel">Skriven av { props.post.owner}</Card.Title>
+                <Card.Title className="titel">Skriven av { props.post.owner.firstName}</Card.Title>
                 <Card.Text>{props.post.text}</Card.Text>
             </Card.Body>
         </Link>

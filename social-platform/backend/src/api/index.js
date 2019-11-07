@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../models/User')
 const bcrypt = require('bcryptjs')
 const ForumPost = require('../models/ForumPost')
+const Comments = require('../models/Comments')
 const multer = require('multer')
 const uuid = require('uuid')
 const sharp = require('sharp')
@@ -36,7 +37,8 @@ const upload = multer({
 const dbModels = {
     user: require('../models/User'),
     forumPost: require('../models/ForumPost'),
-    feedPost: require('../models/FeedPost')
+    feedPost: require('../models/FeedPost'),
+    Comments: require('../models/Comments')
 }
 
 router.post('/api/register', (req, res) => {
@@ -191,24 +193,49 @@ router.post('/api/new-post', async (req, res) => {
 
 router.post('/api/forum', (req,res)=>{
    const newForumPost = new ForumPost({
-       owner: req.body.owner,
+       owner: { _id: req.session.user.id },
        titel: req.body.titel,
        text: req.body.text,
-       timeStamp: req.body.timeStamp
+       timeStamp: Date.now()
    });
    newForumPost.save();   
    res.json({ok: "ok"})
 })
 
 router.get('/api/forum', async (req,res)=>{
-    let resoult = await dbModels.forumPost.find();
+    let resoult = await dbModels.forumPost.find().populate('owner').exec();
     res.json(resoult);
 })
 
 router.get('/api/onepost/:id', async (req,res)=>{
-    let resoult = await dbModels.forumPost.findOne({ _id: req.params.id });
+    let resoult = await dbModels.forumPost.findById({ _id: req.params.id }).populate('owner').populate('comments').exec();
     res.json(resoult);
 })
 
+router.post('/api/onepost', async (req,res)=>{
+    const newForumComments = new Comments({
+        writtenBy: { _id: req.session.user.id },
+        text: req.body.text,
+        timeStamp: Date.now()
+    });
+    newForumComments.save();
+    let post = await dbModels.forumPost.findById({ _id: req.body.forumPostId });
+    post.comments.push(newForumComments);
+    post.save();
+    res.json(newForumComments)
+})
+
+
+router.get('/api/onepost' , async (req,res)=>{
+    let resoult = await dbModels.Comments.findById({ _id: req.params.id })
+    res.json(resoult);
+})
+
+
+router.get('/api/comment/:id', async (req,res)=>{
+    let resoult = await dbModels.Comments.findById({ _id: req.params.id }).populate('writtenBy').exec();
+    res.json(resoult);
+    
+})
 
 module.exports = { router };
