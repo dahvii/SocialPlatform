@@ -35,11 +35,13 @@ export default function Forum() {
           getAllForumPost();
           }
       }) 
+
+      //<Button className="costumBtn" onClick={()=>  showFormSearch() } >Sotering</Button>
     return (
         <>
         <div className="add-filter-btn">
         <Button className="costumBtn" onClick={()=>  showNewPost() } >Skapa nytt Inlägg</Button>
-        <Button className="costumBtn" onClick={()=>  showFormSearch() } >Sotering</Button> 
+         
         
             {newForumPost === true ? <AddForumPost showNewPost = {showNewPost}/>  : '' }
             {forumSearch === true ? <FormFilter />  : '' }    
