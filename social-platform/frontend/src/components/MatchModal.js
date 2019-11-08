@@ -1,27 +1,24 @@
-import React, { useState } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import React from 'react';
+import { Image } from 'react-bootstrap'
+import { Button, Modal,  ModalBody, ModalFooter } from 'reactstrap';
+import '../css/MatchModal.css';
+
 
 export default function MatchModal (props) {
-  const {
-    buttonLabel,
-    className
-  } = props;
-
-  const [modal, setModal] = useState(false);
-
-  const toggle = () => setModal(!modal);
+  const toggle = () => props.callback();
 
   return (
     <div>
-      <Button color="danger" onClick={toggle}>{buttonLabel}</Button>
-      <Modal isOpen={modal} toggle={toggle} className={className}>
-        <ModalHeader toggle={toggle}>Modal title</ModalHeader>
-        <ModalBody>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      <Modal isOpen={props.show} toggle={toggle} className="match-modal">
+        <ModalBody className="modal-color">
+          <div className="profile-picture-container">
+          <Image src="https://i.pravatar.cc/220" alt="profile-picture" roundedCircle className="profile-picture" />
+          </div>
+          <h1>It's a match!</h1>
+          <p>It seems like you two would get along just fine! Start a conversation before this hottie get other stuff to do!</p>
         </ModalBody>
-        <ModalFooter>
-          <Button color="primary" onClick={toggle}>Do Something</Button>{' '}
-          <Button color="secondary" onClick={toggle}>Cancel</Button>
+        <ModalFooter className="modal-color">
+          <Button color="secondary" onClick={toggle}>Close</Button>
         </ModalFooter>
       </Modal>
     </div>

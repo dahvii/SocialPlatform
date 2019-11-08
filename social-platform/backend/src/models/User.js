@@ -17,7 +17,7 @@ let userSchema = new Schema({
     feedPosts: ({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'FeedPost'
-    })
+    }),
     likes: [], //array of users 
     rejects: [], //array of users 
 

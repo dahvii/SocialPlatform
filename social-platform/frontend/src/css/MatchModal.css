@@ -1,0 +1,18 @@
+.match-modal{
+    color:black;
+    margin-top: 10vh;
+}
+.profile-picture-container{
+    display: flex;
+    justify-content: center;
+}
+
+.modal-color{
+    background-color: #f8f9fa;
+
+}
+.profile-picture{
+    margin-top: 3vh;
+    margin-bottom: 2vh;
+    border: 2px solid white;
+}

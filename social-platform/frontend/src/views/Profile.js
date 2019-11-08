@@ -6,10 +6,8 @@ import useLifeCycle from '../utilities/useLifeCycle';
 import '../css/Profile.css'
 
 export default function Profile(props) {
-    const { state} = React.useContext(Store);
     const [images, setImages] = useState([])
     const [profile, setProfile] = useState({})
-    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         if(props.displayedPerson){
@@ -29,7 +27,6 @@ export default function Profile(props) {
     const getProfile = async () => {
         let result = await (await fetch("/api/person/" + props.match.params.id)).json();
         setProfile(result)
-        setLoading(false)
     }
 
     const profilePictures = images.map(image => (

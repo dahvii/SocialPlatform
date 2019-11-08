@@ -3,13 +3,12 @@ import { Carousel } from 'react-bootstrap'
 import imageLoader from '../utilities/ImageHandler';
 import useLifeCycle from '../utilities/useLifeCycle';
 import '../css/SwipePreview.css';
-import MatchModal from './MatchModal';
 
 export default function Profile(props) {
     const [images, setImages] = useState([]);
 
     useEffect(() => {
-        console.log("preview props", props);
+        //console.log("preview props", props);
     },[props])
 
     useLifeCycle({
@@ -41,7 +40,6 @@ export default function Profile(props) {
             <Carousel interval={null} fade={true}>
                 {profilePictures}
             </Carousel>
-            <MatchModal></MatchModal>
         </div>
     )
 }

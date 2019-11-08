@@ -49,8 +49,7 @@ export default function Swipe() {
     }
 
     function changeView() {
-        let change = showDetails ? false : true;
-        setShowDetails(change);
+        setShowDetails(!showDetails);
     }
 
     function nextPerson() {
@@ -61,6 +60,7 @@ export default function Swipe() {
         } else {
             //take next person in array and show their profile
             setDisplayedPersonindex(newIndex);
+            setShowDetails(false);
         }
     }
 
