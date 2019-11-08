@@ -37,18 +37,16 @@ export default function NewFeed() {
             setError(true)
         } else if (result.success) {
             let date = new Date().getTime();
-            let likes = 0
             setError(false)
-            newPost(text.current.value, state.currentUser.id, date, likes, result.file)
+            newPost(text.current.value, state.currentUser.id, date, result.file)
         }
     }
-    async function newPost(text, owner, date, likes, image) {
+    async function newPost(text, owner, date, image) {
         let resizedImage = image.slice(0, 8) + "resized/" + image.slice(8)
         let data = {
             text,
             owner,
             date,
-            likes,
             resizedImage
         }
         let newPost = await fetch('/api/new-post', {

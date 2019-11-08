@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './css/App.css';
-import {BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import Start from './views/Start';
 import Register from './views/Register';
 import Navbar from './components/BottomNavbar';
@@ -19,55 +19,56 @@ import EditProfile from './views/EditProfile';
 import useLifeCycle from './utilities/useLifeCycle';
 
 function App() {
-  const { state, dispatch } = React.useContext(Store);
-  const [loading, setLoading] = useState(true)
+    const { state, dispatch } = React.useContext(Store);
+    const [loading, setLoading] = useState(true)
 
-  useLifeCycle({
-    mount: () => {
-        checkLoginStatus()
-    }
-})
-
-const checkCurrentUser = async (id) => {
-    console.log("HEJHEJ")
-    let data = await fetch('/api/person/' + id)
-    try {
-        data = await data.json();
-    } catch { }
-
-    dispatch({
-        type: 'SET_CURRENT_USER',
-        payload: data
+    useLifeCycle({
+        mount: () => {
+            checkLoginStatus()
+        }
     })
-}
 
-const checkLoginStatus = async () => {
-    let data = await fetch("/api/loggedinas");
-    try {
-        data = await data.json();
-    } catch {
-    }
-    if (data.loggedIn && state.isLoggedIn === false) {
+
+    const checkCurrentUser = async (id) => {
+        console.log("HEJHEJ")
+        let data = await fetch('/api/currentuser/' + id)
+        try {
+            data = await data.json();
+        } catch { }
+
         dispatch({
-            type: 'SET_LOGGEDIN',
-            payload: true
-        })
-        dispatch({
-            type: 'SET_CURRENT_SESSION',
+            type: 'SET_CURRENT_USER',
             payload: data
         })
-        await checkCurrentUser(data.id)
-        setLoading(false)
-    } else if (!data.loggedIn && state.isLoggedIn === true) {
-        dispatch({
-            type: 'LOGOUT_USER'
-        })
-        setLoading(false)
-    } else if (data.loggedIn && state.isLoggedIn) {
+    }
+
+    const checkLoginStatus = async () => {
+        let data = await fetch("/api/loggedinas");
+        try {
+            data = await data.json();
+        } catch {
+        }
+        if (data.loggedIn && state.isLoggedIn === false) {
+            dispatch({
+                type: 'SET_LOGGEDIN',
+                payload: true
+            })
+            dispatch({
+                type: 'SET_CURRENT_SESSION',
+                payload: data
+            })
+            await checkCurrentUser(data.id)
+            setLoading(false)
+        } else if (!data.loggedIn && state.isLoggedIn === true) {
+            dispatch({
+                type: 'LOGOUT_USER'
+            })
+            setLoading(false)
+        } else if (data.loggedIn && state.isLoggedIn) {
+            setLoading(false)
+        }
         setLoading(false)
     }
-    setLoading(false)
-}
 
 
   return (

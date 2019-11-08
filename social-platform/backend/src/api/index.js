@@ -14,14 +14,17 @@ const storage = multer.diskStorage({
         cb(null, './uploads/');
     },
     filename: function (req, file, cb) {
-        cb(null, uuid());
+        if (file.mimetype === 'image/jpeg'){
+            cb(null, uuid() + ".jpg");
+        } else if(file.mimetype === 'image/png') {
+            cb(null, uuid() + ".png");
+        }
     }
 })
 const fileFilter = (req, file, cb) => {
     //reject a file
     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
         cb(null, true)
-
     } else {
         cb(null, false)
     }
@@ -142,27 +145,59 @@ router.get('/api/currentuser/:id', async (req, res) => {
     res.json(currentUser)
 })
 
+router.get('/api/feed-post', async (req, res) => {
+    let result = await dbModels['feedPost']
+    .find({})
+    .sort({'timeStamp': -1})
+    .limit(3)
+    res.json(result)
+});
+
+router.get('/api/feed-posts/:skip', async (req, res)  => {
+    let result = await dbModels['feedPost']
+    .find({})
+    .populate('owner')
+    .populate('likes')
+    .sort({'timeStamp': -1})
+    .skip(parseInt(req.params.skip, 10))
+    .limit(3)
+    if(result.length > 0){
+        res.json({success: true, result: result})
+    } else{
+        res.json({error: "no more posts"})
+    }
+});
+
 router.put('/api/update/:id', async (req, res) => {
     let result = await User.findOneAndUpdate({ _id: req.params.id }, { $set: { bio: req.body.userBio, gender: req.body.checkedGender } })
+    if(result){
+        res.json({ success: true })      
+    }
+})
 
-    console.log(result)
+router.put('/api/feed-post/like/:id', async (req, res) => {
+    let post = await dbModels['feedPost'].findOne({_id: req.params.id})
+    post.likes.push(req.body.id)
+    post.save()
     res.json({ success: true })
 })
 
-router.get('/api/image/hej', (req, res) => {
-    let pathName = path.join(__dirname, '/../../', 'uploads/resized/e5f0d5c3-9ef4-45c1-8afe-135a98186c39')
-    // const { fileid } = req.params;
-    console.log(pathName);
-    res.sendFile(pathName);
-});
+router.put('/api/feed-post/dislike/:id', async (req, res) => {
+    let post = await dbModels['feedPost'].findOne({_id: req.params.id})
+    console.log(post);
+    console.log(post.likes.indexOf(req.body.id))
+    post.likes.splice(post.likes.indexOf(req.body.id), 1)
+    post.save()
+    res.json({ success: true })
+    
+})
 
 router.post('/api/new-image', upload.single('feedImage'), async (req, res) => {
     if (req.file) {
         const { filename: image } = req.file
-        console.log(req.file.destination, 'resized', image)
         await sharp(req.file.path)
-            .resize(500, 700)
-            .jpeg({ quality: 80 })
+            .resize(400, 400)
+            .jpeg({ quality: 100 })
             .toFile(
                 path.resolve(req.file.destination, 'resized', image)
             )
@@ -180,7 +215,6 @@ router.post('/api/new-post', async (req, res) => {
             text: req.body.text,
             owner: req.body.owner,
             timeStamp: req.body.date,
-            likes: req.body.likes,
             feedImage: req.body.resizedImage
         })
         newPost.save()
