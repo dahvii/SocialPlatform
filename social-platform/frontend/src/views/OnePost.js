@@ -41,15 +41,17 @@ export default function OnePost(props) {
     
     return (
         <>
+        {console.log(post.isAnonym), 'podtens '}
+        
         <Card className="Postcard one-post">
             <Card.Body> 
                 <Card.Title className="titel">{post.timeStamp}</Card.Title>
                 <Card.Title className="titel">{post.titel}</Card.Title>
-                <Card.Title className="titel">Skriven av {post.owner && post.owner.firstName}</Card.Title>
+                {post.isAnonym ? <Card.Title className="titel">Skriven av {post.owner && post.owner.firstName}</Card.Title> : ''}
                 <Card.Text>{post.text}</Card.Text>
             </Card.Body>
             </Card>
-            {comments.map((comment, index) => <FormComment key ={index} comment={comment}/>)}
+            {comments.map((comment, index) => <FormComment key ={index} comment={comment} post={post}/>)}
             <Button className="costumBtn" onClick={()=>  showNewComment() } >Lägg till komentar</Button>
             {newComment === true ? <AddCommentsForm showNewComment = {showNewComment} forumPostId={props.match.params.id} />  : '' }
         </>

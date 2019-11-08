@@ -3,19 +3,29 @@ import { Form, Button, FormControl } from 'react-bootstrap'
 //import { Link } from 'react-router-dom'
 import {Store} from '../utilities/Store'
 import '../css/AddForumPost.css'
+//import { set } from 'mongoose';
 export default function AddFormPost(props){
     
     const { state, dispatch } = React.useContext(Store);
-    const owner = state.currentUser.firstName;
+    //const owner = state.currentUser.firstName;
     const titel = useRef();
     const text = useRef();
     const [titelError,setTitelError] = useState(false);
     const [textError,setTextError] = useState(false);
     const [timeStamp,setTimeStamp] = useState(new Date);
+
+    const[anonym, setAnonym] = useState(false)
     
+
+    const handleCheck = () => {
+        setAnonym(!anonym);
+      };
+
 
     function validate(e) {
         let allGood = false;
+        console.log(anonym);
+        
         if (titel.current.value === '') {
             setTitelError(true)
             allGood = false;
@@ -37,10 +47,13 @@ export default function AddFormPost(props){
     }
 
     async function register(titel,text) {
-        setTimeStamp(new Date)
+        //setTimeStamp(new Date)
+        console.log(anonym);
+        
         let data = {
             titel,
-            text
+            text,
+            anonym
         }
         let registerFormPost = await fetch('/api/forum', {
             method: 'POST',
@@ -53,8 +66,7 @@ export default function AddFormPost(props){
     }
     return (
         <> 
-        <div className="ForumPost">
-            <Form noValidate onSubmit={validate} className="form">
+       <Form noValidate onSubmit={validate} className="form">
                 <h1 className="form-titel">Skapa en ny post</h1>
                 <Form.Group className="form-group" controlId="ForumForm.ControlInput1">
                     <Form.Label className="form-label">Titel</Form.Label>
@@ -72,10 +84,12 @@ export default function AddFormPost(props){
                         : <p className="form-error-hidden">&mvsp;</p>
                     }
                 </Form.Group>
-
+                <Form.Group controlId="formBasicCheckboxAnonym">
+                    <Form.Check className="anonymBasicCheckbox" type="checkbox" label="Anonym" checked={anonym} onChange={handleCheck}/>
+                </Form.Group>
                 <Button variant="light" type="submit" className="post-button">Post</Button>
             </Form>
-        </div>
+        
         </>
     )
 }

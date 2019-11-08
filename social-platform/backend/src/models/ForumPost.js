@@ -10,6 +10,7 @@ let ForumPostSchema = new Schema({
     titel: String,
     text: String,
     timeStamp: Date,
+    isAnonym: Boolean,
 })
 
 class ForumPostClass {}

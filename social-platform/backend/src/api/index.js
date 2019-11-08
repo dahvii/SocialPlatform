@@ -196,7 +196,8 @@ router.post('/api/forum', (req,res)=>{
        owner: { _id: req.session.user.id },
        titel: req.body.titel,
        text: req.body.text,
-       timeStamp: Date.now()
+       timeStamp: Date.now(),
+       isAnonym : req.body.anonym,
    });
    newForumPost.save();   
    res.json({ok: "ok"})
