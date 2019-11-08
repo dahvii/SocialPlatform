@@ -14,7 +14,7 @@ function FeedPost(props) {
         props.history.push('/profile/' + props.post.owner._id)
     }
     function goToComments() {
-        props.history.push('/feed-post/' + props.post._id)
+        props.history.push('/feed-post/' + props.post._id, {state : props.post})
     }
 
     useLifeCycle({
@@ -82,7 +82,10 @@ function FeedPost(props) {
                     }
                 </Card.Text>
                 <Card.Text className="feed-post-amout-likes">
-                    <span>{likes} Gilla-markeringar</span>
+                    
+                    <span>{likes}{
+                        likes > 1 ? " Gilla-markeringar" : " Gilla-markering"
+                    } </span>
                 </Card.Text>
                 <Card.Body className="feed-post-card-body">
                     <Card.Text className="feed-post-text feed-post-text-content">
