@@ -13,9 +13,9 @@ const storage = multer.diskStorage({
         cb(null, './uploads/');
     },
     filename: function (req, file, cb) {
-        if (file.mimetype === 'image/jpeg'){
+        if (file.mimetype === 'image/jpeg') {
             cb(null, uuid() + ".jpg");
-        } else if(file.mimetype === 'image/png') {
+        } else if (file.mimetype === 'image/png') {
             cb(null, uuid() + ".png");
         }
     }
@@ -52,6 +52,7 @@ router.post('/api/register', (req, res) => {
                 password: req.body.password,
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
+                profilePictures: '',
                 gender: '',
                 dateOfBirth: '',
                 bio: ''
@@ -166,59 +167,59 @@ router.put('/api/add-interest', async (req, res) => {
 
 router.get('/api/feed-post', async (req, res) => {
     let result = await dbModels['feedPost']
-    .find({})
-    .sort({'timeStamp': -1})
-    .limit(3)
+        .find({})
+        .sort({ 'timeStamp': -1 })
+        .limit(3)
     res.json(result)
 });
 
-router.get('/api/feed-posts/:skip', async (req, res)  => {
+router.get('/api/feed-posts/:skip', async (req, res) => {
     let result = await dbModels['feedPost']
-    .find({})
-    .populate('owner')
-    .populate('likes')
-    .sort({'timeStamp': -1})
-    .skip(parseInt(req.params.skip, 10))
-    .limit(3)
-    if(result.length > 0){
-        res.json({success: true, result: result})
-    } else{
-        res.json({error: "no more posts"})
+        .find({})
+        .populate('owner')
+        .populate('likes')
+        .sort({ 'timeStamp': -1 })
+        .skip(parseInt(req.params.skip, 10))
+        .limit(3)
+    if (result.length > 0) {
+        res.json({ success: true, result: result })
+    } else {
+        res.json({ error: "no more posts" })
     }
 });
 
 router.put('/api/update/:id', async (req, res) => {
-    let interests = await Interest.find({name: {$in: req.body.userInterests.map(interest=>interest.name)}})
+    let interests = await Interest.find({ name: { $in: req.body.userInterests.map(interest => interest.name) } })
     console.log(interests)
     let result = await User.findOneAndUpdate({ _id: req.params.id },
         {
             $set: {
                 bio: req.body.userBio,
                 gender: req.body.checkedGender,
-                interests
+                interests,
+                profilePictures: req.body.resizedImage
             },
         }, { upsert: true })
-    let result = await User.findOneAndUpdate({ _id: req.params.id }, { $set: { bio: req.body.userBio, gender: req.body.checkedGender } })
-    if(result){
-        res.json({ success: true })      
+    if (result) {
+        res.json({ success: true })
     }
 })
 
 router.put('/api/feed-post/like/:id', async (req, res) => {
-    let post = await dbModels['feedPost'].findOne({_id: req.params.id})
+    let post = await dbModels['feedPost'].findOne({ _id: req.params.id })
     post.likes.push(req.body.id)
     post.save()
     res.json({ success: true })
 })
 
 router.put('/api/feed-post/dislike/:id', async (req, res) => {
-    let post = await dbModels['feedPost'].findOne({_id: req.params.id})
+    let post = await dbModels['feedPost'].findOne({ _id: req.params.id })
     console.log(post);
     console.log(post.likes.indexOf(req.body.id))
     post.likes.splice(post.likes.indexOf(req.body.id), 1)
     post.save()
     res.json({ success: true })
-    
+
 })
 
 router.post('/api/new-image', upload.single('feedImage'), async (req, res) => {
@@ -231,6 +232,7 @@ router.post('/api/new-image', upload.single('feedImage'), async (req, res) => {
                 path.resolve(req.file.destination, 'resized', image)
             )
         fs.unlinkSync(req.file.path)
+        console.log(req.file.path)
 
         res.json({ file: req.file.path, success: "it worked" })
     } else {
