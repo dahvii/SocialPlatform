@@ -48,7 +48,7 @@ export default function Profile(props) {
             </Carousel>
 
             {props.displayedPerson && 
-            <div onClick={props.changeView}>KLICKA HÄR FÖR ATT KOMMA TBK TILL PREVIEW</div> 
+            <div className="profile-down-btn" onClick={props.changeView}><i className="fas fa-angle-double-down"></i></div> 
             }
             <div className="profile-info">
                 <div className="name-age">
@@ -67,7 +67,6 @@ export default function Profile(props) {
                     <div className="bio"><p>{profile.bio}</p></div>
                 </div>
             </div>
-
         </div>
     )
 }
