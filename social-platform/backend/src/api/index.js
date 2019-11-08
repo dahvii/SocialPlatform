@@ -144,12 +144,13 @@ router.get('/api/currentuser/:id', async (req, res) => {
     res.json(currentUser)
 })
 
-router.get('/api/feed-post', async (req, res) => {
-    let result = await dbModels['feedPost']
-    .find({})
-    .sort({'timeStamp': -1})
-    .limit(3)
-    res.json(result)
+router.get('/api/feed-post/:id', async (req, res) => {
+    let result = await dbModels['feedPost'].findOne({_id : req.params.id}).populate('owner');
+    if(result){
+        res.json(result)
+    } else {
+        res.json({error: "no post found"})
+    }
 });
 
 router.get('/api/feed-posts/:skip', async (req, res)  => {
