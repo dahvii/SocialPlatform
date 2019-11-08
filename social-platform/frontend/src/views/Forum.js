@@ -4,6 +4,7 @@ import AddForumPost from '../components/AddFormPost';
 import FormFilter from '../components/FormFilter';
 import FormPost from '../components/FormPost';
 import '../css/Forum.css'
+
 export default function Forum() {
     
       const [newForumPost,setNewForumPost] = useState(false);
