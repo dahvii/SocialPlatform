@@ -4,14 +4,20 @@ const Schema = mongoose.Schema;
 
 let feedPostSchema = new Schema({
 
-    owner: String, //populate
-    likes: Number,
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    likes: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+
     comments: [], //(from table comments)
     timeStamp: Date,
     text: String,
     feedImage: {
         type: String,
-
     }
     
 })
