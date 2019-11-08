@@ -48,18 +48,9 @@ export default function Profile(props) {
     ))
 
     const toShowOrNotToShowBtn= (person) => {
-        console.log("currusers ", currUser);
-        console.log("hens id", person.id);
-        
-        
-        if(!currUser.likes.includes(person.id) || !currUser.rejects.includes(person.id)){ 
-            console.log("du verkar inte ha tyckt någon om hen");
+        if(currUser.id !== person.id && (!currUser.likes.includes(person.id) || !currUser.rejects.includes(person.id))){ 
             setShowBtn(true);
-        }else{
-            console.log("du har redan likeat eller rejectat denna person jaooo");
-            
         }
-        
     }
 
     const removeBtns = () => {
