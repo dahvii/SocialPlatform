@@ -29,7 +29,6 @@ function App() {
 
 
     const checkCurrentUser = async (id) => {
-        console.log("HEJHEJ")
         let data = await fetch('/api/currentuser/' + id)
         try {
             data = await data.json();
@@ -70,12 +69,13 @@ function App() {
     }
 
 
-  return (
-    <Router>
-      <div className="App">
-        { state.isLoggedIn ? 
-          <Navbar /> : ''
-        }
+    return (
+        <Router>
+            <div className="App">
+                {state.isLoggedIn ?
+                    <Navbar /> : ''
+                }
+                <div className = "content-wrapper">
         <PrivateRoute exact path="/" component={Feed} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start"/>
         <PrivateRoute exact path="/swipe" component={Swipe} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start"/>
         <PrivateRoute exact path="/profile" component={Profile} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start"/>
@@ -88,6 +88,7 @@ function App() {
         <PrivateRoute path="/start" component={Start} isAuthenticated={!state.isLoggedIn} loading={loading} redirectPath="/"/>
         <PrivateRoute path="/register" component={Register} isAuthenticated={!state.isLoggedIn} loading={loading} redirectPath="/"/>
         <PrivateRoute path="/login" component={Login} isAuthenticated={!state.isLoggedIn} loading={loading} redirectPath="/"/>
+                </div>
       </div>
     </Router>
   );

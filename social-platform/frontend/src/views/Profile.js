@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Carousel } from 'react-bootstrap'
 import { Store } from '../utilities/Store'
 import imageLoader from '../utilities/ImageHandler';
@@ -6,24 +6,27 @@ import useLifeCycle from '../utilities/useLifeCycle';
 import '../css/Profile.css'
 
 export default function Profile(props) {
-    const { state} = React.useContext(Store);
     const [images, setImages] = useState([])
     const [profile, setProfile] = useState({})
-    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        if(props.displayedPerson){
+            setProfile(props.displayedPerson)
+        }else{
+            getProfile()
+        } 
+    }, [props.displayedPerson]);
 
     useLifeCycle({
         mount: () => {
             const images = imageLoader();
             setImages(images)
-            getProfile()
-            console.log(state.currentUser)
         }
     })
 
     const getProfile = async () => {
         let result = await (await fetch("/api/person/" + props.match.params.id)).json();
         setProfile(result)
-        setLoading(false)
     }
 
     const profilePictures = images.map(image => (
@@ -41,9 +44,13 @@ export default function Profile(props) {
             <Carousel interval={null} fade={true}>
                 {profilePictures}
             </Carousel>
+
+            {props.displayedPerson && 
+            <div className="profile-down-btn" onClick={props.changeView}><i className="fas fa-angle-double-down"></i></div> 
+            }
             <div className="profile-info">
                 <div className="name-age">
-                    <h3>{state.currentUser.firstName}&nbsp;-</h3 >&nbsp;<h3>25</h3>
+                    <h3>{profile.firstName}&nbsp;-</h3 >&nbsp;<h3>25</h3>
                 </div>
                 <div className="town-location">
                     <div className="hometown">
@@ -55,10 +62,9 @@ export default function Profile(props) {
                         <p>5 km</p>
                     </div>
                     <hr />
-                    <div className="bio"><p>{state.currentUser.bio}</p></div>
+                    <div className="bio"><p>{profile.bio}</p></div>
                 </div>
             </div>
-
         </div>
     )
 }

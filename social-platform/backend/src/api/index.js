@@ -137,7 +137,9 @@ router.get('/api/currentuser/:id', async (req, res) => {
         characteristics: result.characteristics,
         interests: result.interests,
         matches: result.matches,
-        profilePictures: result.profilePictures
+        profilePictures: result.profilePictures,
+        likes: result.likes,
+        rejects: result.rejects
     }
     res.json(currentUser)
 })
@@ -221,5 +223,44 @@ router.post('/api/new-post', async (req, res) => {
         res.status(400).json({ status: 400 })
     }
 })
+
+router.get('/api/users', (req, res) => {
+    User.find()
+      .then(user => res.json(user))
+      .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.put('/api/like/:id', async (req, res) => {
+    await User.findOneAndUpdate({_id: req.params.id}, { $push: { likes: req.body.judgedPerson}})
+    res.json({ success: true })
+})
+
+
+router.put('/api/reject/:id', async (req, res) => {
+    await User.findOneAndUpdate({_id: req.params.id}, { $push: { rejects: req.body.judgedPerson}})
+    res.json({ success: true })
+})
+
+router.put('/api/match', async (req, res) => {
+    await User.findOneAndUpdate({_id: req.body.currUser}, { $push: { matches: req.body.match}}).catch(err => res.status(400).json('Error: ' + err));
+    await User.findOneAndUpdate({_id: req.body.match}, { $push: { matches:  req.body.currUser}}).catch(err => res.status(400).json('Error: ' + err));
+    res.json({ success: true })
+})
+
+router.get('/api/populated/:id', async (req, res) => {
+    let result = await User.findOne({ _id: req.params.id }).populate('matches').exec();
+    res.json(result);
+})
+
+router.put('/api/update/:id', (req, res) => {
+    User.findByIdAndUpdate(req.params.id, req.body)
+    .then(user => res.json('Updated successfully!'))
+    .catch(err => res.status(400).json('Error: ' + err));
+})
+
+router.delete('/api/delete/:id', (req, res) => {
+    User.deleteOne({ _id: req.params.id }, function (err) {}).then(user => res.json('deleted successfully!'))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
 
 module.exports = { router };
