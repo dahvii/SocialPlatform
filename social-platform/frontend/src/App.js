@@ -15,6 +15,7 @@ import PrivateRoute from './utilities/PrivateRoute'
 import { Store } from './utilities/Store'
 import EditProfile from './views/EditProfile';
 import useLifeCycle from './utilities/useLifeCycle';
+import FeedComments from './views/FeedComments';
 
 function App() {
   const { state, dispatch } = React.useContext(Store);
@@ -82,6 +83,7 @@ const checkLoginStatus = async () => {
         <PrivateRoute exact path="/profile/:id" component={Profile} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
         <PrivateRoute exact path="/edit-profile" component={EditProfile} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
         <PrivateRoute exact path="/new-feed-post" component={NewFeed} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
+        <PrivateRoute exact path="/feed-post/:id" component={FeedComments} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
         <PrivateRoute path="/start" component={Start} isAuthenticated={!state.isLoggedIn} loading={loading} redirectPath="/"/>
         <PrivateRoute path="/register" component={Register} isAuthenticated={!state.isLoggedIn} loading={loading} redirectPath="/"/>
         <PrivateRoute path="/login" component={Login} isAuthenticated={!state.isLoggedIn} loading={loading} redirectPath="/"/>

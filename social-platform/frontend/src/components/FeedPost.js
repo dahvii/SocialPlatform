@@ -7,9 +7,14 @@ import useLifeCycle from '../utilities/useLifeCycle'
 function FeedPost(props) {
     const { state } = React.useContext(Store);
     const [likes, setLikes] = useState(props.post.likes.length)
+    const [comments, setComments] = useState(props.post.comments.length)
     const [isLiked, setIsLiked] = useState()
+    const [isCommented, setIsCommented] = useState();
     function goToOwner() {
         props.history.push('/profile/' + props.post.owner._id)
+    }
+    function goToComments() {
+        props.history.push('/feed-post/' + props.post._id)
     }
 
     useLifeCycle({
@@ -31,7 +36,6 @@ function FeedPost(props) {
             id: state.currentUser.id
         }
         if (!isLiked) {
-            //lägg till like
             let newLike = await fetch(`/api/feed-post/like/${props.post._id}`, {
                 method: "PUT",
                 body: JSON.stringify(data),
@@ -42,7 +46,7 @@ function FeedPost(props) {
                 setLikes(likes + 1)
                 setIsLiked(true)
             }
-        } else {
+        } else if(isLiked) {
             let newDislike = await fetch(`/api/feed-post/dislike/${props.post._id}`, {
                 method: "PUT",
                 body: JSON.stringify(data),
@@ -54,7 +58,6 @@ function FeedPost(props) {
                 setIsLiked(false)
             }
         }
-
     }
     return (
         <div className="feed-post-one-post">
@@ -73,7 +76,10 @@ function FeedPost(props) {
                         isLiked ? <i className="fas fa-heart feed-post-heart feed-post-heart-red" onClick={likePost}></i> :
                             <i className="far fa-heart feed-post-heart" onClick={likePost}></i>
                     }
-                    <i className="far fa-comment feed-post-comment"></i>
+                    {
+                        isCommented ? <i className="fas fa-comment feed-post-comment feed-post-comment-green" onClick={goToComments}></i> : 
+                    <i className="far fa-comment feed-post-comment" onClick={goToComments}></i>
+                    }
                 </Card.Text>
                 <Card.Text className="feed-post-amout-likes">
                     <span>{likes} Gilla-markeringar</span>
@@ -82,7 +88,9 @@ function FeedPost(props) {
                     <Card.Text className="feed-post-text feed-post-text-content">
                         {props.post.text}
                     </Card.Text>
-                        Visa alla 0 kommentarer
+                    <Card.Text onClick={goToComments} className="feed-post-text feed-post-text-comments">
+                        Visa alla {comments} kommentarer
+                    </Card.Text>
                 </Card.Body>
 
             </Card>

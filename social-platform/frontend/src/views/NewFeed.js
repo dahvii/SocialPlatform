@@ -22,6 +22,7 @@ export default function NewFeed() {
         const formData = new FormData();
         formData.append('feedImage', feedImage)
         newImage(formData);
+        console.log(formData)
     }
 
     async function newImage(formData) {
