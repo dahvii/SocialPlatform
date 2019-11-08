@@ -13,7 +13,11 @@ let userSchema = new Schema({
     interests: [], //(from table interests)
     characteristics: [], //(from table characteristics)
     matches: [],
-    profilePictures: []
+    profilePictures: [],
+    feedPosts: ({
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'FeedPost'
+    })
 
 })
 
