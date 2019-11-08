@@ -1,0 +1,7 @@
+.feed-comment-arrow-left{
+}
+
+.feed-comment-header{
+    display: flex;
+    justify-content: space-between;
+}

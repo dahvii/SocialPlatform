@@ -17,6 +17,7 @@ import Forum from './views/Forum'
 import OnePost from './views/OnePost'
 import EditProfile from './views/EditProfile';
 import useLifeCycle from './utilities/useLifeCycle';
+import FeedComments from './views/FeedComments';
 
 function App() {
     const { state, dispatch } = React.useContext(Store);

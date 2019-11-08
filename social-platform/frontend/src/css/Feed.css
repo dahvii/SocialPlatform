@@ -43,7 +43,14 @@
 }
 
 .feed-post-text-content{
-    margin: 5px 12px 12px 12px;
+    margin: 5px 12px 5px 12px;
+}
+
+.feed-post-text-comments{
+    margin: 0px 12px 22px 12px;
+}
+.feed-post-comment-green{
+    color: #5f9f4d;
 }
 
 .feed-div{
