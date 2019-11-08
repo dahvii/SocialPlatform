@@ -8,3 +8,74 @@
 .plus-icon{
     font-size: 2em;
 }
+
+.feed-post-card{
+    background-color: #d2a1a1;
+    width: 100%;
+    margin: 8px;
+}
+
+.feed-post-three-dots{
+    position: absolute;
+    right: 15px;
+    top: 10px;
+}
+.feed-post-text-owner{
+    margin-left: 5px;
+}
+.feed-post-one-post{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1em;
+}
+
+.feed-post-text{
+    text-align: left;
+    color:black;
+    margin: 0;
+}
+
+.feed-post-amout-likes{
+    text-align: left;
+    margin: 0px;
+    margin-left: 12px;
+    /* margin-top: -10px; */
+}
+
+.feed-post-text-content{
+    margin: 5px 12px 12px 12px;
+}
+
+.feed-div{
+    /* margin-bottom: 8em; */
+    padding-bottom: 5em;
+}
+
+.feed-post-profile-picture{
+    width: 30px;
+    margin: 5px;
+}
+
+.feed-post-card-body{
+    padding:0;
+    /* height: 80px; */
+
+}
+.feed-post-image{
+    width: inherit;
+    height: 350px;
+}
+
+.feed-post-comment-heart{
+    text-align: left;
+    margin: 10px 10px 0px 10px;
+    font-size: 1.5em;
+}
+
+.feed-post-comment{
+    margin-left: 15px;
+}
+
+.feed-post-heart-red{
+    color:rgb(255, 74, 74);
+}

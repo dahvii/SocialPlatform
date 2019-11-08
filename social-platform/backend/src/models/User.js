@@ -13,10 +13,13 @@ let userSchema = new Schema({
     bio: String,
     interests: [], //(from table interests)
     characteristics: [], //(from table characteristics)
+    profilePictures: [],
+    feedPosts: ({
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'FeedPost'
+    })
     likes: [], //array of users 
     rejects: [], //array of users 
-    matches: [{type: ObjectId, ref: 'User'}],
-    profilePictures: []
 
 })
 
