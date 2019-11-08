@@ -9,7 +9,7 @@ export default function Profile(props) {
 
     useEffect(() => {
         console.log("preview props", props);
-    })
+    },[props])
 
     useLifeCycle({
         mount: () => {
@@ -30,9 +30,6 @@ export default function Profile(props) {
 
     return (
         <div>
-            <Carousel interval={null} fade={true}>
-                {profilePictures}
-            </Carousel>
             {props.displayedPerson && 
             <div className="preview-info" onClick={props.changeView}>
                 <div className="name-age">
@@ -40,6 +37,9 @@ export default function Profile(props) {
                 </div>
                 <div className="bio"><p>{props.displayedPerson.bio.length > 40 ? props.displayedPerson.bio.substring(0, 40)+'...': props.displayedPerson.bio}</p></div>
             </div>}
+            <Carousel interval={null} fade={true}>
+                {profilePictures}
+            </Carousel>
         </div>
     )
 }

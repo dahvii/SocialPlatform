@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Carousel } from 'react-bootstrap'
 import { Store } from '../utilities/Store'
 import imageLoader from '../utilities/ImageHandler';
@@ -11,17 +11,18 @@ export default function Profile(props) {
     const [profile, setProfile] = useState({})
     const [loading, setLoading] = useState(true)
 
+    useEffect(() => {
+        if(props.displayedPerson){
+            setProfile(props.displayedPerson)
+        }else{
+            getProfile()
+        } 
+    }, [props.displayedPerson]);
+
     useLifeCycle({
         mount: () => {
             const images = imageLoader();
             setImages(images)
-            console.log("Profile props",props);
-            
-            if(props.displayedPerson){
-                setProfile(props.displayedPerson)
-            }else{
-                getProfile()
-            }
         }
     })
 
