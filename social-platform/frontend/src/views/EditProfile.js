@@ -169,12 +169,26 @@ export default function EditProfile() {
         <div>
             <h2>Redigera profil</h2>
             <div className="edit-profile-content">
-                <Form>
-                    <input type="file" name="file" id="file" className="inputfile" onChange={fileSelectorHandler}></input>
-                    <div className="choose-file">
-                        <label htmlFor="file"><Image id="display-image" className="new-feed-display-image" src={displayProfileImage} alt="your image"></Image></label>
-                    </div>
-                </Form>
+                <div className="all-profile-pictures">
+                    <Form>
+                        <input type="file" name="file" id="file" className="inputfile" onChange={fileSelectorHandler}></input>
+                        <div className="choose-file">
+                            <label htmlFor="file"><Image id="display-image" className="edit-profile-pictures" src={displayProfileImage} alt="your image"></Image></label>
+                        </div>
+                    </Form>
+                    <Form>
+                        <input type="file" name="file" id="file" className="inputfile" onChange={fileSelectorHandler}></input>
+                        <div className="choose-file">
+                            <label htmlFor="file"><Image id="display-image" className="edit-profile-pictures" src={displayProfileImage} alt="your image"></Image></label>
+                        </div>
+                    </Form>
+                    <Form>
+                        <input type="file" name="file" id="file" className="inputfile" onChange={fileSelectorHandler}></input>
+                        <div className="choose-file">
+                            <label htmlFor="file"><Image id="display-image" className="edit-profile-pictures" src={displayProfileImage} alt="your image"></Image></label>
+                        </div>
+                    </Form>
+                </div>
                 <Form className="mb-2">
                     <Form.Group controlId="userBio">
                         <Form.Label>Berätta lite om dig själv</Form.Label>

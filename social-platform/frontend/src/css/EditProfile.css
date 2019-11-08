@@ -45,6 +45,16 @@
 	z-index: -1;
 }
 
+.edit-profile-pictures{
+  width: 100px;
+  border-radius: 8px;
+}
+
+.all-profile-pictures{
+  display: flex;
+  justify-content: space-around;
+}
+
 .choose-file{
   
 }
