@@ -3,6 +3,9 @@ import '../css/EditProfile.css'
 import { Form, Button, Image } from 'react-bootstrap'
 import { Store } from '../utilities/Store'
 import Autosuggest from 'react-autosuggest';
+import { store } from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
+import 'animate.css';
 import useLifeCycle from '../utilities/useLifeCycle'
 
 export default function EditProfile() {
@@ -24,26 +27,10 @@ export default function EditProfile() {
 
     function fileSelectorHandler(event) {
         let img = URL.createObjectURL(event.target.files[0])
-        console.log(img);
         const formData = new FormData();
         formData.append('feedImage', event.target.files[0])
         newImage(formData)
     }
-
-
-    function validate(e) {
-        e.preventDefault();
-
-        updateProfile()
-    }
-
-    // const addImages = () => {
-    //     const formData = new FormData();
-    //     selectedImages.map(image => {
-    //         formData.append('feedImage', image)
-    //     })
-    //     newImage(formData);
-    // }
 
     async function newImage(formData) {
         let newImage = await fetch('/api/new-image', {
@@ -55,7 +42,6 @@ export default function EditProfile() {
             console.log("fel filtyp");
         } else if (result.success) {
             console.log(result.file)
-            // let correntPath = result.file.slice(0, 8) + "resized/" + result.file.slice(8)
             setImagesPaths([...imagesPaths, result.file])
         }
     }
@@ -105,6 +91,21 @@ export default function EditProfile() {
 
         result = await result.json()
 
+        if (result.success) {
+            store.addNotification({
+                title: 'Din profil har uppdaterats',
+                message: ' ',
+                type: 'success',                         // 'default', 'success', 'info', 'warning'
+                container: 'bottom-left',                // where to position the notifications
+                animationIn: ["animated", "fadeIn"],     // animate.css classes that's applied
+                animationOut: ["animated", "fadeOut"],   // animate.css classes that's applied
+                dismiss: {
+                    duration: 3000,
+                    onScreen: false,
+                }
+            })
+        }
+
         updateStateWithNewProfile()
     }
 
@@ -127,7 +128,6 @@ export default function EditProfile() {
         let data = {
             image: image
         }
-        console.log(image)
         setImagesPaths(imagesPaths.filter(img => img !== image))
         let result = await fetch('/api/delete-image/', {
             method: 'POST',
@@ -135,7 +135,6 @@ export default function EditProfile() {
             headers: { 'Content-Type': 'application/json' }
         })
         result = await result.json()
-        console.log(result)
     }
 
     const handleGenderOptionChange = (e) => {
@@ -274,7 +273,7 @@ export default function EditProfile() {
                     </div>
                 </Form>
             </div>
-            <Button className="update-profile" onClick={validate}>Uppdatera profil</Button>
+            <Button className="update-profile" onClick={updateProfile}>Uppdatera profil</Button>
         </div>
     )
 }

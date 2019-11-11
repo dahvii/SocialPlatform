@@ -178,7 +178,6 @@ router.get('/api/feed-posts/:skip', async (req, res) => {
 
 router.put('/api/update/:id', async (req, res) => {
     let interests = await Interest.find({ name: { $in: req.body.userInterests.map(interest => interest.name) } })
-    console.log(interests)
     let result = await User.findOneAndUpdate({ _id: req.params.id },
         {
             $set: {

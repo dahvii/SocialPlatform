@@ -5,7 +5,6 @@ import '../css/MyProfile.css'
 
 export default function MyProfile(props) {
     const { state, dispatch } = React.useContext(Store);
-    console.log(state.currentUser);
 
     const logout = async () => {
         let result = await fetch('/api/logout', {
