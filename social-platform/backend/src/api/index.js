@@ -295,9 +295,10 @@ router.post('/api/forum', (req,res)=>{
        text: req.body.text,
        timeStamp: Date.now(),
        isAnonym : req.body.anonym,
+       image : req.body.image,
    });
    newForumPost.save();   
-   res.json({ok: "ok"})
+   res.json({ok: "ok", newPost: newForumPost})
 })
 
 router.get('/api/forum', async (req,res)=>{
@@ -308,7 +309,6 @@ router.get('/api/forum', async (req,res)=>{
 router.get('/api/onepost/:id', async (req,res)=>{
     let resoult = await dbModels.forumPost.findById({ _id: req.params.id }).populate('owner').populate('comments').exec();
     res.json(resoult);
-    console.log(resoult.sort(function(a, b){return a - b}));
 })
 
 router.post('/api/onepost', async (req,res)=>{
