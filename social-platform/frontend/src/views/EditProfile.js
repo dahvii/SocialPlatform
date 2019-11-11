@@ -185,7 +185,7 @@ export default function EditProfile() {
         <div>
             <h2>Redigera profil</h2>
             <div className="edit-profile-content">
-                <div className="all-profile-pictures">
+                <div className="all-profile-pictures mb-2">
                     <Form>
                         <div className="profile-pictures">
                             <input type="file" name="file" id="file" className="inputfile" onChange={fileSelectorHandler}></input>
@@ -232,6 +232,7 @@ export default function EditProfile() {
                                 onChange={handleGenderOptionChange}
                                 className="form-check-input"
                             />
+                            <span className="checkmark"></span>
                             Man
                         </label>
                     </div>
@@ -245,6 +246,7 @@ export default function EditProfile() {
                                 onChange={handleGenderOptionChange}
                                 className="form-check-input"
                             />
+                            <span className="checkmark"></span>
                             Kvinna
                         </label>
                     </div>
