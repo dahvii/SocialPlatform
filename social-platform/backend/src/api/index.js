@@ -218,11 +218,26 @@ router.post('/api/new-image', upload.single('feedImage'), async (req, res) => {
                 path.resolve(req.file.destination, 'resized', image)
             )
         fs.unlinkSync(req.file.path)
-
-        console.log(req.file.destination, 'resized/', image)
         res.json({ file: req.file.destination + 'resized/' + image, success: "it worked" })
     } else {
         res.json({ error: "something went wrong" })
+    }
+})
+
+router.post('/api/delete-image/', (req, res) => {
+    console.log(req.body.image)
+    if (!req.body.image) {
+        return res.status(500).json({msg:'Error in delete'});
+    }
+
+    else {
+        try {
+            fs.unlinkSync(req.body.image);
+            return res.json({ msg: 'Image deleted'});
+        } catch (err) {
+            // handle the error
+            return res.status(400).send(err);
+        }
     }
 })
 
@@ -261,24 +276,24 @@ router.post('/api/new-post', async (req, res) => {
 
 router.get('/api/users', (req, res) => {
     User.find()
-      .then(user => res.json(user))
-      .catch(err => res.status(400).json('Error: ' + err));
+        .then(user => res.json(user))
+        .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.put('/api/like/:id', async (req, res) => {
-    await User.findOneAndUpdate({_id: req.params.id}, { $push: { likes: req.body.judgedPerson}})
+    await User.findOneAndUpdate({ _id: req.params.id }, { $push: { likes: req.body.judgedPerson } })
     res.json({ success: true })
 })
 
 
 router.put('/api/reject/:id', async (req, res) => {
-    await User.findOneAndUpdate({_id: req.params.id}, { $push: { rejects: req.body.judgedPerson}})
+    await User.findOneAndUpdate({ _id: req.params.id }, { $push: { rejects: req.body.judgedPerson } })
     res.json({ success: true })
 })
 
 router.put('/api/match', async (req, res) => {
-    await User.findOneAndUpdate({_id: req.body.currUser}, { $push: { matches: req.body.match}}).catch(err => res.status(400).json('Error: ' + err));
-    await User.findOneAndUpdate({_id: req.body.match}, { $push: { matches:  req.body.currUser}}).catch(err => res.status(400).json('Error: ' + err));
+    await User.findOneAndUpdate({ _id: req.body.currUser }, { $push: { matches: req.body.match } }).catch(err => res.status(400).json('Error: ' + err));
+    await User.findOneAndUpdate({ _id: req.body.match }, { $push: { matches: req.body.currUser } }).catch(err => res.status(400).json('Error: ' + err));
     res.json({ success: true })
 })
 
@@ -289,13 +304,13 @@ router.get('/api/populated/:id', async (req, res) => {
 
 router.put('/api/update/:id', (req, res) => {
     User.findByIdAndUpdate(req.params.id, req.body)
-    .then(user => res.json('Updated successfully!'))
-    .catch(err => res.status(400).json('Error: ' + err));
+        .then(user => res.json('Updated successfully!'))
+        .catch(err => res.status(400).json('Error: ' + err));
 })
 
 router.delete('/api/delete/:id', (req, res) => {
-    User.deleteOne({ _id: req.params.id }, function (err) {}).then(user => res.json('deleted successfully!'))
-    .catch(err => res.status(400).json('Error: ' + err));
+    User.deleteOne({ _id: req.params.id }, function (err) { }).then(user => res.json('deleted successfully!'))
+        .catch(err => res.status(400).json('Error: ' + err));
 });
 
 module.exports = { router };

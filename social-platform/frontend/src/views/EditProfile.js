@@ -4,6 +4,7 @@ import { Form, Button, Image } from 'react-bootstrap'
 import { Store } from '../utilities/Store'
 import Autosuggest from 'react-autosuggest';
 import useLifeCycle from '../utilities/useLifeCycle'
+import { debuglog } from 'util';
 
 export default function EditProfile() {
     const { state, dispatch } = React.useContext(Store);
@@ -55,8 +56,8 @@ export default function EditProfile() {
             console.log("fel filtyp");
         } else if (result.success) {
             console.log(result.file)
-            let correntPath = result.file.slice(0, 8) + "resized/" + result.file.slice(8)
-            setImagesPaths([...imagesPaths, correntPath])
+            // let correntPath = result.file.slice(0, 8) + "resized/" + result.file.slice(8)
+            setImagesPaths([...imagesPaths, result.file])
         }
     }
 
@@ -124,6 +125,22 @@ export default function EditProfile() {
         setUserInterests(userInterests.filter(item => item !== interest))
     }
 
+    const handleRemoveImage = async (image) => {
+        // image = image.slice(1);
+        let data = {
+            image: image
+        }
+        console.log(image)
+        setImagesPaths(imagesPaths.filter(img => img !== image))
+        let result = await fetch('/api/delete-image/', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: { 'Content-Type': 'application/json' }
+        })
+        result = await result.json()
+        console.log(result)
+    }
+
     const handleGenderOptionChange = (e) => {
         setCheckedGender(e.target.value)
     }
@@ -175,24 +192,24 @@ export default function EditProfile() {
                     <Form>
                         <div className="profile-pictures">
                             <input type="file" name="file" id="file" className="inputfile" onChange={fileSelectorHandler}></input>
-                            {imagesPaths[0] === undefined ? <label htmlFor="file"><div className="placeholder">hejsan</div></label> :
-                                <Image id="display-image" className="edit-profile-pictures" src={`http://localhost:3001/${imagesPaths[0]}`} alt="your image"></Image>
+                            {imagesPaths[0] === undefined ? <label htmlFor="file"><div className="placeholder"><div className="add-image-icon"><i className="fas fa-plus"></i></div></div></label> :
+                                <div className="profile-pic-container"><div onClick={() => handleRemoveImage(imagesPaths[0])} className="remove-pic-icon"><i className="fas fa-minus-circle"></i></div><Image id="profile-image1" className="edit-profile-pictures" src={`http://localhost:3001/${imagesPaths[0]}`} alt="your image" /></div>
                             }
                         </div>
                     </Form>
                     <Form>
                         <div className="profile-pictures">
                             <input type="file" name="file" id="file" className="inputfile" onChange={fileSelectorHandler}></input>
-                            {imagesPaths[1] === undefined ? <label htmlFor="file"><div className="placeholder">hejsan</div></label> :
-                                <Image id="display-image" className="edit-profile-pictures" src={`http://localhost:3001/${imagesPaths[1]}`} alt="your image"></Image>
+                            {imagesPaths[1] === undefined ? <label htmlFor="file"><div className="placeholder"><div className="add-image-icon"><i className="fas fa-plus"></i></div></div></label> :
+                                <div className="profile-pic-container"><div className="remove-pic-icon"><i className="fas fa-minus-circle"></i></div><Image id="profile-image2" className="edit-profile-pictures" src={`http://localhost:3001/${imagesPaths[1]}`} alt="your image" /></div>
                             }
                         </div>
                     </Form>
                     <Form>
                         <div className="profile-pictures">
                             <input type="file" name="file" id="file" className="inputfile" onChange={fileSelectorHandler}></input>
-                            {imagesPaths[2] === undefined ? <label htmlFor="file"><div className="placeholder">hejsan</div></label> :
-                                <Image id="display-image" className="edit-profile-pictures" src={`http://localhost:3001/${imagesPaths[2]}`} alt="your image"></Image>
+                            {imagesPaths[2] === undefined ? <label htmlFor="file"><div className="placeholder"><div className="add-image-icon"><i className="fas fa-plus"></i></div></div></label> :
+                                <div className="profile-pic-container"><div className="remove-pic-icon"><i className="fas fa-minus-circle"></i></div><Image id="profile-image3" className="edit-profile-pictures" src={`http://localhost:3001/${imagesPaths[2]}`} alt="your image" /></div>
                             }
                         </div>
                         {/* <Button onClick={addImages}>test</Button> */}

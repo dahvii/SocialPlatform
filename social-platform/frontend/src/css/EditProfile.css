@@ -51,10 +51,30 @@
 }
 
 .placeholder{
-  background-color: green;
+  background-color: rgb(119, 102, 102);
   width: 100px;
   height: 80px;
   border-radius: 8px;
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.add-image-icon{
+  font-size: 2rem;
+}
+
+.profile-pic-container{
+  position: relative;
+}
+
+.remove-pic-icon{
+  color: rgb(197, 17, 17);
+  font-size: 1.5rem;
+  position: absolute;
+  bottom: 0;
+  right: 5px;
+
 }
 
 .edit-profile-pictures{
