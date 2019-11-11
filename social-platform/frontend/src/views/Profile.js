@@ -3,17 +3,23 @@ import { Carousel } from 'react-bootstrap'
 import { Store } from '../utilities/Store'
 import imageLoader from '../utilities/ImageHandler';
 import useLifeCycle from '../utilities/useLifeCycle';
-import '../css/Profile.css'
+import LikeRejectBtn from '../components/LikeRejectBtn.js';
+import '../css/Profile.css';
 
 export default function Profile(props) {
-    const [images, setImages] = useState([])
-    const [profile, setProfile] = useState({})
+    const [images, setImages] = useState([]);
+    const [profile, setProfile] = useState({});
+    const [showBtn, setShowBtn] = useState(false);
+    const { state } = React.useContext(Store);
+    const [currUser]  = useState(state.currentUser);
+
+
 
     useEffect(() => {
         if(props.displayedPerson){
             setProfile(props.displayedPerson)
         }else{
-            getProfile()
+            getProfile();
         } 
     }, [props.displayedPerson]);
 
@@ -27,6 +33,8 @@ export default function Profile(props) {
     const getProfile = async () => {
         let result = await (await fetch("/api/person/" + props.match.params.id)).json();
         setProfile(result)
+        toShowOrNotToShowBtn(result);
+
     }
 
     const profilePictures = images.map(image => (
@@ -38,6 +46,16 @@ export default function Profile(props) {
             />
         </Carousel.Item>
     ))
+
+    const toShowOrNotToShowBtn= (person) => {
+        if(currUser.id !== person.id && (!currUser.likes.includes(person.id) || !currUser.rejects.includes(person.id))){ 
+            setShowBtn(true);
+        }
+    }
+
+    const removeBtns = () => {        
+        setShowBtn(false);   
+    }
 
     return (
         <div>
@@ -65,6 +83,9 @@ export default function Profile(props) {
                     <div className="bio"><p>{profile.bio}</p></div>
                 </div>
             </div>
+           {showBtn && 
+                <LikeRejectBtn callback = {removeBtns} displayedPerson = {profile}></LikeRejectBtn>
+            }
         </div>
     )
 }

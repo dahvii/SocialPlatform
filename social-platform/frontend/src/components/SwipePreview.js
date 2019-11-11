@@ -6,8 +6,12 @@ import '../css/SwipePreview.css';
 
 export default function Profile(props) {
     const [images, setImages] = useState([]);
+    const [shortBio, setShortBio] = useState("");
 
     useEffect(() => {
+        if(props.displayedPerson && props.displayedPerson.bio && props.displayedPerson.bio.length > 40){
+            setShortBio(props.displayedPerson.bio.substring(0, 40)+'...');
+        }
         //console.log("preview props", props);
     },[props])
 
@@ -35,7 +39,7 @@ export default function Profile(props) {
                 <div className="name-age">
                     <h3>{props.displayedPerson.firstName}&nbsp;-</h3 >&nbsp;<h3>25</h3>
                 </div>
-                <div className="bio"><p>{props.displayedPerson.bio.length > 40 ? props.displayedPerson.bio.substring(0, 40)+'...': props.displayedPerson.bio}</p></div>
+                <div className="bio"><p>{shortBio}</p></div>
             </div>}
             <Carousel interval={null} fade={true}>
                 {profilePictures}
