@@ -1,15 +1,13 @@
 import React, { useState } from 'react'
-import { Button, Image } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 import '../css/Feed.css'
 import FeedPost from '../components/FeedPost'
 import InfiniteScroll from 'react-infinite-scroller';
 
 export default function Feed(props) {
-    const [displayImage, setDisplayImage] = useState("/Users/ericrasmusson/Public/SocialPlatform/social-platform/backend/uploads/resized/e5f0d5c3-9ef4-45c1-8afe-135a98186c39");
     const [posts, setPosts] = useState([]);
     const [skip, setSkip] = useState(0);
     const [hasMore, setHasMore] = useState(true);
-    const [innitLoading, setInnitLoading] = useState(false);
 
     function addPost() {
         props.history.push('/new-feed-post')
