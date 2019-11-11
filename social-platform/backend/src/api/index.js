@@ -153,9 +153,15 @@ router.get('/api/feed-post/:id', async (req, res) => {
         .populate('owner')
         .populate('likes')
         .populate('comments')
+        .populate({
+            path: 'comments',
+            populate: {
+                path: 'writtenBy',
+                model: 'User'
+            }
+        })
     if (result) {
         res.json(result)
-        console.log(result)
     } else {
         res.json({ error: "no post found" })
     }
@@ -227,7 +233,8 @@ router.post('/api/feed-post/new-comment', async (req, res) => {
         let post = await dbModels['feedPost'].findById({ _id: req.body.postId });
         post.comments.push(newComment);
         post.save()
-        res.status(200).json({ status: 200 })
+        let getNewComment = await dbModels['comment'].findById({ _id: newComment.id}).populate('writtenBy')
+        res.status(200).json({ status: 200, newComment: getNewComment })
     } else {
         res.status(400).json({ status: 400 })
     }

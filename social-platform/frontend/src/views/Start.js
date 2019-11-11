@@ -4,9 +4,9 @@ import '../css/start.css';
 import {Link} from 'react-router-dom'
 
 export default function Start() {
-    window.onload = function() {
-        document.body.className += " loaded";
-    }
+    // window.onload = function() {
+    //     document.body.className += " loaded";
+    // }
     return (
         <div className="content">
             <h1 className="lisa">Lisa<span className="dot">.</span></h1>

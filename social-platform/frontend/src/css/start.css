@@ -11,7 +11,7 @@ body{
     margin-left: -15px;
 }
 .content {
-    opacity: 0;
+    opacity: 1;
     -moz-transition: opacity 2.5s;
     -webkit-transition: opacity 2.5s;
     -o-transition: opacity 2.5s;
