@@ -250,7 +250,26 @@ router.post('/api/new-post', async (req, res) => {
 
 router.get('/api/users', (req, res) => {
     User.find()
-      .then(user => res.json(user))
+    .then(result => {
+        let idFixedArr=[];
+         result.map((user) => {
+             const idFixedUser = {
+                id: user._id,
+                firstName: user.firstName,
+                bio: user.bio,
+                dateOfBirth: user.dateOfBirth,
+                gender: user.gender,
+                characteristics: user.characteristics,
+                interests: user.interests,
+                matches: user.matches,
+                profilePictures: user.profilePictures,
+                likes: user.likes,
+                rejects: user.rejects
+             }
+             idFixedArr.push(idFixedUser);
+            })
+        res.json(idFixedArr)
+        })
       .catch(err => res.status(400).json('Error: ' + err));
 });
 

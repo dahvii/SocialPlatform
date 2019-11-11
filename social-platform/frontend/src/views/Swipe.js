@@ -37,7 +37,7 @@ export default function Swipe() {
     function filterThePeople(data){    
         //take away currrUser from the list                
         let newArray = data.filter(function(item) {            
-            return item._id !== currUserId;
+            return item.id !== currUserId;
         });
         //take away people you already liked
         //take away people you already rejected 

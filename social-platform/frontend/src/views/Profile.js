@@ -48,7 +48,7 @@ export default function Profile(props) {
     ))
 
     const toShowOrNotToShowBtn= (person) => {
-        if(currUser.id !== person.id && (!currUser.likes.includes(person.id) || !currUser.rejects.includes(person.id))){ 
+        if(currUser.id !== person.id &&  ( (currUser.likes && !currUser.likes.includes(person.id)) ||  (currUser.rejects&& !currUser.rejects.includes(person.id)) ) ){ 
             setShowBtn(true);
         }
     }

@@ -7,16 +7,19 @@ export default function LikeRejectBtn(props) {
     const { state, dispatch } = React.useContext(Store);
     const [currUserId]  = useState(state.currentUser.id);
     const [showMatchModal, setShowMatchModal]  = useState(false);
-
-    async function likeOrReject(opinion) {                
+    
+    async function likeOrReject(opinion) {    
+                    
         let data = {
-            judgedPerson: props.displayedPerson._id
+            judgedPerson: props.displayedPerson.id
         }            
         await fetch('/api/'+opinion+'/'+currUserId, {
             method: "PUT",
             body: JSON.stringify(data),
             headers: { 'Content-Type': 'application/json'}
-        })        
+        })     
+        
+        
         //check for match!
         if(opinion === "like"){
             checkForMatch(props.displayedPerson);
@@ -25,11 +28,11 @@ export default function LikeRejectBtn(props) {
         props.callback();
     }
 
-    async function checkForMatch(likedPerson){
-       if(likedPerson.likes.includes(currUserId)){
+    async function checkForMatch(likedPerson){        
+       if( likedPerson.likes && likedPerson.likes.includes(currUserId)){
             setShowMatchModal(true);            
             let data = {
-                match: likedPerson._id,
+                match: likedPerson.id,
                 currUser: currUserId
             }            
             await fetch('/api/match', {
