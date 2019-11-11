@@ -45,8 +45,8 @@ export default function Profile(props) {
         </Carousel.Item>
     ))
 
-    const toShowOrNotToShowBtn= (person) => {
-        if(currUser.id !== person.id &&  ( (currUser.likes && !currUser.likes.includes(person.id)) ||  (currUser.rejects&& !currUser.rejects.includes(person.id)) ) ){ 
+    const toShowOrNotToShowBtn= (person) => {   
+        if(currUser.id !== person.id &&  !( (currUser.likes && currUser.likes.includes(person.id)) ||  (currUser.rejects&& currUser.rejects.includes(person.id)) ) ){ 
             setShowBtn(true);
         }
     }
