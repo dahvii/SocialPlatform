@@ -48,7 +48,7 @@ export default function Forum() {
     return (
         <>
         <div className="add-filter-btn">
-        <Button className="costumBtn" onClick={showNewPost} >Skapa nytt Inlägg</Button>
+        <Button className="add-forum-buton" onClick={showNewPost} >Skapa nytt Inlägg</Button>
             {newForumPost === true ? <AddForumPost showNewPost = {showNewPost}/>  : '' }
               
             </div>
