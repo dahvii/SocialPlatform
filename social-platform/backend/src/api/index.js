@@ -207,8 +207,6 @@ router.post('/api/new-image', upload.single('feedImage'), async (req, res) => {
                 path.resolve(req.file.destination, 'resized', image)
             )
         fs.unlinkSync(req.file.path)
-
-        console.log(req.file.destination, 'resized/', image)
         res.json({ file: req.file.destination + 'resized/' + image, success: "it worked" })
     } else {
         res.json({ error: "something went wrong" })
