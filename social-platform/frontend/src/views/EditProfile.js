@@ -177,7 +177,7 @@ export default function EditProfile() {
     };
 
     return (
-        <div>
+        <div className="test">
             <h2>Redigera profil</h2>
             <div className="edit-profile-content">
                 <div className="all-profile-pictures mb-2">
@@ -193,7 +193,7 @@ export default function EditProfile() {
                         <div className="profile-pictures">
                             <input type="file" name="file" id="file" className="inputfile" onChange={fileSelectorHandler}></input>
                             {imagesPaths[1] === undefined ? <label htmlFor="file"><div className="placeholder"><div className="add-image-icon"><i className="fas fa-plus"></i></div></div></label> :
-                                <div className="profile-pic-container"><div className="remove-pic-icon"><i className="fas fa-minus-circle"></i></div><Image id="profile-image2" className="edit-profile-pictures" src={`http://localhost:3001/${imagesPaths[1]}`} alt="your image" /></div>
+                                <div className="profile-pic-container"><div onClick={() => handleRemoveImage(imagesPaths[1])} className="remove-pic-icon"><i className="fas fa-minus-circle"></i></div><Image id="profile-image2" className="edit-profile-pictures" src={`http://localhost:3001/${imagesPaths[1]}`} alt="your image" /></div>
                             }
                         </div>
                     </Form>
@@ -201,7 +201,7 @@ export default function EditProfile() {
                         <div className="profile-pictures">
                             <input type="file" name="file" id="file" className="inputfile" onChange={fileSelectorHandler}></input>
                             {imagesPaths[2] === undefined ? <label htmlFor="file"><div className="placeholder"><div className="add-image-icon"><i className="fas fa-plus"></i></div></div></label> :
-                                <div className="profile-pic-container"><div className="remove-pic-icon"><i className="fas fa-minus-circle"></i></div><Image id="profile-image3" className="edit-profile-pictures" src={`http://localhost:3001/${imagesPaths[2]}`} alt="your image" /></div>
+                                <div className="profile-pic-container"><div onClick={() => handleRemoveImage(imagesPaths[2])} className="remove-pic-icon"><i className="fas fa-minus-circle"></i></div><Image id="profile-image3" className="edit-profile-pictures" src={`http://localhost:3001/${imagesPaths[2]}`} alt="your image" /></div>
                             }
                         </div>
                         {/* <Button onClick={addImages}>test</Button> */}
@@ -269,7 +269,7 @@ export default function EditProfile() {
                     </div>
                 </Form>
             </div>
-            <Button className="update-profile" onClick={updateProfile}>Uppdatera profil</Button>
+            <Button variant="light" className="update-profile-button" onClick={updateProfile}>Uppdatera profil</Button>
         </div>
     )
 }
