@@ -51,6 +51,12 @@
     transition: opacity 2.5s;
 }
 
+.birthday-input{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
 body.loaded .register-content {
     opacity: 1;
 }
