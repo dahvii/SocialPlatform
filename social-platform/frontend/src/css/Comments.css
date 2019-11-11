@@ -1,0 +1,20 @@
+.one-post{
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.comment-button{
+    width: 80%;
+    border-radius: 50px;
+    padding: 8px 60px 8px 60px;
+    color: black;
+    margin-top: 5%;
+}
+.form-label {
+    color: black;
+    margin: 2%;
+}
+.forum-comment{
+    margin-top: 2%;
+}

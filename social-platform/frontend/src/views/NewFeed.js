@@ -43,12 +43,11 @@ export default function NewFeed() {
         }
     }
     async function newPost(text, owner, date, image) {
-        let resizedImage = image.slice(0, 8) + "resized/" + image.slice(8)
         let data = {
             text,
             owner,
             date,
-            resizedImage
+            image
         }
         let newPost = await fetch('/api/new-post', {
             method: "POST",
