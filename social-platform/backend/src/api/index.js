@@ -3,6 +3,8 @@ const router = express.Router();
 const User = require('../models/User')
 const Interest = require('../models/Interests')
 const bcrypt = require('bcryptjs')
+const ForumPost = require('../models/ForumPost')
+const Comments = require('../models/Comments')
 const multer = require('multer')
 const uuid = require('uuid')
 const sharp = require('sharp')
@@ -38,10 +40,10 @@ const upload = multer({
 
 const dbModels = {
     user: require('../models/User'),
+    forumPost: require('../models/ForumPost'),
     feedPost: require('../models/FeedPost'),
-    comment: require('../models/Comments')
+    Comments: require('../models/Comments')
 }
-
 
 router.post('/api/register', (req, res) => {
     User.findOne({ email: req.body.email }).then(user => {
@@ -152,9 +154,15 @@ router.get('/api/feed-post/:id', async (req, res) => {
         .populate('owner')
         .populate('likes')
         .populate('comments')
+        .populate({
+            path: 'comments',
+            populate: {
+                path: 'writtenBy',
+                model: 'User'
+            }
+        })
     if (result) {
         res.json(result)
-        console.log(result)
     } else {
         res.json({ error: "no post found" })
     }
@@ -272,7 +280,8 @@ router.post('/api/feed-post/new-comment', async (req, res) => {
         let post = await dbModels['feedPost'].findById({ _id: req.body.postId });
         post.comments.push(newComment);
         post.save()
-        res.status(200).json({ status: 200 })
+        let getNewComment = await dbModels['comment'].findById({ _id: newComment.id}).populate('writtenBy')
+        res.status(200).json({ status: 200, newComment: getNewComment })
     } else {
         res.status(400).json({ status: 400 })
     }
@@ -331,5 +340,55 @@ router.delete('/api/delete/:id', (req, res) => {
     User.deleteOne({ _id: req.params.id }, function (err) { }).then(user => res.json('deleted successfully!'))
         .catch(err => res.status(400).json('Error: ' + err));
 });
+
+
+router.post('/api/forum', (req,res)=>{
+   const newForumPost = new ForumPost({
+       owner: { _id: req.session.user.id },
+       titel: req.body.titel,
+       text: req.body.text,
+       timeStamp: Date.now(),
+       isAnonym : req.body.anonym,
+       image : req.body.image,
+   });
+   newForumPost.save();   
+   res.json({ok: "ok", newPost: newForumPost})
+})
+
+router.get('/api/forum', async (req,res)=>{
+    let resoult = await dbModels.forumPost.find().populate('owner').sort({'timeStamp': -1}).exec();
+    res.json(resoult);
+})
+
+router.get('/api/onepost/:id', async (req,res)=>{
+    let resoult = await dbModels.forumPost.findById({ _id: req.params.id }).populate('owner').populate('comments').exec();
+    res.json(resoult);
+})
+
+router.post('/api/onepost', async (req,res)=>{
+    const newForumComments = new Comments({
+        writtenBy: { _id: req.session.user.id },
+        text: req.body.text,
+        timeStamp: Date.now()
+    });
+    newForumComments.save();
+    let post = await dbModels.forumPost.findById({ _id: req.body.forumPostId });
+    post.comments.push(newForumComments);
+    post.save();
+    res.json(newForumComments)
+})
+
+
+router.get('/api/onepost' , async (req,res)=>{
+    let resoult = await dbModels.Comments.findById({ _id: req.params.id })
+    res.json(resoult);
+})
+
+
+router.get('/api/comment/:id', async (req,res)=>{
+    let resoult = await dbModels.Comments.findById({ _id: req.params.id }).populate('writtenBy').exec();
+    res.json(resoult);
+    
+})
 
 module.exports = { router };

@@ -1,0 +1,34 @@
+.form-error{
+    color: black;
+}
+.form-error-hidden{
+    opacity: 0;
+    margin: 0;
+}
+.ForumPost{
+    background-color: whitesmoke;
+}
+.form-label{
+    color: black;
+    margin: 0;
+}
+.form-titel{
+    font-weight: 800;
+    color: black;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    margin-top: 10%;
+    margin-bottom: 10%;
+}
+.post-button{
+    width: 80%;
+    border-radius: 50px;
+    padding: 8px 60px 8px 60px;
+    color: black;
+    margin-top: 5%;
+}
+.formBasicCheckboxAnonym{
+    color: black;
+}
+.anonymBasicCheckbox{
+    color: black;
+}

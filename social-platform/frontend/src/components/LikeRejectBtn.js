@@ -4,11 +4,11 @@ import '../css/LikeRejectBtn.css';
 import MatchModal from './MatchModal';
 
 export default function LikeRejectBtn(props) {
-    const { state } = React.useContext(Store);
+    const { state, dispatch } = React.useContext(Store);
     const [currUserId]  = useState(state.currentUser.id);
     const [showMatchModal, setShowMatchModal]  = useState(false);
 
-    async function likeOrReject(opinion) {        
+    async function likeOrReject(opinion) {                
         let data = {
             judgedPerson: props.displayedPerson._id
         }            
@@ -21,6 +21,7 @@ export default function LikeRejectBtn(props) {
         if(opinion === "like"){
             checkForMatch(props.displayedPerson);
         }
+        updateStateWithNewProfile();
         props.callback();
     }
 
@@ -35,9 +36,19 @@ export default function LikeRejectBtn(props) {
                 method: "PUT",
                 body: JSON.stringify(data),
                 headers: { 'Content-Type': 'application/json'}
-            })             
+            });
+                        
         }
     }
+
+    const updateStateWithNewProfile = async () => {        
+        let data = await fetch('/api/currentuser/' + currUserId)
+        data = await data.json()
+        dispatch({
+            type: 'SET_CURRENT_USER',
+            payload: data
+        })
+    } 
 
     const closeMatchModal = () => {
         setShowMatchModal(false);

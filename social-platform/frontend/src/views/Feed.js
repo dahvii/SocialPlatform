@@ -33,7 +33,6 @@ export default function Feed(props) {
 
     return (
         <div>
-            <p>Feed view</p>
             <InfiniteScroll
                 className="feed-div"
                 pageStart={0}
@@ -42,10 +41,9 @@ export default function Feed(props) {
                 loader={<div className="loader" key={0}>Loading ...</div>}
             >
                 {
-                    posts.map(post => <FeedPost className="feed-post-one-post" key={post._id} post={post} />)
+                    posts.map(post => <FeedPost className="feed-post-one-post" key={post._id} post={post} history={props.history} />)
                 }
             </InfiniteScroll>
-            <Image src={displayImage}></Image>
             <Button className="add-feed-button" variant="light" onClick={addPost}>
                 <i className="fas fa-plus plus-icon"></i>
             </Button>
