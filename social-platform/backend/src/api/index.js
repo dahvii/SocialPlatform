@@ -38,7 +38,8 @@ const upload = multer({
 
 const dbModels = {
     user: require('../models/User'),
-    feedPost: require('../models/FeedPost')
+    feedPost: require('../models/FeedPost'),
+    comment: require('../models/Comments')
 }
 
 
@@ -138,38 +139,25 @@ router.get('/api/currentuser/:id', async (req, res) => {
         characteristics: result.characteristics,
         interests: result.interests,
         matches: result.matches,
-        profilePictures: result.profilePictures
+        profilePictures: result.profilePictures,
+        likes: result.likes,
+        rejects: result.rejects
     }
     res.json(currentUser)
 })
 
-router.get('/api/get-interests', async (req, res) => {
-    let result = await Interest.find()
-    res.json(result)
-})
-
-router.put('/api/add-interest', async (req, res) => {
-    let bulkOperations = []
-    for (let interest of req.body) {
-        let upsertDoc = {
-            'updateOne': {
-                'filter': { name: interest.name },
-                'update': interest,
-                'upsert': true
-            }
-        };
-        bulkOperations.push(upsertDoc);
-    }
-    let result = await Interest.bulkWrite(bulkOperations)
-    res.json(result)
-})
-
-router.get('/api/feed-post', async (req, res) => {
+router.get('/api/feed-post/:id', async (req, res) => {
     let result = await dbModels['feedPost']
-        .find({})
-        .sort({ 'timeStamp': -1 })
-        .limit(3)
-    res.json(result)
+        .findOne({ _id: req.params.id })
+        .populate('owner')
+        .populate('likes')
+        .populate('comments')
+    if (result) {
+        res.json(result)
+        console.log(result)
+    } else {
+        res.json({ error: "no post found" })
+    }
 });
 
 router.get('/api/feed-posts/:skip', async (req, res) => {
@@ -177,6 +165,7 @@ router.get('/api/feed-posts/:skip', async (req, res) => {
         .find({})
         .populate('owner')
         .populate('likes')
+        .populate('comments')
         .sort({ 'timeStamp': -1 })
         .skip(parseInt(req.params.skip, 10))
         .limit(3)
@@ -213,8 +202,6 @@ router.put('/api/feed-post/like/:id', async (req, res) => {
 
 router.put('/api/feed-post/dislike/:id', async (req, res) => {
     let post = await dbModels['feedPost'].findOne({ _id: req.params.id })
-    console.log(post);
-    console.log(post.likes.indexOf(req.body.id))
     post.likes.splice(post.likes.indexOf(req.body.id), 1)
     post.save()
     res.json({ success: true })
@@ -232,32 +219,30 @@ router.post('/api/new-image', upload.single('feedImage'), async (req, res) => {
             )
         fs.unlinkSync(req.file.path)
 
-        res.json({ file: req.file.path, success: "it worked" })
+        console.log(req.file.destination, 'resized/', image)
+        res.json({ file: req.file.destination + 'resized/' + image, success: "it worked" })
     } else {
         res.json({ error: "something went wrong" })
     }
 })
 
-// router.post('/api/new-image', upload.array('feedImage', 3), async (req, res) => {
-//     console.log(req.files)
-//     req.files.map(async img => {
-//         if (img) {
-//             // const { filename: image } = req.file
-//             await sharp(img.path)
-//                 .resize(400, 400)
-//                 .jpeg({ quality: 100 })
-//                 .toFile(
-//                     path.resolve(img.destination, 'resized', img.filename)
-//                 )
-//             fs.unlinkSync(img.path)
-//             console.log("DENNA!? ", img.originalname, img.path)
-
-//         } else {
-//             res.json({ error: "something went wrong" })
-//         }
-//     })
-//     res.json({file: req.files, success: "it worked" })
-// })
+router.post('/api/feed-post/new-comment', async (req, res) => {
+    if (req.body) {
+        const newComment = new dbModels.comment({
+            text: req.body.text,
+            post: req.body.postId,
+            timeStamp: req.body.timeStamp,
+            writtenBy: req.body.writtenById
+        })
+        newComment.save()
+        let post = await dbModels['feedPost'].findById({ _id: req.body.postId });
+        post.comments.push(newComment);
+        post.save()
+        res.status(200).json({ status: 200 })
+    } else {
+        res.status(400).json({ status: 400 })
+    }
+})
 
 router.post('/api/new-post', async (req, res) => {
     if (req.body) {
@@ -265,7 +250,7 @@ router.post('/api/new-post', async (req, res) => {
             text: req.body.text,
             owner: req.body.owner,
             timeStamp: req.body.date,
-            feedImage: req.body.resizedImage
+            feedImage: req.body.image
         })
         newPost.save()
             .then(res.status(200).json({ status: 200 }))
@@ -273,5 +258,44 @@ router.post('/api/new-post', async (req, res) => {
         res.status(400).json({ status: 400 })
     }
 })
+
+router.get('/api/users', (req, res) => {
+    User.find()
+      .then(user => res.json(user))
+      .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.put('/api/like/:id', async (req, res) => {
+    await User.findOneAndUpdate({_id: req.params.id}, { $push: { likes: req.body.judgedPerson}})
+    res.json({ success: true })
+})
+
+
+router.put('/api/reject/:id', async (req, res) => {
+    await User.findOneAndUpdate({_id: req.params.id}, { $push: { rejects: req.body.judgedPerson}})
+    res.json({ success: true })
+})
+
+router.put('/api/match', async (req, res) => {
+    await User.findOneAndUpdate({_id: req.body.currUser}, { $push: { matches: req.body.match}}).catch(err => res.status(400).json('Error: ' + err));
+    await User.findOneAndUpdate({_id: req.body.match}, { $push: { matches:  req.body.currUser}}).catch(err => res.status(400).json('Error: ' + err));
+    res.json({ success: true })
+})
+
+router.get('/api/populated/:id', async (req, res) => {
+    let result = await User.findOne({ _id: req.params.id }).populate('matches').exec();
+    res.json(result);
+})
+
+router.put('/api/update/:id', (req, res) => {
+    User.findByIdAndUpdate(req.params.id, req.body)
+    .then(user => res.json('Updated successfully!'))
+    .catch(err => res.status(400).json('Error: ' + err));
+})
+
+router.delete('/api/delete/:id', (req, res) => {
+    User.deleteOne({ _id: req.params.id }, function (err) {}).then(user => res.json('deleted successfully!'))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
 
 module.exports = { router };
