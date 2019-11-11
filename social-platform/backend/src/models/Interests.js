@@ -4,7 +4,10 @@ const Schema = mongoose.Schema;
 
 let interestsSchema = new Schema({
 
-    name: String
+    name: {
+        type: String,
+        unique: true
+    }
 
 })
 
