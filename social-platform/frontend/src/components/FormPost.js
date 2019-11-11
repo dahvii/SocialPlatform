@@ -5,17 +5,13 @@ import '../css/ForumPost.css'
 import Moment from 'react-moment'
 import 'moment/locale/sv'
 export default function FormPost(props){
-    //<Card.Text className="timestamp">Skapad {timeStamp.toLocaleTimeString(undefined, { timeStyle: "short" })}</Card.Text>
-    //<Card.Title className="titel">Skriven av { props.post.owner.firstName}</Card.Title>
-  
-    
     return(  
     <Card className="Postcard">
         <Link className="forumLink" to={`/onepost/${props.post._id}`}>        
             <Card.Body> 
                 <Card.Title className="titel"><Moment fromNow>{props.post.timeStamp}</Moment></Card.Title>
                 <Card.Title className="titel">{props.post.titel}</Card.Title>
-                {props.post.isAnonym ? <Card.Title className="titel">Skriven av { props.post.owner.firstName}</Card.Title> : ''}
+                {!props.post.isAnonym ? <Card.Title className="titel">Skriven av { props.post.owner.firstName}</Card.Title> : ''}
                 <Card.Text>{props.post.text}</Card.Text>
             </Card.Body>
         </Link>

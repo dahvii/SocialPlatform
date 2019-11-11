@@ -22,12 +22,11 @@ export default function FormComments(props){
             getOneComment();
         }
     })
-        //<Card.Text className="timestamp">Skapad {timeStamp.toLocaleTimeString(undefined, { timeStyle: "short" })}</Card.Text>
     return(  
         <Card className="Postcard">  
             <Card.Body> 
                 <Card.Title className="titel"><Moment fromNow>{props.comment.timeStamp}</Moment></Card.Title>
-                {props.post.isAnonym ? <Card.Title className="titel">Skriven av {writtenBy.firstName}</Card.Title> : ''}
+                {!props.post.isAnonym ? <Card.Title className="titel">Skriven av {writtenBy.firstName}</Card.Title> : ''}
                 <Card.Text>{props.comment.text}</Card.Text>
             </Card.Body>
     </Card> 

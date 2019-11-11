@@ -239,13 +239,14 @@ router.post('/api/forum', (req,res)=>{
 })
 
 router.get('/api/forum', async (req,res)=>{
-    let resoult = await dbModels.forumPost.find().populate('owner').exec();
+    let resoult = await dbModels.forumPost.find().populate('owner').sort({'timeStamp': -1}).exec();
     res.json(resoult);
 })
 
 router.get('/api/onepost/:id', async (req,res)=>{
     let resoult = await dbModels.forumPost.findById({ _id: req.params.id }).populate('owner').populate('comments').exec();
     res.json(resoult);
+    console.log(resoult.sort(function(a, b){return a - b}));
 })
 
 router.post('/api/onepost', async (req,res)=>{
