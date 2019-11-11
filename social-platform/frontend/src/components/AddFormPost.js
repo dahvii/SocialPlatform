@@ -104,7 +104,7 @@ export default function AddFormPost(props){
                 <h1 className="form-titel">Skapa en ny post</h1>
                 <Form.Group className="form-group" controlId="ForumForm.ControlInput1">
                     <Form.Label className="form-label-black">Titel</Form.Label>
-                    <Form.Control required ref={titel} className="form-controll" type="name" placeholder="Titel" />
+                    <Form.Control required ref={titel} className="form-controll-textarea" type="name" placeholder="Titel" />
                     {titelError ?
                         <p className="form-error">Du måste fylla i en Titel</p>
                         : <p className="form-error-hidden">&nbsp;</p>
@@ -112,7 +112,7 @@ export default function AddFormPost(props){
                 </Form.Group>
                 <Form.Group className="form-group" controlId="textarea">
                     <Form.Label>Post text</Form.Label>
-                    <Form.Control required ref={text} className="form-controll" as="textarea" rows="3" placeholder="Post text" />
+                    <Form.Control required ref={text} className="form-controll-textarea" as="textarea" rows="3" placeholder="Post text" />
                     {textError ?
                         <p className="form-error">Du måste skriva någon text</p>
                         : <p className="form-error-hidden">&nbsp;</p>
