@@ -22,11 +22,8 @@ export default function Forum() {
         if(result.newPost){
           let newPosts = post
           newPosts.unshift(result.newPost)
-          console.log(newPosts)
           setPost(newPosts)
-          console.log(result.newPost)
         }
-        console.log(result)
         setNewForumPost(!newForumPost);
      }
 
