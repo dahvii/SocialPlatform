@@ -87,7 +87,6 @@ export default function EditProfile() {
     }
 
     const updateProfile = async () => {
-        console.log(imagesPaths)
         if (userInterests.length > 0) {
             await addInterestDB()
         }
@@ -125,7 +124,6 @@ export default function EditProfile() {
     }
 
     const handleRemoveImage = async (image) => {
-        // image = image.slice(1);
         let data = {
             image: image
         }

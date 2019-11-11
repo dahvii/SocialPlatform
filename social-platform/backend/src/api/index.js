@@ -205,7 +205,22 @@ router.put('/api/feed-post/dislike/:id', async (req, res) => {
     post.likes.splice(post.likes.indexOf(req.body.id), 1)
     post.save()
     res.json({ success: true })
+})
 
+router.put('/api/add-interest', async (req, res) => {
+    let bulkOperations = []
+    for (let interest of req.body) {
+        let upsertDoc = {
+            'updateOne': {
+                'filter': { name: interest.name },
+                'update': interest,
+                'upsert': true
+            }
+        };
+        bulkOperations.push(upsertDoc);
+    }
+    let result = await Interest.bulkWrite(bulkOperations)
+    res.json(result)
 })
 
 router.get('/api/get-interests', async (req, res) => {
