@@ -7,7 +7,10 @@ export default function Register() {
     useEffect(() => {
         document.body.className += " loaded"
     })
-
+    const [datesOfMonth, setDatesOfMonth] = useState([])
+    const year = useRef();
+    const month = useRef();
+    const date = useRef();
     const firstName = useRef();
     const lastName = useRef();
     const email = useRef();
@@ -64,8 +67,19 @@ export default function Register() {
             setMatchingPasswordError(false);
             allGood = true
         }
+
+        try{
+            let birthday = new Date(year.current.value, month.current.value-1, date.current.value)
+            console.log("birthday ", birthday);
+            
+        }catch (e){
+            console.log(e);
+            
+        }
+        
+
         if (allGood) {
-            register(email.current.value, password.current.value, firstName.current.value, lastName.current.value)
+            //register(email.current.value, password.current.value, firstName.current.value, lastName.current.value)
         }
         e.preventDefault();
     }
@@ -88,10 +102,83 @@ export default function Register() {
 
     }
 
+    function getDates(){
+        console.log("getDates");
+        let lastDayOfMonth;
+       if(month.current && year.current){
+           console.log("based on month and year");
+           
+            lastDayOfMonth = new Date(year.current.value, month.current.value, 0).getDate();
+        }else{
+            console.log("default value 31");
+            
+            lastDayOfMonth = 31;
+        }
+        let dates = [];         
+        for(let i= 1; i <= lastDayOfMonth; i++){
+            dates.push(<option key={i}>{i}</option>);
+        }
+        return(dates.map(item => {
+            return item;
+        }))
+        //setDatesOfMonth(dates);
+    }
+
+    function getMonths(){
+        //getDates();
+        let months = [];        
+        for(let i= 1; i <= 12; i++){
+            months.push(<option key={i}>{i}</option>);
+        }
+
+        return(months.map(item => {
+            return item;
+        }))
+    }
+    function getYears(){ 
+        let years = [];
+        let date= new Date();
+        let yearLimit= date.getFullYear()-18;
+            
+        for(let i= yearLimit; i >= 1900 ; i--){
+            years.push(<option key={i}>{i}</option>);
+        }
+
+        return(years.map(item => {
+            return item;
+        }))
+    }
+
+    function test(){
+        //getDates();
+    }
+
     return (
         <div className="register-content">
             <Form noValidate onSubmit={validate} className="form">
                 <h1 className="form-headline">SKAPA KONTO</h1>
+                <Form.Group className="birthday-input">
+                    <div>
+                    <Form.Label>År</Form.Label>
+                    <Form.Control  ref={year} as="select">
+                    {getYears()}
+                    </Form.Control>
+                        
+                    </div>
+                    <div>
+                    <Form.Label>Månad</Form.Label>
+                    <Form.Control onChange={test} ref={month} as="select">
+                    {getMonths()}
+                    </Form.Control>
+                        
+                    </div>
+                    <div>
+                    <Form.Label>Datum</Form.Label>
+                    <Form.Control onChange={test} ref={date} as="select">
+                    {getDates()}
+                    </Form.Control>   
+                    </div>
+                </Form.Group>
                 <Form.Group className="form-group" controlId="exampleForm.ControlInput1">
                     <Form.Label className="form-label">Namn</Form.Label>
                     <Form.Control required ref={firstName} className="form-controll" type="name" placeholder="Lisa" />
