@@ -45,18 +45,27 @@
 	z-index: -1;
 }
 
+.profile-pictures{
+  width: 100px;
+  height: 80px;
+}
+
+.placeholder{
+  background-color: green;
+  width: 100px;
+  height: 80px;
+  border-radius: 8px;
+}
+
 .edit-profile-pictures{
   width: 100px;
+  height: 80px;
   border-radius: 8px;
 }
 
 .all-profile-pictures{
   display: flex;
   justify-content: space-around;
-}
-
-.choose-file{
-  
 }
 
 .selection{

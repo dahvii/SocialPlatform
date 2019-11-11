@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import '../css/EditProfile.css'
 import { Form, Button, Image } from 'react-bootstrap'
 import { Store } from '../utilities/Store'
@@ -13,49 +13,52 @@ export default function EditProfile() {
     const [interestInput, setInterestInput] = useState('');
     const [suggestions, setSuggestions] = useState([]);
     const newInterest = useRef();
+    const [imagesPaths, setImagesPaths] = useState(state.currentUser.profilePictures);
     const [interestsFromDb, setInterestsFromDb] = useState([])
-    const [profileImages, setProfileImages] = useState()
-    const [displayProfileImage, setDisplayProfileImage] = useState("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPcAAADMCAMAAACY78UPAAAAMFBMVEW8vsDn6Onq6+y5u73CxMbIycvh4uPW2NnR09Tc3d/AwsTk5ebU1dfg4eK9v8HOz9HoolfoAAADEUlEQVR4nO3c63KqMBRAYZINVUTw/d/2yNVEg4JHkZ2s709nOuKwhhSDhGYZAAAAAAAAAAAAAAAAACROpCkKkV/vxtbkUtmrukirvKmt6dhzSuHyZ0YphcvZmlt48evd2YwY1yGZA15YLzyZ7qPXbfNf789W7rpPv96fraQ6zptEz2upfo5lUiU3b+krk5unytA5XJeUw3XJ6Rh3vpT2MoRLVhTD0c+kHn8dp2v29Tz2UNid5/J4w9ts8xjen95ttOF99sMnlxyGX0caPmXfT1Skjjl8OqyP87OYw+Uym92Gm0jDp+zwPGX8JiK28BfZt0uVuMLl+CLbDd9yx77rmt17NhlvTP8aE1F4M/xcMoab5vVrAGArxTft9zwvlf2i/X7v6tzm/AK694Zuuummm+74uj81W1HWfc4/pFbVbT91n09KuuneGbrvu6Xzzluq7m7OdVWZwxv3BDR3S2GG2wbrFzVo7s6nycf6cM3d5mb1XSDF3Rd3Vebandfb7ex5K53uys0OLz6eL4ql2wTv+s3fJ1Xc7Y3zKrTKo5xfm6u32zuvhb78b9dCVLNvqbfbG+iBYX6yM6t9uo31dr+Yt/QbzY10zd2SV125NaHscQ1+uEpzd/snXBpbHkPbjINh5spVd/dwIRraZPrjD09htXfPbeF8yIU+4qLqdk717hNVwVVeEXVLNY3o5uWDgxF1/01L86Q2nsBIj6a7X47dhYv/vGRwpMfSPa5Cb8Pzu+zQSI+kW6bJen73FPjMSI+j2zl/V+ORfz7S4+h2R7Z/WT430qPoPgVTfX93Nxxi6F6Q/TCz19+9cDWE/w2c/u7Fi0C8ka6+O3j6Dh9w79pdeffybH+kK++WYnm2N9J1d6/LnvkWWmH3kg9uL3wa6aq712Y7I11zt4SnpE8P+Li94u63Vm+O83S93VK+tT6zlmFrrd3jYqa1hm0Vd//XW9JN997QnWq3+Vi3rnX3yT5n8QV07w3ddNNNN92RdCf6fy2yTz0UGpTMv80GAAAAAAAAAAAAAAAAAAAAAAAAAAAAkKZ/TikowOqV20oAAAAASUVORK5CYII=")
 
     useLifeCycle({
         mount: () => {
             getAllInterests()
-            if (state.currentUser.profilePictures !== '') {
-                setDisplayProfileImage(`http://localhost:3001/${state.currentUser.profilePictures}`)
-            }
         }
     })
 
     function fileSelectorHandler(event) {
-        setProfileImages(event.target.files[0]);
-        let newImage = URL.createObjectURL(event.target.files[0])
-        console.log(newImage);
-        setDisplayProfileImage(newImage)
+        let img = URL.createObjectURL(event.target.files[0])
+        console.log(img);
+        const formData = new FormData();
+        formData.append('feedImage', event.target.files[0])
+        newImage(formData)
     }
+
 
     function validate(e) {
         e.preventDefault();
-        const formData = new FormData();
-        formData.append('feedImage', profileImages)
-        newImage(formData);
+
+        updateProfile()
     }
 
+    // const addImages = () => {
+    //     const formData = new FormData();
+    //     selectedImages.map(image => {
+    //         formData.append('feedImage', image)
+    //     })
+    //     newImage(formData);
+    // }
+
     async function newImage(formData) {
-        console.log(formData)
         let newImage = await fetch('/api/new-image', {
             method: "POST",
             body: formData
         })
         let result = await newImage.json()
-        console.log("result: ", result);
-
         if (result.error) {
             console.log("fel filtyp");
         } else if (result.success) {
-            updateProfile(result.file)
+            console.log(result.file)
+            let correntPath = result.file.slice(0, 8) + "resized/" + result.file.slice(8)
+            setImagesPaths([...imagesPaths, correntPath])
         }
     }
-
 
     const getAllInterests = async () => {
         let data = await fetch('/api/get-interests');
@@ -83,18 +86,17 @@ export default function EditProfile() {
         })
     }
 
-    const updateProfile = async (imagePath) => {
+    const updateProfile = async () => {
+        console.log(imagesPaths)
         if (userInterests.length > 0) {
             await addInterestDB()
         }
-        console.log(imagePath)
-        let resizedImage = imagePath.slice(0, 8) + "resized/" + imagePath.slice(8)
-        console.log(resizedImage)
+
         let data = {
             userBio,
             checkedGender,
             userInterests,
-            resizedImage
+            imagesPaths
         }
         let result = await fetch(`/api/update/${state.currentUser.id}`, {
             method: 'PUT',
@@ -171,22 +173,29 @@ export default function EditProfile() {
             <div className="edit-profile-content">
                 <div className="all-profile-pictures">
                     <Form>
-                        <input type="file" name="file" id="file" className="inputfile" onChange={fileSelectorHandler}></input>
-                        <div className="choose-file">
-                            <label htmlFor="file"><Image id="display-image" className="edit-profile-pictures" src={displayProfileImage} alt="your image"></Image></label>
+                        <div className="profile-pictures">
+                            <input type="file" name="file" id="file" className="inputfile" onChange={fileSelectorHandler}></input>
+                            {imagesPaths[0] === undefined ? <label htmlFor="file"><div className="placeholder">hejsan</div></label> :
+                                <Image id="display-image" className="edit-profile-pictures" src={`http://localhost:3001/${imagesPaths[0]}`} alt="your image"></Image>
+                            }
                         </div>
                     </Form>
                     <Form>
-                        <input type="file" name="file" id="file" className="inputfile" onChange={fileSelectorHandler}></input>
-                        <div className="choose-file">
-                            <label htmlFor="file"><Image id="display-image" className="edit-profile-pictures" src={displayProfileImage} alt="your image"></Image></label>
+                        <div className="profile-pictures">
+                            <input type="file" name="file" id="file" className="inputfile" onChange={fileSelectorHandler}></input>
+                            {imagesPaths[1] === undefined ? <label htmlFor="file"><div className="placeholder">hejsan</div></label> :
+                                <Image id="display-image" className="edit-profile-pictures" src={`http://localhost:3001/${imagesPaths[1]}`} alt="your image"></Image>
+                            }
                         </div>
                     </Form>
                     <Form>
-                        <input type="file" name="file" id="file" className="inputfile" onChange={fileSelectorHandler}></input>
-                        <div className="choose-file">
-                            <label htmlFor="file"><Image id="display-image" className="edit-profile-pictures" src={displayProfileImage} alt="your image"></Image></label>
+                        <div className="profile-pictures">
+                            <input type="file" name="file" id="file" className="inputfile" onChange={fileSelectorHandler}></input>
+                            {imagesPaths[2] === undefined ? <label htmlFor="file"><div className="placeholder">hejsan</div></label> :
+                                <Image id="display-image" className="edit-profile-pictures" src={`http://localhost:3001/${imagesPaths[2]}`} alt="your image"></Image>
+                            }
                         </div>
+                        {/* <Button onClick={addImages}>test</Button> */}
                     </Form>
                 </div>
                 <Form className="mb-2">

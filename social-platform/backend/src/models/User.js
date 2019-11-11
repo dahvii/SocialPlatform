@@ -16,7 +16,7 @@ let userSchema = new Schema({
     }],
     characteristics: [], //(from table characteristics)
     matches: [],
-    profilePictures: String,
+    profilePictures: [],
     feedPosts: ({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'FeedPost'

@@ -52,7 +52,6 @@ router.post('/api/register', (req, res) => {
                 password: req.body.password,
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
-                profilePictures: '',
                 gender: '',
                 dateOfBirth: '',
                 bio: ''
@@ -197,7 +196,7 @@ router.put('/api/update/:id', async (req, res) => {
                 bio: req.body.userBio,
                 gender: req.body.checkedGender,
                 interests,
-                profilePictures: req.body.resizedImage
+                profilePictures: req.body.imagesPaths
             },
         }, { upsert: true })
     if (result) {
@@ -232,13 +231,33 @@ router.post('/api/new-image', upload.single('feedImage'), async (req, res) => {
                 path.resolve(req.file.destination, 'resized', image)
             )
         fs.unlinkSync(req.file.path)
-        console.log(req.file.path)
 
         res.json({ file: req.file.path, success: "it worked" })
     } else {
         res.json({ error: "something went wrong" })
     }
 })
+
+// router.post('/api/new-image', upload.array('feedImage', 3), async (req, res) => {
+//     console.log(req.files)
+//     req.files.map(async img => {
+//         if (img) {
+//             // const { filename: image } = req.file
+//             await sharp(img.path)
+//                 .resize(400, 400)
+//                 .jpeg({ quality: 100 })
+//                 .toFile(
+//                     path.resolve(img.destination, 'resized', img.filename)
+//                 )
+//             fs.unlinkSync(img.path)
+//             console.log("DENNA!? ", img.originalname, img.path)
+
+//         } else {
+//             res.json({ error: "something went wrong" })
+//         }
+//     })
+//     res.json({file: req.files, success: "it worked" })
+// })
 
 router.post('/api/new-post', async (req, res) => {
     if (req.body) {
