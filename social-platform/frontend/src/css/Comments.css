@@ -11,10 +11,14 @@
     color: black;
     margin-top: 5%;
 }
-.form-label {
+.form-label-black {
     color: black;
     margin: 2%;
 }
 .forum-comment{
     margin-top: 2%;
+}
+.cardbody{
+    padding-left: 0;
+    padding-right: 0;
 }

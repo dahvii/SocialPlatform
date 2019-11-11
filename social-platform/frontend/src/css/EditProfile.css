@@ -2,3 +2,227 @@
     text-align: left;
     padding: 10px;
 }
+
+.edit-profile-all-interests{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.edit-profile-interest{
+    background-color: rgba(104, 0, 0, 0.795);
+    border-radius: 20px;
+    padding: 5px 10px;
+}
+
+.textarea-container, .add-interest-container{
+  position: relative;
+  width: 100%;
+}
+
+.bio-length{
+  color: darkgrey;
+  font-size: 0.7rem;
+  border-radius: .25rem;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.test{
+  position: relative;
+}
+
+.edit-profile-form-check{
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  cursor: pointer;
+  font-size: 20px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.edit-profile-form-check input{
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.edit-profile-form-check input:checked ~ .checkmark {
+  background-color: rgb(196, 84, 84);
+}
+
+.checkmark{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.edit-profile-form-check input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.edit-profile-form-check .checkmark:after {
+  top: 9px;
+  left: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+}
+
+.add-interest-icon{
+  font-size: 1.7rem;
+  color: rgb(48, 194, 48);
+  position: absolute;
+  top: -2.5px;
+  right: 3px;
+}
+
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.profile-pictures{
+  width: 100px;
+  height: 100px;
+}
+
+.placeholder{
+  background-color: rgb(119, 102, 102);
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.add-image-icon{
+  font-size: 2rem;
+}
+
+.profile-pic-container{
+  position: relative;
+}
+
+.remove-pic-icon{
+  color: rgb(197, 17, 17);
+  font-size: 1.5rem;
+  position: absolute;
+  bottom: 0;
+  right: 5px;
+}
+
+.edit-profile-pictures{
+  object-fit: cover;
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+}
+
+.all-profile-pictures{
+  display: flex;
+  justify-content: space-around;
+}
+
+.update-profile-button{
+  border-radius: 50px;
+  padding: 8px 60px 8px 60px;
+  color: #eb6f6d;
+}
+
+.selection{
+  background-color: #f09795;;
+  border-radius: .25rem;
+  padding: .50rem;
+  /* -webkit-box-shadow: inset 0px 1px 13px -2px rgba(99,43,43,0.71);
+  -moz-box-shadow: inset 0px 1px 13px -2px rgba(99,43,43,0.71);
+  box-shadow: inset 0px 1px 13px -2px rgba(99,43,43,0.71);  */
+  -webkit-box-shadow: inset 1px 0px 15px -7px rgba(99,43,43,0.71);
+  -moz-box-shadow: inset 1px 0px 15px -7px rgba(99,43,43,0.71);
+  box-shadow: inset 1px 0px 15px -7px rgba(99,43,43,0.71);
+}
+
+.react-autosuggest__container {
+    position: relative;
+  }
+
+  .react-autosuggest__input{
+    border-radius: 20px;
+    width: 100%;
+    padding: 5px;
+    padding-right: 35px;
+    border: none;
+  }
+  
+  .react-autosuggest__input--focused {
+    outline: none;
+  }
+/*   
+  .react-autosuggest__input--open {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  } */
+  
+  .react-autosuggest__suggestions-container {
+    display: none;
+  }
+  
+  .react-autosuggest__suggestions-container--open {
+    display: block;
+    position: absolute;
+    top: 51px;
+    width: 280px;
+    color: rgb(109, 101, 101);
+    background-color: #fff;
+    border: 1px solid #aaa;
+    z-index: 99;
+  }
+  
+  .react-autosuggest__suggestions-list {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+  }
+  
+  .react-autosuggest__suggestion {
+    cursor: pointer;
+    padding: 10px 20px;
+  }
+  
+  .react-autosuggest__suggestion--highlighted {
+    background-color: #ddd;
+  }
+  
+  .react-autosuggest__section-container {
+    border-top: 1px dashed #ccc;
+  }
+  
+  .react-autosuggest__section-container--first {
+    border-top: 0;
+  }
+  
+  .react-autosuggest__section-title {
+    padding: 10px 0 0 10px;  
+  }
+  

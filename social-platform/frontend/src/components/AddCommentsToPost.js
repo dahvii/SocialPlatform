@@ -1,16 +1,16 @@
 
 import {Store} from '../utilities/Store'
-import React, { useRef, useState, useEffect } from 'react'
-import { Form, Button, FormControl } from 'react-bootstrap'
+import React, { useRef, useState, } from 'react'
+import { Form, Button } from 'react-bootstrap'
 import '../css/AddForumPost.css'
 
 export default function AddCommentsToPost(props) {
 
-    const { state, dispatch } = React.useContext(Store);
+    const { state } = React.useContext(Store);
     const writtenBy = state.currentUser.firstName;
     const text = useRef();
     const [textError,setTextError] = useState(false);
-    const [timeStamp,setTimeStamp] = useState(new Date);
+    const [timeStamp,setTimeStamp] = useState(new Date());
 
     function validate(e) {
         let allGood = false;
@@ -28,7 +28,7 @@ export default function AddCommentsToPost(props) {
     }
 
     async function register(text) {
-        setTimeStamp(new Date)
+        setTimeStamp(new Date())
         let data = {
             text,
             forumPostId: props.forumPostId
@@ -50,7 +50,7 @@ export default function AddCommentsToPost(props) {
             <Form noValidate onSubmit={validate} className="form">
                 <Form.Group className="form-group" controlId="textarea">
                     <Form.Label>Kommentars text</Form.Label>
-                    <Form.Control required ref={text} className="form-controll" as="textarea" rows="3" placeholder="Post text" />
+                    <Form.Control required ref={text} className="form-controll-textarea" as="textarea" rows="3" placeholder="Post text" />
                     {textError ?
                         <p className="form-error">Du måste skriva någon Komentar</p>
                         : <p className="form-error-hidden">&mvsp;</p>
@@ -62,4 +62,3 @@ export default function AddCommentsToPost(props) {
         </>
     )
 }
-
