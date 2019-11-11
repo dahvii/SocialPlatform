@@ -28,7 +28,7 @@
   right: 5px;
 }
 
-.form-check{
+.edit-profile-form-check{
   display: block;
   position: relative;
   padding-left: 35px;
@@ -40,7 +40,7 @@
   user-select: none;
 }
 
-.form-check input{
+.edit-profile-form-check input{
   position: absolute;
   opacity: 0;
   cursor: pointer;
@@ -48,7 +48,7 @@
   width: 0;
 }
 
-.form-check input:checked ~ .checkmark {
+.edit-profile-form-check input:checked ~ .checkmark {
   background-color: rgb(196, 84, 84);
 }
 
@@ -68,11 +68,11 @@
   display: none;
 }
 
-.form-check input:checked ~ .checkmark:after {
+.edit-profile-form-check input:checked ~ .checkmark:after {
   display: block;
 }
 
-.form-check .checkmark:after {
+.edit-profile-form-check .checkmark:after {
   top: 9px;
   left: 9px;
   width: 8px;
