@@ -19,7 +19,6 @@ export default function Forum() {
         const data = await fetch('/api/forum');
         const result = await data.json();
         setPost(result);
-        console.log(result);
     }
 
       const showNewPost = ()=>{

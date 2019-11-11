@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const { db } = require('../loaders');
 const { ObjectId } = require('mongoose').Types;
 const Schema = mongoose.Schema;
-const { ObjectId } = require('mongoose').Types;
 
 let userSchema = new Schema({
     password: String,
