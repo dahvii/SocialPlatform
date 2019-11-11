@@ -218,7 +218,7 @@ export default function EditProfile() {
                 </Form>
                 <Form className="selection">
                     <h4>Kön</h4>
-                    <div className="form-check">
+                    <div className="edit-profile-form-check">
                         <label>
                             <input
                                 type="radio"
@@ -232,7 +232,7 @@ export default function EditProfile() {
                         </label>
                     </div>
 
-                    <div className="form-check">
+                    <div className="edit-profile-form-check">
                         <label className="m-0">
                             <input
                                 type="radio"
