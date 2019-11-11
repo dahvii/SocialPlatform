@@ -208,6 +208,11 @@ router.put('/api/feed-post/dislike/:id', async (req, res) => {
 
 })
 
+router.get('/api/get-interests', async (req, res) => {
+    let result = await Interest.find()
+    res.json(result)
+})
+
 router.post('/api/new-image', upload.single('feedImage'), async (req, res) => {
     if (req.file) {
         const { filename: image } = req.file
@@ -227,13 +232,13 @@ router.post('/api/new-image', upload.single('feedImage'), async (req, res) => {
 router.post('/api/delete-image/', (req, res) => {
     console.log(req.body.image)
     if (!req.body.image) {
-        return res.status(500).json({msg:'Error in delete'});
+        return res.status(500).json({ msg: 'Error in delete' });
     }
 
     else {
         try {
             fs.unlinkSync(req.body.image);
-            return res.json({ msg: 'Image deleted'});
+            return res.json({ msg: 'Image deleted' });
         } catch (err) {
             // handle the error
             return res.status(400).send(err);

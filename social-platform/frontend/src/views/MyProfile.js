@@ -27,7 +27,7 @@ export default function MyProfile(props) {
 
     return (
         <div>
-            <Image src={`http://localhost:3001/${state.currentUser.profilePictures[0]}`} alt="profile-picture" roundedCircle className="profile-picture" />
+            <Image src={state.currentUser.profilePictures[0] ? `http://localhost:3001/${state.currentUser.profilePictures[0]}` : 'http://localhost:3001/uploads/placeholder.jpg'} alt="profile-picture" roundedCircle className="profile-picture" />
             <div className="myprofile-info">
                 <h3>{state.currentUser.firstName} -</h3>&nbsp;<h3>25</h3>
             </div>

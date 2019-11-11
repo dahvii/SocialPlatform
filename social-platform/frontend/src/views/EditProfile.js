@@ -1,10 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef } from 'react'
 import '../css/EditProfile.css'
 import { Form, Button, Image } from 'react-bootstrap'
 import { Store } from '../utilities/Store'
 import Autosuggest from 'react-autosuggest';
 import useLifeCycle from '../utilities/useLifeCycle'
-import { debuglog } from 'util';
 
 export default function EditProfile() {
     const { state, dispatch } = React.useContext(Store);
