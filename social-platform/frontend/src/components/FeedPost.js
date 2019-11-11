@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { Card, Button, Image } from 'react-bootstrap'
+import React, { useState } from 'react'
+import { Card, Image } from 'react-bootstrap'
 import { withRouter } from 'react-router-dom';
 import { Store } from '../utilities/Store'
 import useLifeCycle from '../utilities/useLifeCycle'
@@ -7,7 +7,7 @@ import useLifeCycle from '../utilities/useLifeCycle'
 function FeedPost(props) {
     const { state } = React.useContext(Store);
     const [likes, setLikes] = useState(props.post.likes.length)
-    const [comments, setComments] = useState(props.post.comments.length)
+    const [comments] = useState(props.post.comments.length)
     const [isLiked, setIsLiked] = useState()
     const [isCommented, setIsCommented] = useState();
     function goToOwner() {
@@ -49,7 +49,7 @@ function FeedPost(props) {
                 headers: { "Content-Type": "application/json" }
             })
             let result = await newLike.json();
-            if (result = "success") {
+            if (result === "success") {
                 setLikes(likes + 1)
                 setIsLiked(true)
             }
@@ -60,7 +60,7 @@ function FeedPost(props) {
                 headers: {"Content-type": "application/json"}
             })
             let result = await newDislike.json();
-            if (result = "success") {
+            if (result === "success") {
                 setLikes(likes - 1)
                 setIsLiked(false)
             }

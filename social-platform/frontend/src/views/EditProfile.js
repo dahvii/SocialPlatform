@@ -26,7 +26,6 @@ export default function EditProfile() {
     })
 
     function fileSelectorHandler(event) {
-        let img = URL.createObjectURL(event.target.files[0])
         const formData = new FormData();
         formData.append('feedImage', event.target.files[0])
         newImage(formData)
@@ -111,13 +110,11 @@ export default function EditProfile() {
 
     const addInterestDB = async () => {
         let data = userInterests
-        let result = await fetch('/api/add-interest', {
+        await fetch('/api/add-interest', {
             method: 'PUT',
             body: JSON.stringify(data),
             headers: { 'Content-Type': 'application/json' }
         });
-
-        result = await result.json()
     }
 
     const handleRemoveInterest = (interest) => {
@@ -129,12 +126,11 @@ export default function EditProfile() {
             image: image
         }
         setImagesPaths(imagesPaths.filter(img => img !== image))
-        let result = await fetch('/api/delete-image/', {
+        await fetch('/api/delete-image/', {
             method: 'POST',
             body: JSON.stringify(data),
             headers: { 'Content-Type': 'application/json' }
         })
-        result = await result.json()
     }
 
     const handleGenderOptionChange = (e) => {
