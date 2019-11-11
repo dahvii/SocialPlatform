@@ -13,7 +13,6 @@ export default function NewFeed() {
     function fileSelectorHandler(event) {
         setFeedImage(event.target.files[0]);
         let newImage = URL.createObjectURL(event.target.files[0])
-        console.log(newImage);
         setDisplayImage(newImage)
     }
 
@@ -22,7 +21,6 @@ export default function NewFeed() {
         const formData = new FormData();
         formData.append('feedImage', feedImage)
         newImage(formData);
-        console.log(formData)
     }
 
     async function newImage(formData) {
@@ -31,10 +29,8 @@ export default function NewFeed() {
             body: formData
         })
         let result = await newImage.json()
-        console.log("result: ", result);
 
         if (result.error) {
-            console.log("fel filtyp");
             setError(true)
         } else if (result.success) {
             let date = new Date().getTime();
@@ -56,10 +52,8 @@ export default function NewFeed() {
         })
         let result = await newPost.json();
         if (result.status === 200) {
-            console.log("allt ok");
             setError(false)
         } else {
-            console.log("something went wrong");
             setError(true)
         }
     }
