@@ -14,7 +14,7 @@ function FeedPost(props) {
         props.history.push('/profile/' + props.post.owner._id)
     }
     function goToComments() {
-        props.history.push('/feed-post/' + props.post._id, {state : props.post})
+        props.history.push('/feed-post/' + props.post._id, {recievedPost : props.post}, {history: props.history})
     }
 
     useLifeCycle({
@@ -27,6 +27,13 @@ function FeedPost(props) {
                 }
             } else {
                 setIsLiked(false)
+            }
+            if(props.post.comments.length > 0) {
+                if (props.post.comments.map(comment => comment.writtenBy === state.currentUser.id).includes(true)) {
+                    setIsCommented(true)
+                } else {
+                    setIsCommented(false)
+                }
             }
         }
     })

@@ -5,3 +5,45 @@
     display: flex;
     justify-content: space-between;
 }
+
+.comment-one-comment{
+    text-align: left;
+}
+
+.comment-text-comment{
+    font-weight: 400;
+}
+
+.comment-comment-owner{
+    display: flex;
+    font-weight: 900;
+}
+
+.comment-time-stamp{
+    margin-bottom: 0;
+
+}
+
+.new-comment-fixed-bottom{
+    position: fixed;
+    bottom: 0;
+    margin-bottom: 55px;
+    width: 95%;
+    /* padding-top: 190px; */
+}
+
+.feed-comments-text-content{
+    text-align: left;
+}
+
+.feed-comments-all-comments{
+    /* padding-bottom: 60px; */
+
+}
+
+.feed-post-card-comments{
+    background-color: #d2a1a1;
+    width: 100%;
+    margin: 8px;
+    margin-bottom: 50px;
+}
