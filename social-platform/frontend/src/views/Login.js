@@ -63,7 +63,7 @@ export default function Login(props) {
     }
 
     const checkCurrentUser = async (id) => {
-        let data = await fetch('/api/person/' + id)
+        let data = await fetch('/api/currentuser/' + id)
         try {
             data = await data.json();
         } catch { }
