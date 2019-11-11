@@ -13,7 +13,10 @@ let feedPostSchema = new Schema({
         ref: 'User'
     }],
 
-    comments: [], //(from table comments)
+    comments: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Comments'
+    }],
     timeStamp: Date,
     text: String,
     feedImage: {

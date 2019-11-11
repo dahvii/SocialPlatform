@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const { db } = require('../loaders');
 const { ObjectId } = require('mongoose').Types;
 const Schema = mongoose.Schema;
+const { ObjectId } = require('mongoose').Types;
 
 let userSchema = new Schema({
     password: String,
@@ -13,12 +14,9 @@ let userSchema = new Schema({
     bio: String,
     interests: [], //(from table interests)
     characteristics: [], //(from table characteristics)
-    matches: [],
     profilePictures: [],
-    feedPosts: ({
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'FeedPost'
-    })
+    likes: [], //array of users 
+    rejects: [], //array of users 
 
 })
 

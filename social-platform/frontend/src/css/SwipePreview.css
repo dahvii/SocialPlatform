@@ -1,0 +1,26 @@
+.preview-info{
+    text-align: left;
+    margin-top: 92%;
+    z-index: 5;
+    position: absolute;
+    padding-top: 10vh;
+    padding-left: 2vw;
+    width: 100vw;
+
+}
+
+.name-age{
+    display: flex;
+}
+
+.carousel-img{
+    width: 130vw;
+    margin-left: -15vw;
+}
+
+ol {
+    bottom: auto !important;
+}
+
+
+
