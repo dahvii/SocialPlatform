@@ -55,7 +55,7 @@ router.post('/api/register', (req, res) => {
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
                 gender: '',
-                dateOfBirth: '',
+                dateOfBirth: req.body.dateOfBirth,
                 bio: ''
             });
             bcrypt.genSalt(10, (err, salt) => {

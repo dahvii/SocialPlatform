@@ -22,42 +22,43 @@ export default function Register() {
     const [passwordError, setPasswordError] = useState(false)
     const [password2Error, setPassword2Error] = useState(false)
     const [matchingPasswordError, setMatchingPasswordError] = useState(false)
+    const [ageError, setAgeError] = useState(false);
+
+    useEffect(() => {
+        getDates();
+    }, []);
+
 
     function validate(e) {
-        let allGood = false;
+        let allGood = true;
         if (firstName.current.value === '') {
             setFirstNameError(true)
             allGood = false;
         } else {
-            allGood = true;
             setFirstNameError(false)
         }
         if (lastName.current.value === '') {
             setLastNameError(true)
             allGood = false;
         } else {
-            allGood = true;
             setLastNameError(false)
         }
         if (email.current.value === '') {
             setEmailError(true)
             allGood = false;
         } else {
-            allGood = true;
             setEmailError(false)
         }
         if (password.current.value === '') {
             setPasswordError(true)
             allGood = false;
         } else {
-            allGood = true;
             setPasswordError(false)
         }
         if (password2.current.value === '') {
             setPassword2Error(true)
             allGood = false;
         } else {
-            allGood = true;
             setPassword2Error(false)
         }
         if (password.current.value !== password2.current.value) {
@@ -65,32 +66,28 @@ export default function Register() {
             allGood = false;
         } else {
             setMatchingPasswordError(false);
-            allGood = true
         }
-
-        try{
-            let birthday = new Date(year.current.value, month.current.value-1, date.current.value)
-            console.log("birthday ", birthday);
-            
-        }catch (e){
-            console.log(e);
-            
-        }
-        
-
-        if (allGood) {
-            //register(email.current.value, password.current.value, firstName.current.value, lastName.current.value)
+        let birthDay = validateBirthDay();
+        if(birthDay){
+            setAgeError(false);            
+        }else{
+            setAgeError(true);
+            allGood = false;
+        }        
+        if (allGood) {            
+            register(email.current.value, password.current.value, firstName.current.value, lastName.current.value, birthDay)
         }
         e.preventDefault();
     }
-    async function register(email, password, firstName, lastName) {
+    async function register(email, password, firstName, lastName, dateOfBirth) {
         let data = {
             email,
             password,
             firstName,
-            lastName
+            lastName, 
+            dateOfBirth
         }
-
+        
         let registerUser = await fetch('/api/register', {
             method: 'POST',
             body: JSON.stringify(data),
@@ -98,34 +95,39 @@ export default function Register() {
         });
 
         let result = await registerUser.json();
-        console.log(result)
 
     }
 
-    function getDates(){
-        console.log("getDates");
-        let lastDayOfMonth;
-       if(month.current && year.current){
-           console.log("based on month and year");
-           
-            lastDayOfMonth = new Date(year.current.value, month.current.value, 0).getDate();
+    function validateBirthDay(){
+        let birthDate = new Date(year.current.value, month.current.value-1, date.current.value, 12, 12);           
+        let today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        let monthDifference = today.getMonth() - birthDate.getMonth();
+        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }         
+        if(age >= 18){
+             return birthDate;
         }else{
-            console.log("default value 31");
-            
+            return false;
+        }
+    }
+
+    function getDates(){
+        let lastDayOfMonth;
+        if(month.current && year.current){           
+            lastDayOfMonth = new Date(year.current.value, month.current.value, 0).getDate();
+        }else{            
             lastDayOfMonth = 31;
         }
         let dates = [];         
         for(let i= 1; i <= lastDayOfMonth; i++){
             dates.push(<option key={i}>{i}</option>);
         }
-        return(dates.map(item => {
-            return item;
-        }))
-        //setDatesOfMonth(dates);
+        setDatesOfMonth(dates);
     }
 
     function getMonths(){
-        //getDates();
         let months = [];        
         for(let i= 1; i <= 12; i++){
             months.push(<option key={i}>{i}</option>);
@@ -149,8 +151,8 @@ export default function Register() {
         }))
     }
 
-    function test(){
-        //getDates();
+    function updateDates(){
+        getDates();
     }
 
     return (
@@ -160,25 +162,28 @@ export default function Register() {
                 <Form.Group className="birthday-input">
                     <div>
                     <Form.Label>År</Form.Label>
-                    <Form.Control  ref={year} as="select">
+                    <Form.Control onChange={updateDates} ref={year} as="select">
                     {getYears()}
                     </Form.Control>
                         
                     </div>
                     <div>
                     <Form.Label>Månad</Form.Label>
-                    <Form.Control onChange={test} ref={month} as="select">
+                    <Form.Control onChange={updateDates} ref={month} as="select">
                     {getMonths()}
                     </Form.Control>
                         
                     </div>
                     <div>
                     <Form.Label>Datum</Form.Label>
-                    <Form.Control onChange={test} ref={date} as="select">
-                    {getDates()}
+                    <Form.Control ref={date} as="select">
+                    {datesOfMonth.map((item) => item)}
                     </Form.Control>   
                     </div>
                 </Form.Group>
+                    {ageError &&
+                        <p className="form-error">Du måste vara över 18 för att använda appen</p>
+                    }
                 <Form.Group className="form-group" controlId="exampleForm.ControlInput1">
                     <Form.Label className="form-label">Namn</Form.Label>
                     <Form.Control required ref={firstName} className="form-controll" type="name" placeholder="Lisa" />
