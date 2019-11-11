@@ -1,12 +1,12 @@
 
 import {Store} from '../utilities/Store'
-import React, { useRef, useState, useEffect } from 'react'
-import { Form, Button, FormControl } from 'react-bootstrap'
+import React, { useRef, useState, } from 'react'
+import { Form, Button } from 'react-bootstrap'
 import '../css/AddForumPost.css'
 
 export default function AddCommentsToPost(props) {
 
-    const { state, dispatch } = React.useContext(Store);
+    const { state } = React.useContext(Store);
     const writtenBy = state.currentUser.firstName;
     const text = useRef();
     const [textError,setTextError] = useState(false);
@@ -62,4 +62,3 @@ export default function AddCommentsToPost(props) {
         </>
     )
 }
-
