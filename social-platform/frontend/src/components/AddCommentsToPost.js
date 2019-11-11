@@ -10,7 +10,7 @@ export default function AddCommentsToPost(props) {
     const writtenBy = state.currentUser.firstName;
     const text = useRef();
     const [textError,setTextError] = useState(false);
-    const [timeStamp,setTimeStamp] = useState(new Date);
+    const [timeStamp,setTimeStamp] = useState(new Date());
 
     function validate(e) {
         let allGood = false;
@@ -28,7 +28,7 @@ export default function AddCommentsToPost(props) {
     }
 
     async function register(text) {
-        setTimeStamp(new Date)
+        setTimeStamp(new Date())
         let data = {
             text,
             forumPostId: props.forumPostId
