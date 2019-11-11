@@ -103,7 +103,7 @@ export default function AddFormPost(props){
        <Form noValidate onSubmit={validate} className="ForumPost">
                 <h1 className="form-titel">Skapa en ny post</h1>
                 <Form.Group className="form-group" controlId="ForumForm.ControlInput1">
-                    <Form.Label className="form-label">Titel</Form.Label>
+                    <Form.Label className="form-label-black">Titel</Form.Label>
                     <Form.Control required ref={titel} className="form-controll" type="name" placeholder="Titel" />
                     {titelError ?
                         <p className="form-error">Du måste fylla i en Titel</p>
