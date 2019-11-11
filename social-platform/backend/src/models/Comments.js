@@ -1,12 +1,10 @@
 const mongoose = require('mongoose');
 const { db } = require('../loaders');
 const Schema = mongoose.Schema;
-const {ObjectId} = require('mongoose').Types;
+const { ObjectId } = require('mongoose').Types;
 let commentsSchema = new Schema({
 
-    writtenBy: {
-        type: ObjectId, ref: 'User'
-    },
+    writtenBy: {type: ObjectId, ref: 'User'},
     post: String,
     text: String,
     timeStamp: Date
