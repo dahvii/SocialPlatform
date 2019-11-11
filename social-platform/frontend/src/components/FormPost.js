@@ -4,9 +4,8 @@ import {Link} from 'react-router-dom'
 import '../css/ForumPost.css'
 import Moment from 'react-moment'
 import 'moment/locale/sv'
+
 export default function FormPost(props){
-    console.log(props.post.image);
-    
     return(  
     <Card className="Postcard">
         <Link className="forumLink" to={`/onepost/${props.post._id}`}>        

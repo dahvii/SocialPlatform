@@ -7,15 +7,12 @@ import '../css/Forum.css'
 export default function Forum() {
     
       const [newForumPost,setNewForumPost] = useState(false);
-      //const [forumSearch,setForumSearch] = useState(false);
       const [post, setPost] = useState([]);
-      //const [loading, setLoading] = useState(true);
       const [haveLocktFordata, setHaveLocktFordata] = useState(false);
 
      
       const getAllForumPost = async() =>{
         setHaveLocktFordata(true)
-        //setLoading(false)
         const data = await fetch('/api/forum');
         const result = await data.json();
         setPost(result);
