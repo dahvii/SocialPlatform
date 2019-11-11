@@ -11,7 +11,10 @@ let userSchema = new Schema({
     dateOfBirth: Date,
     gender: String,
     bio: String,
-    interests: [], //(from table interests)
+    interests: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Interests'
+    }],
     characteristics: [], //(from table characteristics)
     profilePictures: [],
     likes: [], //array of users 

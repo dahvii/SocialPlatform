@@ -13,8 +13,6 @@ export default function Profile(props) {
     const { state } = React.useContext(Store);
     const [currUser]  = useState(state.currentUser);
 
-
-
     useEffect(() => {
         if(props.displayedPerson){
             setProfile(props.displayedPerson)

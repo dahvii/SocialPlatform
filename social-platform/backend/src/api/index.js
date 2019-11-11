@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User')
+const Interest = require('../models/Interests')
 const bcrypt = require('bcryptjs')
 const ForumPost = require('../models/ForumPost')
 const Comments = require('../models/Comments')
@@ -130,7 +131,7 @@ router.get('/api/person/:id', async (req, res) => {
 })
 
 router.get('/api/currentuser/:id', async (req, res) => {
-    let result = await dbModels["user"].findOne({ _id: req.params.id });
+    let result = await dbModels["user"].findOne({ _id: req.params.id }).populate('interests');
     const currentUser = {
         id: result._id,
         firstName: result.firstName,
@@ -153,9 +154,15 @@ router.get('/api/feed-post/:id', async (req, res) => {
         .populate('owner')
         .populate('likes')
         .populate('comments')
+        .populate({
+            path: 'comments',
+            populate: {
+                path: 'writtenBy',
+                model: 'User'
+            }
+        })
     if (result) {
         res.json(result)
-        console.log(result)
     } else {
         res.json({ error: "no post found" })
     }
@@ -178,7 +185,16 @@ router.get('/api/feed-posts/:skip', async (req, res) => {
 });
 
 router.put('/api/update/:id', async (req, res) => {
-    let result = await User.findOneAndUpdate({ _id: req.params.id }, { $set: { bio: req.body.userBio, gender: req.body.checkedGender } })
+    let interests = await Interest.find({ name: { $in: req.body.userInterests.map(interest => interest.name) } })
+    let result = await User.findOneAndUpdate({ _id: req.params.id },
+        {
+            $set: {
+                bio: req.body.userBio,
+                gender: req.body.checkedGender,
+                interests,
+                profilePictures: req.body.imagesPaths
+            },
+        }, { upsert: true })
     if (result) {
         res.json({ success: true })
     }
@@ -196,7 +212,27 @@ router.put('/api/feed-post/dislike/:id', async (req, res) => {
     post.likes.splice(post.likes.indexOf(req.body.id), 1)
     post.save()
     res.json({ success: true })
+})
 
+router.put('/api/add-interest', async (req, res) => {
+    let bulkOperations = []
+    for (let interest of req.body) {
+        let upsertDoc = {
+            'updateOne': {
+                'filter': { name: interest.name },
+                'update': interest,
+                'upsert': true
+            }
+        };
+        bulkOperations.push(upsertDoc);
+    }
+    let result = await Interest.bulkWrite(bulkOperations)
+    res.json(result)
+})
+
+router.get('/api/get-interests', async (req, res) => {
+    let result = await Interest.find()
+    res.json(result)
 })
 
 router.post('/api/new-image', upload.single('feedImage'), async (req, res) => {
@@ -215,6 +251,23 @@ router.post('/api/new-image', upload.single('feedImage'), async (req, res) => {
     }
 })
 
+router.post('/api/delete-image/', (req, res) => {
+    console.log(req.body.image)
+    if (!req.body.image) {
+        return res.status(500).json({ msg: 'Error in delete' });
+    }
+
+    else {
+        try {
+            fs.unlinkSync(req.body.image);
+            return res.json({ msg: 'Image deleted' });
+        } catch (err) {
+            // handle the error
+            return res.status(400).send(err);
+        }
+    }
+})
+
 router.post('/api/feed-post/new-comment', async (req, res) => {
     if (req.body) {
         const newComment = new dbModels.comment({
@@ -227,7 +280,8 @@ router.post('/api/feed-post/new-comment', async (req, res) => {
         let post = await dbModels['feedPost'].findById({ _id: req.body.postId });
         post.comments.push(newComment);
         post.save()
-        res.status(200).json({ status: 200 })
+        let getNewComment = await dbModels['comment'].findById({ _id: newComment.id}).populate('writtenBy')
+        res.status(200).json({ status: 200, newComment: getNewComment })
     } else {
         res.status(400).json({ status: 400 })
     }
@@ -274,19 +328,19 @@ router.get('/api/users', (req, res) => {
 });
 
 router.put('/api/like/:id', async (req, res) => {
-    await User.findOneAndUpdate({_id: req.params.id}, { $push: { likes: req.body.judgedPerson}})
+    await User.findOneAndUpdate({ _id: req.params.id }, { $push: { likes: req.body.judgedPerson } })
     res.json({ success: true })
 })
 
 
 router.put('/api/reject/:id', async (req, res) => {
-    await User.findOneAndUpdate({_id: req.params.id}, { $push: { rejects: req.body.judgedPerson}})
+    await User.findOneAndUpdate({ _id: req.params.id }, { $push: { rejects: req.body.judgedPerson } })
     res.json({ success: true })
 })
 
 router.put('/api/match', async (req, res) => {
-    await User.findOneAndUpdate({_id: req.body.currUser}, { $push: { matches: req.body.match}}).catch(err => res.status(400).json('Error: ' + err));
-    await User.findOneAndUpdate({_id: req.body.match}, { $push: { matches:  req.body.currUser}}).catch(err => res.status(400).json('Error: ' + err));
+    await User.findOneAndUpdate({ _id: req.body.currUser }, { $push: { matches: req.body.match } }).catch(err => res.status(400).json('Error: ' + err));
+    await User.findOneAndUpdate({ _id: req.body.match }, { $push: { matches: req.body.currUser } }).catch(err => res.status(400).json('Error: ' + err));
     res.json({ success: true })
 })
 
@@ -297,13 +351,13 @@ router.get('/api/populated/:id', async (req, res) => {
 
 router.put('/api/update/:id', (req, res) => {
     User.findByIdAndUpdate(req.params.id, req.body)
-    .then(user => res.json('Updated successfully!'))
-    .catch(err => res.status(400).json('Error: ' + err));
+        .then(user => res.json('Updated successfully!'))
+        .catch(err => res.status(400).json('Error: ' + err));
 })
 
 router.delete('/api/delete/:id', (req, res) => {
-    User.deleteOne({ _id: req.params.id }, function (err) {}).then(user => res.json('deleted successfully!'))
-    .catch(err => res.status(400).json('Error: ' + err));
+    User.deleteOne({ _id: req.params.id }, function (err) { }).then(user => res.json('deleted successfully!'))
+        .catch(err => res.status(400).json('Error: ' + err));
 });
 
 
@@ -314,9 +368,10 @@ router.post('/api/forum', (req,res)=>{
        text: req.body.text,
        timeStamp: Date.now(),
        isAnonym : req.body.anonym,
+       image : req.body.image,
    });
    newForumPost.save();   
-   res.json({ok: "ok"})
+   res.json({ok: "ok", newPost: newForumPost})
 })
 
 router.get('/api/forum', async (req,res)=>{
@@ -327,7 +382,6 @@ router.get('/api/forum', async (req,res)=>{
 router.get('/api/onepost/:id', async (req,res)=>{
     let resoult = await dbModels.forumPost.findById({ _id: req.params.id }).populate('owner').populate('comments').exec();
     res.json(resoult);
-    console.log(resoult.sort(function(a, b){return a - b}));
 })
 
 router.post('/api/onepost', async (req,res)=>{

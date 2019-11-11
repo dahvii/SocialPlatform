@@ -61,7 +61,7 @@ export default function Register() {
         } else {
             setPassword2Error(false)
         }
-        if (password.current.value !== password2.current.value) {
+        if (password.current.value !== password2.current.value || password.current.value === '') {
             setMatchingPasswordError(true)
             allGood = false;
         } else {

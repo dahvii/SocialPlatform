@@ -13,6 +13,7 @@
     background-color: #d2a1a1;
     width: 100%;
     margin: 8px;
+    
 }
 
 .feed-post-three-dots{
@@ -27,7 +28,7 @@
 .feed-post-one-post{
     display: flex;
     justify-content: center;
-    margin-bottom: 1em;
+
 }
 
 .feed-post-text{
@@ -45,26 +46,26 @@
 
 .feed-post-text-content{
     margin: 5px 12px 5px 12px;
+    color: whitesmoke;
 }
 
 .feed-post-text-comments{
+    color: whitesmoke;
     margin: 0px 12px 22px 12px;
+    
 }
 .feed-post-comment-green{
     color: #5f9f4d;
 }
 
-.feed-div{
-    /* margin-bottom: 8em; */
-    padding-bottom: 5em;
-}
-
 .feed-post-profile-picture{
     width: 30px;
+    height: 30px;
     margin: 5px;
 }
 
 .feed-post-card-body{
+    margin-bottom: 10px;
     padding:0;
     /* height: 80px; */
 
