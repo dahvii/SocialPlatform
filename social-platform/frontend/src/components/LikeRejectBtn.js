@@ -41,9 +41,7 @@ export default function LikeRejectBtn(props) {
         }
     }
 
-    const updateStateWithNewProfile = async () => {
-        console.log("gör en ny fetch på currUser");
-        
+    const updateStateWithNewProfile = async () => {        
         let data = await fetch('/api/currentuser/' + currUserId)
         data = await data.json()
         dispatch({

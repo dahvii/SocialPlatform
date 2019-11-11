@@ -53,9 +53,7 @@ export default function Profile(props) {
         }
     }
 
-    const removeBtns = () => {
-        console.log("callback från btns");
-        
+    const removeBtns = () => {        
         setShowBtn(false);   
     }
 
