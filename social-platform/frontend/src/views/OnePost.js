@@ -41,7 +41,7 @@ export default function OnePost(props) {
     return (
         <>
         <Card className="Postcard one-post">
-            <Card.Body> 
+            <Card.Body className="cardbody"> 
                 <Card.Title className="titel"><Moment fromNow>{post.timeStamp}</Moment></Card.Title>
                 <Card.Title className="titel">{post.titel}</Card.Title>
                 {!post.isAnonym ? <Card.Title className="titel">Skriven av {post.owner && post.owner.firstName}</Card.Title> : ''}
