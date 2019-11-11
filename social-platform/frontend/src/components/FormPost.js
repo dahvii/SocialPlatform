@@ -9,7 +9,7 @@ export default function FormPost(props){
     return(  
     <Card className="Postcard">
         <Link className="forumLink" to={`/onepost/${props.post._id}`}>        
-            <Card.Body> 
+            <Card.Body className="cardbody"> 
                 <Card.Title className="titel"><Moment fromNow>{props.post.timeStamp}</Moment></Card.Title>
                 <Card.Title className="titel">{props.post.titel}</Card.Title>
                 {!props.post.isAnonym ? <Card.Title className="titel">Skriven av { props.post.owner.firstName}</Card.Title> : ''}

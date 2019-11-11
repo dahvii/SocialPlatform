@@ -1,6 +1,5 @@
-import React, { useState, useRef, useContext } from 'react'
-import { Card, Image, InputGroup, FormControl, Button } from 'react-bootstrap'
-import useLifeCycle from '../utilities/useLifeCycle'
+import React from 'react'
+import { Card, Image } from 'react-bootstrap'
 import Moment from 'react-moment'
 import 'moment/locale/sv'
 
@@ -21,7 +20,6 @@ export default function Comment(recievedProps) {
                     </p>
                 </span>
                 <p className="comment-time-stamp"><Moment fromNow>{recievedProps.comment.timeStamp}</Moment></p>
-
             </Card.Footer>
         </div>
     )
