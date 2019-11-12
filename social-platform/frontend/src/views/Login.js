@@ -62,12 +62,12 @@ export default function Login(props) {
             <Form noValidate onSubmit={validate} className="form">
                 <h1 className="login-form-headline">LOGGA IN</h1>
                 <Form.Group className="login-form-group" controlId="exampleForm.ControlInput1">
-                    <Form.Label className="login-form-label">Namn</Form.Label>
+                    <Form.Label className="login-form-label">Email</Form.Label>
                     <Form.Control required ref={email} className="login-form-controll" type="email" placeholder="lisa@live.se" />
                 </Form.Group>
                 <Form.Group className="login-form-group" controlId="exampleForm.ControlInput2">
                     <Form.Label>Lösenord</Form.Label>
-                    <Form.Control required ref={password} className="login-form-controll" type="name" placeholder="Svensson" />
+                    <Form.Control required ref={password} className="login-form-controll" type="password" placeholder="Svensson" />
                     {loginError ?
                         <p className="login-form-error">Email och lösenord matchade inte</p>
                         : <p className="login-form-error login-form-error-hidden">&nbsp;</p>
