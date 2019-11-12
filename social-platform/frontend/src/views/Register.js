@@ -94,7 +94,7 @@ export default function Register(props) {
             headers: { 'Content-Type': 'application/json' }
         });
 
-        let result = await registerUser.json();
+        let result= await registerUser.json();
 
         if(result.status === 200){
             props.history.push('/login')
