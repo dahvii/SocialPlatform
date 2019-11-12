@@ -4,6 +4,8 @@ import LikeRejectBtn from '../components/LikeRejectBtn.js';
 import { Store } from '../utilities/Store'
 import Profile from './Profile';
 import useLifeCycle from '../utilities/useLifeCycle';
+import { Image } from 'react-bootstrap'
+
 
 export default function Swipe() {
     const { state } = React.useContext(Store);
@@ -19,12 +21,14 @@ export default function Swipe() {
         }
     })
 
+    /*
     async function getPopulatedUser(){
         let response = await fetch('/api/populated/'+currUserId);
         let data = await response.json();
         console.log("populated ", data);
 
     }
+    */
     //later to be an algorithm to find suitable matches 
     //but for now read on all users 
     async function getUsers() {
@@ -86,7 +90,10 @@ export default function Swipe() {
 
             {endOfSwipe &&
                 <div>
-                    <p>No more people to show</p>
+                    <div className="profile-picture-container">
+                    <Image src={state.currentUser.profilePictures[0] ? `http://localhost:3001/${state.currentUser.profilePictures[0]}` : 'http://localhost:3001/uploads/placeholder.jpg'} alt="profile-picture" roundedCircle className="profile-picture" />
+                    </div>
+                    <p>There is no more people to show for you right now</p>
                 </div>
             }
 
