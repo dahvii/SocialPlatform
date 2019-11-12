@@ -204,14 +204,14 @@ router.put('/api/feed-post/like/:id', async (req, res) => {
     let post = await dbModels['feedPost'].findOne({ _id: req.params.id })
     post.likes.push(req.body.id)
     post.save()
-    res.json({ success: true })
+    res.json({ success: "success" })
 })
 
 router.put('/api/feed-post/dislike/:id', async (req, res) => {
     let post = await dbModels['feedPost'].findOne({ _id: req.params.id })
     post.likes.splice(post.likes.indexOf(req.body.id), 1)
     post.save()
-    res.json({ success: true })
+    res.json({ success: "success" })
 })
 
 router.put('/api/add-interest', async (req, res) => {

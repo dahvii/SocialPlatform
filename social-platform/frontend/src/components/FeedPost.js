@@ -49,7 +49,7 @@ function FeedPost(props) {
                 headers: { "Content-Type": "application/json" }
             })
             let result = await newLike.json();
-            if (result === "success") {
+            if (result.success === "success") {
                 setLikes(likes + 1)
                 setIsLiked(true)
             }
@@ -60,7 +60,7 @@ function FeedPost(props) {
                 headers: {"Content-type": "application/json"}
             })
             let result = await newDislike.json();
-            if (result === "success") {
+            if (result.success === "success") {
                 setLikes(likes - 1)
                 setIsLiked(false)
             }
