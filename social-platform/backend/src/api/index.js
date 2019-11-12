@@ -252,20 +252,19 @@ router.post('/api/new-image', upload.single('feedImage'), async (req, res) => {
 })
 
 router.post('/api/delete-image/', (req, res) => {
-    console.log(req.body.image)
-    if (!req.body.image) {
+    console.log(req.body.images)
+    if (!req.body.images) {
         return res.status(500).json({ msg: 'Error in delete' });
     }
 
-    else {
+    for (let img of req.body.images) {
         try {
-            fs.unlinkSync(req.body.image);
-            return res.json({ msg: 'Image deleted' });
+            fs.unlinkSync(img);
         } catch (err) {
-            // handle the error
-            return res.status(400).send(err);
+            return res.status(400).json(err);
         }
     }
+    res.json({ msg: 'Image deleted' });
 })
 
 router.post('/api/feed-post/new-comment', async (req, res) => {
@@ -280,7 +279,7 @@ router.post('/api/feed-post/new-comment', async (req, res) => {
         let post = await dbModels['feedPost'].findById({ _id: req.body.postId });
         post.comments.push(newComment);
         post.save()
-        let getNewComment = await dbModels['comment'].findById({ _id: newComment.id}).populate('writtenBy')
+        let getNewComment = await dbModels['comment'].findById({ _id: newComment.id }).populate('writtenBy')
         res.status(200).json({ status: 200, newComment: getNewComment })
     } else {
         res.status(400).json({ status: 400 })
@@ -304,27 +303,27 @@ router.post('/api/new-post', async (req, res) => {
 
 router.get('/api/users', (req, res) => {
     User.find()
-    .then(result => {
-        let idFixedArr=[];
-         result.map((user) => {
-             const idFixedUser = {
-                id: user._id,
-                firstName: user.firstName,
-                bio: user.bio,
-                dateOfBirth: user.dateOfBirth,
-                gender: user.gender,
-                characteristics: user.characteristics,
-                interests: user.interests,
-                matches: user.matches,
-                profilePictures: user.profilePictures,
-                likes: user.likes,
-                rejects: user.rejects
-             }
-             idFixedArr.push(idFixedUser);
+        .then(result => {
+            let idFixedArr = [];
+            result.map((user) => {
+                const idFixedUser = {
+                    id: user._id,
+                    firstName: user.firstName,
+                    bio: user.bio,
+                    dateOfBirth: user.dateOfBirth,
+                    gender: user.gender,
+                    characteristics: user.characteristics,
+                    interests: user.interests,
+                    matches: user.matches,
+                    profilePictures: user.profilePictures,
+                    likes: user.likes,
+                    rejects: user.rejects
+                }
+                idFixedArr.push(idFixedUser);
             })
-        res.json(idFixedArr)
+            res.json(idFixedArr)
         })
-      .catch(err => res.status(400).json('Error: ' + err));
+        .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.put('/api/like/:id', async (req, res) => {
@@ -361,30 +360,30 @@ router.delete('/api/delete/:id', (req, res) => {
 });
 
 
-router.post('/api/forum', (req,res)=>{
-   const newForumPost = new ForumPost({
-       owner: { _id: req.session.user.id },
-       titel: req.body.titel,
-       text: req.body.text,
-       timeStamp: Date.now(),
-       isAnonym : req.body.anonym,
-       image : req.body.image,
-   });
-   newForumPost.save();   
-   res.json({ok: "ok", newPost: newForumPost})
+router.post('/api/forum', (req, res) => {
+    const newForumPost = new ForumPost({
+        owner: { _id: req.session.user.id },
+        titel: req.body.titel,
+        text: req.body.text,
+        timeStamp: Date.now(),
+        isAnonym: req.body.anonym,
+        image: req.body.image,
+    });
+    newForumPost.save();
+    res.json({ ok: "ok", newPost: newForumPost })
 })
 
-router.get('/api/forum', async (req,res)=>{
-    let resoult = await dbModels.forumPost.find().populate('owner').sort({'timeStamp': -1}).exec();
+router.get('/api/forum', async (req, res) => {
+    let resoult = await dbModels.forumPost.find().populate('owner').sort({ 'timeStamp': -1 }).exec();
     res.json(resoult);
 })
 
-router.get('/api/onepost/:id', async (req,res)=>{
+router.get('/api/onepost/:id', async (req, res) => {
     let resoult = await dbModels.forumPost.findById({ _id: req.params.id }).populate('owner').populate('comments').exec();
     res.json(resoult);
 })
 
-router.post('/api/onepost', async (req,res)=>{
+router.post('/api/onepost', async (req, res) => {
     const newForumComments = new Comments({
         writtenBy: { _id: req.session.user.id },
         text: req.body.text,
@@ -398,16 +397,16 @@ router.post('/api/onepost', async (req,res)=>{
 })
 
 
-router.get('/api/onepost' , async (req,res)=>{
+router.get('/api/onepost', async (req, res) => {
     let resoult = await dbModels.Comments.findById({ _id: req.params.id })
     res.json(resoult);
 })
 
 
-router.get('/api/comment/:id', async (req,res)=>{
+router.get('/api/comment/:id', async (req, res) => {
     let resoult = await dbModels.Comments.findById({ _id: req.params.id }).populate('writtenBy').exec();
     res.json(resoult);
-    
+
 })
 
 module.exports = { router };

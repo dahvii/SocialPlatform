@@ -17,7 +17,8 @@ export default function EditProfile() {
     const [suggestions, setSuggestions] = useState([]);
     const newInterest = useRef();
     const [imagesPaths, setImagesPaths] = useState(state.currentUser.profilePictures);
-    const [interestsFromDb, setInterestsFromDb] = useState([])
+    const [interestsFromDb, setInterestsFromDb] = useState([]);
+    const [imagesToRemove, setImagesToRemove] = useState([]);
 
     useLifeCycle({
         mount: () => {
@@ -76,6 +77,8 @@ export default function EditProfile() {
             await addInterestDB()
         }
 
+        deleteImage()
+
         let data = {
             userBio,
             checkedGender,
@@ -95,7 +98,7 @@ export default function EditProfile() {
                 title: 'Din profil har uppdaterats',
                 message: ' ',
                 type: 'success',                         // 'default', 'success', 'info', 'warning'
-                container: 'bottom-left',                // where to position the notifications
+                container: 'top-center',                // where to position the notifications
                 animationIn: ["animated", "fadeIn"],     // animate.css classes that's applied
                 animationOut: ["animated", "fadeOut"],   // animate.css classes that's applied
                 dismiss: {
@@ -106,6 +109,19 @@ export default function EditProfile() {
         }
 
         updateStateWithNewProfile()
+    }
+
+    const deleteImage = async () => {
+        console.log(imagesToRemove)
+        let data = {
+            images: imagesToRemove
+        }
+
+        await fetch('/api/delete-image/', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: { 'Content-Type': 'application/json' }
+        })
     }
 
     const addInterestDB = async () => {
@@ -122,15 +138,16 @@ export default function EditProfile() {
     }
 
     const handleRemoveImage = async (image) => {
-        let data = {
-            image: image
-        }
+        setImagesToRemove([...imagesToRemove, image])
         setImagesPaths(imagesPaths.filter(img => img !== image))
-        await fetch('/api/delete-image/', {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: { 'Content-Type': 'application/json' }
-        })
+        // let data = {
+        //     image: image
+        // }
+        // await fetch('/api/delete-image/', {
+        //     method: 'POST',
+        //     body: JSON.stringify(data),
+        //     headers: { 'Content-Type': 'application/json' }
+        // })
     }
 
     const handleGenderOptionChange = (e) => {
