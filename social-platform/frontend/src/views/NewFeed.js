@@ -59,9 +59,9 @@ export default function NewFeed() {
     }
     return (
         <div className="new-feed-content">
-            <h1 className="form-headline">Ny Post</h1>
+            <h1 className="form-headline">Nytt inlägg</h1>
             <Form noValidate onSubmit={validate} className="new-feed-form">
-                <Form.Group className="form-group" controlId="exampleForm.ControlInput1">
+                <Form.Group className="new-feed-form-group" controlId="exampleForm.ControlInput1">
                     <Form.Label className="form-label">Text</Form.Label>
                     <Form.Control className="new-feed-text-input" required ref={text} type="text" as="textarea" rows="3" maxLength="100" />
                 </Form.Group>

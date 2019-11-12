@@ -10,6 +10,7 @@ let userSchema = new Schema({
     lastName: String,
     dateOfBirth: Date,
     gender: String,
+    hometown: String,
     bio: String,
     interests: [{
         type: Schema.Types.ObjectId,
