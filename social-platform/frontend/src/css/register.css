@@ -42,7 +42,7 @@
     opacity: 0;
 }
 .register-content{
-    max-height: calc(100vh - 65px);
+    height: calc(100vh - 65px);
 }
 
 .register-birthday-input{
