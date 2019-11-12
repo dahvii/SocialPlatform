@@ -1,23 +1,21 @@
-.form-controll {
+.register-form-controll {
     border-radius: 40px;
     width: 80%
 }
-.form-group{
+.register-form-group{
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 0;
 }
-.form-label{
+.register-form-label{
     color: whitesmoke;
     margin: 0;
 }
-.form-headline{
+.register-form-headline{
     font-weight: 800;
     color: whitesmoke;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    margin-top: 10%;
-    margin-bottom: 10%;
 }
 
 .register-button{
@@ -25,10 +23,10 @@
     border-radius: 50px;
     padding: 8px 60px 8px 60px;
     color: #eb6f6d;
-    margin-top: 18%;
+    margin-top: 4vh;
 }
 
-.already-account{
+.register-already-account{
     color: whitesmoke;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     text-decoration: underline;
@@ -36,27 +34,19 @@
     margin-top: 10%;
 }
 
-.form-error{
+.register-form-error{
     color: whitesmoke;
     margin: 0;
 }
-.form-error-hidden{
+.register-form-error-hidden{
     opacity: 0;
 }
 .register-content{
-    opacity: 0;
-    -moz-transition: opacity 2.5s;
-    -webkit-transition: opacity 2.5s;
-    -o-transition: opacity 2.5s;
-    transition: opacity 2.5s;
+    max-height: calc(100vh - 65px);
 }
 
-.birthday-input{
+.register-birthday-input{
     display: flex;
     flex-direction: row;
     justify-content: center;
-}
-
-body.loaded .register-content {
-    opacity: 1;
 }
