@@ -16,6 +16,7 @@ export default function EditProfile() {
     const [interestInput, setInterestInput] = useState('');
     const [suggestions, setSuggestions] = useState([]);
     const newInterest = useRef();
+    const hometown = useRef(state.currentUser.hometown);
     const [imagesPaths, setImagesPaths] = useState(state.currentUser.profilePictures);
     const [interestsFromDb, setInterestsFromDb] = useState([]);
     const [imagesToRemove, setImagesToRemove] = useState([]);
@@ -83,7 +84,8 @@ export default function EditProfile() {
             userBio,
             checkedGender,
             userInterests,
-            imagesPaths
+            imagesPaths,
+            hometown: hometown.current.value
         }
         let result = await fetch(`/api/update/${state.currentUser.id}`, {
             method: 'PUT',
@@ -265,8 +267,6 @@ export default function EditProfile() {
                 </Form>
                 <Form className="selection mt-2">
                     <h4>Intressen</h4>
-
-                    {/* <Button onClick={addInterest}>Lägg till intresse</Button> */}
                     <div className="add-interest-container mt-2 mb-2">
                         <Autosuggest
                             suggestions={suggestions}
@@ -284,6 +284,10 @@ export default function EditProfile() {
                             userInterests.map(interest => <div key={interest.name} className="edit-profile-interest mr-1">{interest.name} <i className="fas fa-times-circle" onClick={() => handleRemoveInterest(interest)}></i></div>)
                         }
                     </div>
+                </Form>
+                <Form className="selection mt-2">
+                    <h4>Hemort</h4>
+                    <Form.Control as="input" className="bio-text" rows="3" defaultValue={userBio} ref={hometown} maxLength="20" />
                 </Form>
             </div>
             <Button variant="light" className="update-profile-button" onClick={updateProfile}>Uppdatera profil</Button>

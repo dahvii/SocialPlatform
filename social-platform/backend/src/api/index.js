@@ -56,6 +56,7 @@ router.post('/api/register', (req, res) => {
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
                 gender: '',
+                hometown: '',
                 dateOfBirth: req.body.dateOfBirth,
                 bio: ''
             });
@@ -192,7 +193,8 @@ router.put('/api/update/:id', async (req, res) => {
                 bio: req.body.userBio,
                 gender: req.body.checkedGender,
                 interests,
-                profilePictures: req.body.imagesPaths
+                profilePictures: req.body.imagesPaths,
+                hometown : req.body.hometown
             },
         }, { upsert: true })
     if (result) {
