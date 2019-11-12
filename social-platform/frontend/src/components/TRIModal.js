@@ -1,12 +1,10 @@
 import React from 'react';
 import { Image } from 'react-bootstrap'
 import { Button, Modal, ModalBody, ModalFooter } from 'reactstrap';
-import { Store } from '../utilities/Store'
 import '../css/MatchModal.css';
 import { Link } from 'react-router-dom';
 
 export default function TRIModal(props) {
-  const { state } = React.useContext(Store);
   const toggle = () => props.callback();
   const redirect = () => {
     props.callback(true);

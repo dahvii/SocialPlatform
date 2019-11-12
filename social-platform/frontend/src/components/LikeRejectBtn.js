@@ -19,20 +19,19 @@ export default function LikeRejectBtn(props) {
         })     
         
         
+        let didMatch = false;
         //check for match!
         if(opinion === "like"){
-            await checkForMatch(props.displayedPerson);
+            didMatch = await checkForMatch(props.displayedPerson);
         }
         updateStateWithNewProfile();
-        console.log("showModal ",showModal);
-
-        //props.callback();
+        if (!didMatch) {
+            props.callback();
+        }
     }
 
     async function checkForMatch(likedPerson){     
        if( likedPerson.likes && likedPerson.likes.includes(currUserId)){      
-           console.log("they match");
-                
             setShowModal(true);            
             let data = {
                 match: likedPerson.id,
@@ -43,8 +42,7 @@ export default function LikeRejectBtn(props) {
                 body: JSON.stringify(data),
                 headers: { 'Content-Type': 'application/json'}
             });
-            console.log("showModal ",showModal);
-                        
+            return true;
         }
     }
 
@@ -57,10 +55,9 @@ export default function LikeRejectBtn(props) {
         })
     } 
 
-    const closeMatchModal = () => {
-        console.log("closeMatchModal");
-        
+    const closeMatchModal = () => {        
         setShowModal(false);
+        props.callback();
     }
 
     return (
