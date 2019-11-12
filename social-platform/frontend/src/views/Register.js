@@ -3,7 +3,7 @@ import { Form, Button } from 'react-bootstrap'
 import '../css/register.css'
 import { Link } from 'react-router-dom'
 
-export default function Register() {
+export default function Register(props) {
     useEffect(() => {
         document.body.className += " loaded"
     })
@@ -95,6 +95,10 @@ export default function Register() {
         });
 
         let result = await registerUser.json();
+
+        if(result.status === 200){
+            props.history.push('/login')
+        }
 
     }
 
