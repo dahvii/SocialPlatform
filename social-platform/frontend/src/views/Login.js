@@ -56,8 +56,12 @@ export default function Login(props) {
                 type: 'SET_CURRENT_SESSION',
                 payload: result.sessUser
             })
-            checkCurrentUser(result.sessUser.id)
-            props.history.push('/')
+            let currUser = await checkCurrentUser(result.sessUser.id);
+            let gotEmptyProps = await checkForEmptyProp(currUser);            
+            props.history.push({
+                pathname: '/',
+                state: { emptyProps: gotEmptyProps }
+            })
         }
 
     }
@@ -71,7 +75,22 @@ export default function Login(props) {
         dispatch({
             type: 'SET_CURRENT_USER',
             payload: data
-        })
+        })        
+        return data;
+    }
+
+    const checkForEmptyProp = (currUser) =>{
+        let gotEmptyProps=false;
+        if(!currUser.gender){
+            gotEmptyProps=true;
+        }
+        if(!currUser.bio){
+            gotEmptyProps=true;
+        }
+        if(currUser.profilePictures.length === 0){
+            gotEmptyProps=true;
+        }
+        return gotEmptyProps;
     }
 
 
@@ -80,10 +99,10 @@ export default function Login(props) {
             <Form noValidate onSubmit={validate} className="form">
                 <h1 className="form-headline">LOGGA IN</h1>
                 <Form.Group className="form-group" controlId="exampleForm.ControlInput1">
-                    <Form.Label className="form-label">Namn</Form.Label>
+                    <Form.Label className="form-label">Email</Form.Label>
                     <Form.Control required ref={email} className="form-controll" type="email" placeholder="lisa@live.se" />
                     {loginError ?
-                        <p className="form-error">Du måste fylla i ett förnamn</p>
+                        <p className="form-error">Du måste fylla i en email</p>
                         : <p className="form-error form-error-hidden">&nbsp;</p>
                     }
                 </Form.Group>
@@ -91,7 +110,7 @@ export default function Login(props) {
                     <Form.Label>Lösenord</Form.Label>
                     <Form.Control required ref={password} className="form-controll" type="name" placeholder="Svensson" />
                     {loginError ?
-                        <p className="form-error">Du måste fylla i ett efternamn</p>
+                        <p className="form-error">Du måste fylla i ett lösenord</p>
                         : <p className="form-error form-error-hidden">&nbsp;</p>
                     }
                 </Form.Group>
