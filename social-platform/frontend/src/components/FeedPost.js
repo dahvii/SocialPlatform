@@ -71,7 +71,7 @@ function FeedPost(props) {
             <Card className="feed-post-card">
                 <Card.Text className="feed-post-text">
                     {/* <Image src={"http://localhost:3001/" + props.post.owner.profilePictures[0]} roundedCircle /> */}
-                    <Image onClick={goToOwner} src={state.currentUser.profilePictures[0] ? `http://localhost:3001/${state.currentUser.profilePictures[0]}` : 'http://localhost:3001/uploads/placeholder.jpg'}
+                    <Image onClick={goToOwner} src={props.post.owner.profilePictures[0] ? `http://localhost:3001/${props.post.owner.profilePictures[0]}` : 'http://localhost:3001/uploads/placeholder.jpg'}
                         roundedCircle className="feed-post-profile-picture" />
                     <span className="feed-post-text-owner" onClick={goToOwner}>{props.post.owner.firstName}</span>
 
