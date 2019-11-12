@@ -124,6 +124,7 @@ router.get('/api/person/:id', async (req, res) => {
         firstName: result.firstName,
         bio: result.bio,
         dateOfBirth: result.dateOfBirth,
+        hometown: result.hometown,
         gender: result.gender,
         interests: result.interests,
         profilePictures: result.profilePictures
