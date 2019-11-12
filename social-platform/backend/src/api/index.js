@@ -56,7 +56,7 @@ router.post('/api/register', (req, res) => {
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
                 gender: '',
-                dateOfBirth: '',
+                dateOfBirth: req.body.dateOfBirth,
                 bio: ''
             });
             bcrypt.genSalt(10, (err, salt) => {
@@ -304,8 +304,27 @@ router.post('/api/new-post', async (req, res) => {
 
 router.get('/api/users', (req, res) => {
     User.find()
-        .then(user => res.json(user))
-        .catch(err => res.status(400).json('Error: ' + err));
+    .then(result => {
+        let idFixedArr=[];
+         result.map((user) => {
+             const idFixedUser = {
+                id: user._id,
+                firstName: user.firstName,
+                bio: user.bio,
+                dateOfBirth: user.dateOfBirth,
+                gender: user.gender,
+                characteristics: user.characteristics,
+                interests: user.interests,
+                matches: user.matches,
+                profilePictures: user.profilePictures,
+                likes: user.likes,
+                rejects: user.rejects
+             }
+             idFixedArr.push(idFixedUser);
+            })
+        res.json(idFixedArr)
+        })
+      .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.put('/api/like/:id', async (req, res) => {

@@ -1,4 +1,4 @@
-import React, {} from 'react'
+import React, { } from 'react'
 import { Store } from '../utilities/Store'
 import { Image, Button } from 'react-bootstrap'
 import '../css/MyProfile.css'
@@ -25,7 +25,7 @@ export default function MyProfile(props) {
     }
 
     return (
-        <div>
+        <div className="myprofile-content">
             <Image src={state.currentUser.profilePictures[0] ? `http://localhost:3001/${state.currentUser.profilePictures[0]}` : 'http://localhost:3001/uploads/placeholder.jpg'} alt="profile-picture" roundedCircle className="profile-picture" />
             <div className="myprofile-info">
                 <h3>{state.currentUser.firstName} -</h3>&nbsp;<h3>25</h3>
@@ -34,7 +34,9 @@ export default function MyProfile(props) {
                 <Button className="profile-button" variant="light" onClick={goToProfile}>Visa profil<i className="far fa-eye"></i></Button>
                 <Button className="profile-button" variant="light" onClick={goToEditProfile}>Redigera profil<i className="fas fa-cog"></i></Button>
             </div>
-            <Button onClick={logout}>Logga ut</Button>
+            <div className="myprofile-logout">
+                <Button variant="light" className="myprofile-logout-button" onClick={logout}>Logga ut</Button>
+            </div>
         </div>
     )
 }
