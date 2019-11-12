@@ -20,7 +20,7 @@ let userSchema = new Schema({
     profilePictures: [],
     likes: [], //array of users 
     rejects: [], //array of users 
-
+    matches: []
 })
 
 class UserClass {}

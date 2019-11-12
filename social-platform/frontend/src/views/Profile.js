@@ -20,7 +20,9 @@ export default function Profile(props) {
             setProfile(props.displayedPerson)
         } else {
             getProfile();
-        }
+        } 
+        
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.displayedPerson]);
 
     useLifeCycle({

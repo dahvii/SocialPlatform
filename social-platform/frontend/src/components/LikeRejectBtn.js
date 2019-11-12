@@ -1,15 +1,14 @@
 import React, { useState } from 'react'
 import { Store } from '../utilities/Store';
 import '../css/LikeRejectBtn.css';
-import MatchModal from './MatchModal';
+import TRIModal from './TRIModal';
 
 export default function LikeRejectBtn(props) {
     const { state, dispatch } = React.useContext(Store);
     const [currUserId]  = useState(state.currentUser.id);
-    const [showMatchModal, setShowMatchModal]  = useState(false);
+    const [showModal, setShowModal]  = useState(false);
     
-    async function likeOrReject(opinion) {    
-                    
+    async function likeOrReject(opinion) {            
         let data = {
             judgedPerson: props.displayedPerson.id
         }            
@@ -20,17 +19,20 @@ export default function LikeRejectBtn(props) {
         })     
         
         
+        let didMatch = false;
         //check for match!
         if(opinion === "like"){
-            checkForMatch(props.displayedPerson);
+            didMatch = await checkForMatch(props.displayedPerson);
         }
         updateStateWithNewProfile();
-        props.callback();
+        if (!didMatch) {
+            props.callback();
+        }
     }
 
-    async function checkForMatch(likedPerson){        
-       if( likedPerson.likes && likedPerson.likes.includes(currUserId)){
-            setShowMatchModal(true);            
+    async function checkForMatch(likedPerson){     
+       if( likedPerson.likes && likedPerson.likes.includes(currUserId)){      
+            setShowModal(true);            
             let data = {
                 match: likedPerson.id,
                 currUser: currUserId
@@ -40,7 +42,7 @@ export default function LikeRejectBtn(props) {
                 body: JSON.stringify(data),
                 headers: { 'Content-Type': 'application/json'}
             });
-                        
+            return true;
         }
     }
 
@@ -53,15 +55,16 @@ export default function LikeRejectBtn(props) {
         })
     } 
 
-    const closeMatchModal = () => {
-        setShowMatchModal(false);
+    const closeMatchModal = () => {        
+        setShowModal(false);
+        props.callback();
     }
 
     return (
         <div className="btn-group">
             <div className="like-reject-btn" onClick={()=>likeOrReject("like")} ><img src = "https://cdn.shopify.com/s/files/1/1061/1924/products/Heart_Eyes_Emoji_2_large.png?v=1571606090" alt="like"></img> </div>
             <div className="like-reject-btn" onClick={()=>likeOrReject("reject")} ><img src = "https://cdn.shopify.com/s/files/1/1061/1924/products/Dizzy_Emoji_Icon_ac9b8e32-707e-4cae-9ea7-5ad1c136e2d9_large.png?v=1571606089"alt="reject"></img> </div>
-            <MatchModal show= {showMatchModal} callback= {closeMatchModal}></MatchModal>
+            <TRIModal match={props.displayedPerson} show= {showModal} callback= {closeMatchModal}></TRIModal>
         </div>
     )
 

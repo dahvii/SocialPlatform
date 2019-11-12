@@ -38,8 +38,12 @@ export default function Login(props) {
                 type: 'SET_CURRENT_SESSION',
                 payload: result.sessUser
             })
-            checkCurrentUser(result.sessUser.id)
-            props.history.push('/')
+            let currUser = await checkCurrentUser(result.sessUser.id);
+            let gotEmptyProps = await checkForEmptyProp(currUser);            
+            props.history.push({
+                pathname: '/',
+                state: { emptyProps: gotEmptyProps }
+            })
         }
 
     }
@@ -53,7 +57,22 @@ export default function Login(props) {
         dispatch({
             type: 'SET_CURRENT_USER',
             payload: data
-        })
+        })        
+        return data;
+    }
+
+    const checkForEmptyProp = (currUser) =>{
+        let gotEmptyProps=false;
+        if(!currUser.gender){
+            gotEmptyProps=true;
+        }
+        if(!currUser.bio){
+            gotEmptyProps=true;
+        }
+        if(currUser.profilePictures.length === 0){
+            gotEmptyProps=true;
+        }
+        return gotEmptyProps;
     }
 
 

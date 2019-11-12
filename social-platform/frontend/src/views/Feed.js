@@ -1,13 +1,22 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button } from 'react-bootstrap'
 import '../css/Feed.css'
 import FeedPost from '../components/FeedPost'
 import InfiniteScroll from 'react-infinite-scroller';
+import TRIModal from '../components/TRIModal';
 
 export default function Feed(props) {
     const [posts, setPosts] = useState([]);
     const [skip, setSkip] = useState(0);
     const [hasMore, setHasMore] = useState(true);
+    const [showModal, setShowModal] = useState(false);
+
+    
+    useEffect(() => {
+        if(props.location && props.location.state && props.location.state.emptyProps){
+            setShowModal(true);
+        }
+    }, [props]);
 
     function addPost() {
         props.history.push('/new-feed-post')
@@ -29,8 +38,17 @@ export default function Feed(props) {
         }
     }
 
+    const modalCallback = (redirect) => {
+        if(redirect){
+            props.history.push('/edit-profile');
+        }
+        setShowModal(false);
+    }
+
     return (
         <div>
+            <TRIModal matchModal={false} show= {showModal} callback= {modalCallback}></TRIModal>
+
             <InfiniteScroll
                 className="feed-div"
                 pageStart={0}

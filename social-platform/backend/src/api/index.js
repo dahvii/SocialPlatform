@@ -272,7 +272,7 @@ router.post('/api/delete-image/', (req, res) => {
 
 router.post('/api/feed-post/new-comment', async (req, res) => {
     if (req.body) {
-        const newComment = new dbModels.comment({
+        const newComment = new dbModels.Comments({
             text: req.body.text,
             post: req.body.postId,
             timeStamp: req.body.timeStamp,
@@ -282,7 +282,7 @@ router.post('/api/feed-post/new-comment', async (req, res) => {
         let post = await dbModels['feedPost'].findById({ _id: req.body.postId });
         post.comments.push(newComment);
         post.save()
-        let getNewComment = await dbModels['comment'].findById({ _id: newComment.id }).populate('writtenBy')
+        let getNewComment = await dbModels['Comments'].findById({ _id: newComment.id }).populate('writtenBy')
         res.status(200).json({ status: 200, newComment: getNewComment })
     } else {
         res.status(400).json({ status: 400 })
