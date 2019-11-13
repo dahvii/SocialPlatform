@@ -41,7 +41,7 @@ export default function AddCommentsToPost(props) {
         });
         let result = await registerFormComments.json();
         console.log(result)
-        props.showNewComment();
+        props.showNewComment(result);
     }
 
     return (

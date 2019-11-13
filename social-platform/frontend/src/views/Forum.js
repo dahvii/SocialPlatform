@@ -25,7 +25,6 @@ export default function Forum() {
           setPost(newPosts)
         }
         setNewForumPost(!newForumPost);
-        
      }
 
      // sprint två ta ej bort
