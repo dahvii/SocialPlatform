@@ -1,0 +1,23 @@
+.message-picture{
+    width: 60px;
+    margin-right: 10px;
+}
+
+.message-container{
+    display: flex;
+    padding: 6px;
+    text-align: left;
+    background-color: rgb(216, 191, 191);
+    border-radius: 10px;
+    margin: 2vw;
+}
+
+.message-name-info{
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+.message-name-info p, h3{
+    margin: 0;
+}
