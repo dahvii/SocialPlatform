@@ -11,7 +11,6 @@ export default function OnePost(props) {
     const [comments, setComments] = useState([]);
     const [haveLocktFordata, setHaveLocktFordata] = useState(false);
     const [newComment,setNewComment] = useState(false);
-    
      const showNewComment = (result)=>{
         if(result._id){
           setComments([result, ...comments])
@@ -33,12 +32,12 @@ export default function OnePost(props) {
         setHaveLocktFordata(true)
     }
     return (
-        //{!post.isAnonym ? ' '+ post.owner && post.owner.firstName : ''}
         <>
         { haveLocktFordata ? 
         <Card className="forum-postcard">
                 <Card.Body className="forum-cardbody"> 
-                <Card.Text className="forum-post-time forum-text"><Moment fromNow>{post.timeStamp}</Moment>{' '}{!post.isAnonym ? post.owner && post.owner.firstName : ''}
+                <Card.Text className="forum-post-time forum-text"><Moment fromNow>{post.timeStamp}</Moment>
+                <div className="postCreater">{!post.isAnonym ? post.owner && post.owner.firstName : ''}</div>
                  {post.image == null ? '':<Card.Img variant="top" src={`http://localhost:3001/` + post.image} className="feed-post-image" />}
                 </Card.Text>
                 <Card.Text className="forum-text"><b>{post.titel}</b></Card.Text>
@@ -47,7 +46,6 @@ export default function OnePost(props) {
                 </Card>
                 : ''
             }
-            
             {newComment === true ? <AddCommentsForm showNewComment = {showNewComment} forumPostId={props.match.params.id} />  : '' }
             {comments.reverse().map((comment, index) => <FormComment key ={index} comment={comment} post={post}/>)}
             <Button className="add-forum-buton" variant="light" onClick={showNewComment}>
