@@ -15,6 +15,7 @@ export default function FormPost(props){
             </Card.Text>
                 <Card.Text className="forum-text"><b>{props.post.titel}</b></Card.Text>
                 <Card.Text className="forum-text">{props.post.text}</Card.Text>
+                <Card.Text className="forum-text"><i className="far fa-comments forum-text"></i> {props.post.comments.length}</Card.Text>
             </Card.Body>
         </Link>
     </Card> 

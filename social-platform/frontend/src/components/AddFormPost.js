@@ -24,8 +24,6 @@ export default function AddFormPost(props){
 
     function validate(e) {
         let allGood = false;
-        console.log(titel.current.value);
-        
         if (titel.current.value === '') {
             setTitelError(true)
             allGood = false;
@@ -101,7 +99,7 @@ export default function AddFormPost(props){
     return (
         <> 
        <Form noValidate onSubmit={validate} className="addpost-form-background">
-                <h1 className="addpost-form-titel">Skapa en ny forum inlägg</h1>
+                <h1 className="addpost-form-titel">Skapa ett nytt forum inlägg</h1>
                 <Form.Group className="form-group" controlId="ForumForm.ControlInput">
                     <Form.Label className="form-label-whitesmoke">Titel</Form.Label>
                     <Form.Control required ref={titel} className="form-controll-textarea" type="name" placeholder="Titel" />

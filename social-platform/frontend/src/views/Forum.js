@@ -25,6 +25,7 @@ export default function Forum() {
           setPost(newPosts)
         }
         setNewForumPost(!newForumPost);
+        scrollWin()
      }
 
      // sprint två ta ej bort
@@ -38,6 +39,11 @@ export default function Forum() {
           getAllForumPost();
           }
       }) 
+
+     
+     const scrollWin = () => {
+      window.scrollTo(0, 0);
+    };
 
       //sprint 2
       //<Button className="costumBtn" onClick={()=>  showFormSearch() } >Sotering</Button>
