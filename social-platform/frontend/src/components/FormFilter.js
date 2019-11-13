@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import '../css/FilterForum.css'
 export default function FormFilter(){
     
-    const [titel,setTitel] = useState('');
+
     const [comments,setComments] = useState([]);
     const [timeStamp,setTimeStamp] = useState(new Date);
     

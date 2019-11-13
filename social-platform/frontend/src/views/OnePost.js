@@ -37,10 +37,11 @@ export default function OnePost(props) {
         <Card className="forum-postcard">
                 <Card.Body className="forum-cardbody"> 
                 <Card.Text className="forum-post-time forum-text"><Moment fromNow>{post.timeStamp}</Moment>
-                <div className="postCreater">{!post.isAnonym ? post.owner && post.owner.firstName : ''}</div>
+                <label className="postCreater">
+                {!post.isAnonym ? post.owner && post.owner.firstName : ''}
+                </label>
                  {post.image == null ? '':<Card.Img variant="top" src={`http://localhost:3001/` + post.image} className="feed-post-image" />}
                 </Card.Text>
-                <Card.Text className="forum-text"><b>{post.titel}</b></Card.Text>
                     <Card.Text className="forum-text">{post.text}</Card.Text>
                 </Card.Body>
                 </Card>

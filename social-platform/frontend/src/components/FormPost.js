@@ -12,7 +12,9 @@ export default function FormPost(props){
             <Card.Body className="forum-cardbody"> 
             <Card.Text className="forum-post-time forum-text forum-text-top">
                 <Moment fromNow>{props.post.timeStamp}</Moment>
-                <div className="postCreater">{!props.post.isAnonym ? ' '+ props.post.owner.firstName : ''}</div>
+                <label className="postCreater">
+                    {!props.post.isAnonym ? ' '+ props.post.owner.firstName : ''}
+                </label>
             </Card.Text>
                 <Card.Text className="forum-text">{props.post.text}</Card.Text>
                 <Card.Text className="forum-text forum-text-bot">{props.post.image == null ? '':<i className="far fa-image"></i>} <i className="far fa-comments forum-text"></i> {props.post.comments.length}</Card.Text>

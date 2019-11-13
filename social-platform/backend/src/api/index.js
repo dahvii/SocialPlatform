@@ -364,7 +364,6 @@ router.delete('/api/delete/:id', (req, res) => {
 router.post('/api/forum', (req,res)=>{
    const newForumPost = new ForumPost({
        owner: { _id: req.session.user.id },
-       titel: req.body.titel,
        text: req.body.text,
        timeStamp: Date.now(),
        isAnonym : req.body.anonym,
