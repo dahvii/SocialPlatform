@@ -100,30 +100,31 @@ export default function AddFormPost(props){
     }
     return (
         <> 
-       <Form noValidate onSubmit={validate} className="ForumPost">
-                <h1 className="form-titel">Skapa en ny post</h1>
-                <Form.Group className="form-group" controlId="ForumForm.ControlInput1">
-                    <Form.Label className="form-label-black">Titel</Form.Label>
+       <Form noValidate onSubmit={validate} className="addpost-form-background">
+                <h1 className="addpost-form-titel">Skapa en ny forum inlägg</h1>
+                <Form.Group className="form-group" controlId="ForumForm.ControlInput">
+                    <Form.Label className="form-label-whitesmoke">Titel</Form.Label>
                     <Form.Control required ref={titel} className="form-controll-textarea" type="name" placeholder="Titel" />
                     {titelError ?
-                        <p className="form-error">Du måste fylla i en Titel</p>
-                        : <p className="form-error-hidden">&nbsp;</p>
+                        <p className="forum-form-error form-label-whitesmoke">Du måste fylla i en Titel</p>
+                        : <p className="forum-form-error-hidden form-label-whitesmoke">&nbsp;</p>
                     }
                 </Form.Group>
                 <Form.Group className="form-group" controlId="textarea">
-                    <Form.Label>Post text</Form.Label>
+                    <Form.Label className="form-label-whitesmoke">Post text</Form.Label>
                     <Form.Control required ref={text} className="form-controll-textarea" as="textarea" rows="3" placeholder="Post text" />
                     {textError ?
-                        <p className="form-error">Du måste skriva någon text</p>
-                        : <p className="form-error-hidden">&nbsp;</p>
+                        <p className="forum-form-error form-label-whitesmoke">Du måste skriva någon text</p>
+                        : <p className="forum-form-error-hidden form-label-whitesmoke">&nbsp;</p>
                     }
                 </Form.Group>
                 <Form.Group>
-                <Button variant="light" className="newfeed-upoad-image-button"><input type="file" className="newfeed-input form-error" onChange={fileSelectorHandler}></input></Button>
+                <Button variant="light" className="newfeed-upoad-image-button"><input type="file" className="newfeed-input form-label-red" onChange={fileSelectorHandler}></input></Button>
                 <Image id="display-image" className="new-feed-display-image" src={displayImage} alt="your image"></Image>
-                {error ? <p className="form-error">Vi tar bara emot JPEG eller PNG</p> : <p className="new-feed-no-error">&nbsp;</p>}
+                {error ? <p className="forum-form-error form-label-whitesmoke">Vi tar bara emot JPEG eller PNG</p> 
+                : <p className="forum-form-error-hidden form-label-whitesmoke">&nbsp;</p>}
                 </Form.Group>
-                <Form.Group controlId="formBasicCheckboxAnonym">
+                <Form.Group>
                     <Form.Check className="anonymBasicCheckbox" type="checkbox" label="Anonym" checked={anonym} onChange={handleCheck}/>
                 </Form.Group>
                 <Button variant="light" type="submit" className="post-button">Post</Button>

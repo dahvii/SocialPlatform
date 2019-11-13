@@ -25,6 +25,7 @@ export default function Forum() {
           setPost(newPosts)
         }
         setNewForumPost(!newForumPost);
+        
      }
 
      // sprint två ta ej bort
@@ -44,13 +45,11 @@ export default function Forum() {
       //{forumSearch === true ? <FormFilter />  : '' }  
     return (
         <>
-        <div className="add-filter-btn">
-        <Button className="add-forum-buton" onClick={showNewPost} >Skapa nytt Inlägg</Button>
             {newForumPost === true ? <AddForumPost showNewPost = {showNewPost}/>  : '' }
-              
-            </div>
             {post.map((post, index) => <FormPost key ={index} post={post}/>)}
-           
+            <Button className="add-forum-buton" variant="light" onClick={showNewPost}>
+               {!newForumPost ? <i className="fas fa-plus forum-button-icon"></i>:<i className="fas fa-minus forum-button-icon"></i>}
+            </Button>
             </>
     )
 }

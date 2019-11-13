@@ -1,30 +1,17 @@
 .timestamp{
     margin-bottom: 0;
 }
-.titel{
-    font-size: 1.50rem;
-}
-.form-controll-textarea{
-    border-radius: 0;
-    width: 80%
-}
 .ForumPost{
     margin-bottom: 1rem;
 }
-.Postcard{
-    color: black;
-    margin: 25px 0px;
-    background-color: whitesmoke;
+.forum-postcard{
+    color: whitesmoke;
+    background-color: #eb6f6d;
 }
 .forumLink{
-    color: black;
+    color: whitesmoke;
 }
-.add-filter-btn{
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-.cardbody{
-    padding-left: 0;
-    padding-right: 0;
+.forum-text{
+    margin-bottom: 0;
+    text-align: left;
 }

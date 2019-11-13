@@ -3,7 +3,6 @@
     top: 0;
     z-index: 100;
 }
-
 .comment-button{
     width: 80%;
     border-radius: 50px;
@@ -11,8 +10,8 @@
     color: black;
     margin-top: 5%;
 }
-.form-label-black {
-    color: black;
+.form-label-whitesmoke {
+    color: whitesmoke;
     margin: 2%;
 }
 .forum-comment{
