@@ -95,7 +95,7 @@ export default function Swipe() {
                     <LikeRejectBtn callback = {btnCallback} displayedPerson = {people[displayedPersonindex]}></LikeRejectBtn>
                 </div>
             }
-            <Button onClick={changeValue}>visa</Button>
+            <Button onClick={changeValue}>meeeeeeh</Button>
             <SwipeQuestion/>
 
             {endOfSwipe &&

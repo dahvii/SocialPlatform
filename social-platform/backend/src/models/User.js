@@ -16,7 +16,15 @@ let userSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Interests'
     }],
-    characteristics: [], //(from table characteristics)
+    questionsAnswered: Number,
+    myCharacteristics: {
+        type: Schema.Types.ObjectId,
+        ref: "Characteristics"
+    }, 
+    partnerCharacteristics: {
+        type: Schema.Types.ObjectId,
+        ref: "Characteristics"
+    }, 
     profilePictures: [],
     likes: [], //array of users 
     rejects: [], //array of users 

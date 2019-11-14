@@ -4,12 +4,14 @@ const User = require('../models/User')
 const Interest = require('../models/Interests')
 const bcrypt = require('bcryptjs')
 const ForumPost = require('../models/ForumPost')
+const Characteristics = require('../models/Characteristics')
 const Comments = require('../models/Comments')
 const multer = require('multer')
 const uuid = require('uuid')
 const sharp = require('sharp')
 const path = require('path')
 const fs = require('fs')
+const innit = require('./loadQuestions.js');
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './uploads/');
@@ -42,35 +44,44 @@ const dbModels = {
     user: require('../models/User'),
     forumPost: require('../models/ForumPost'),
     feedPost: require('../models/FeedPost'),
-    Comments: require('../models/Comments')
+    Comments: require('../models/Comments'),
+    questions: require('../models/Questions'),
+    characteristics: require('../models/Characteristics')
 }
 
-router.post('/api/register', (req, res) => {
-    User.findOne({ email: req.body.email }).then(user => {
-        if (user) {
-            return res.status(400).json({ email: "email används redan" });
-        } else {
-            const newUser = new User({
-                email: req.body.email,
-                password: req.body.password,
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
-                gender: '',
-                hometown: '',
-                dateOfBirth: req.body.dateOfBirth,
-                bio: ''
-            });
-            bcrypt.genSalt(10, (err, salt) => {
-                bcrypt.hash(newUser.password, salt, (err, hash) => {
-                    if (err) throw err;
-                    newUser.password = hash;
-                    newUser
-                        .save()
-                        .then(res.status(200).json({ status: 200 }))
-                        .catch(err);
-                });
-            });
-        }
+innit.loadJson();
+
+router.post('/api/register', async (req, res) => {
+    let user = await User.findOne({ email: req.body.email }).catch();
+    if (user) {
+        return res.status(400).json({ email: "email används redan" });
+    }
+    const myCharacteristics = await new Characteristics({}).save()
+    const partnerCharacteristics = await new Characteristics({}).save()
+
+    const newUser = new User({
+        email: req.body.email,
+        password: req.body.password,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        gender: '',
+        hometown: '',
+        dateOfBirth: req.body.dateOfBirth,
+        bio: '',
+        questionsAnswered: 0,
+        myCharacteristics,
+        partnerCharacteristics
+
+    });
+    bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(newUser.password, salt, (err, hash) => {
+            if (err) throw err;
+            newUser.password = hash;
+            newUser
+                .save()
+                .then(res.status(200).json({ status: 200 }))
+                .catch(err);
+        });
     });
 })
 
@@ -133,7 +144,10 @@ router.get('/api/person/:id', async (req, res) => {
 })
 
 router.get('/api/currentuser/:id', async (req, res) => {
-    let result = await dbModels["user"].findOne({ _id: req.params.id }).populate('interests');
+    let result = await dbModels["user"]
+        .findOne({ _id: req.params.id })
+        .populate('interests')
+        .populate('characteristics');
     const currentUser = {
         id: result._id,
         firstName: result.firstName,
@@ -145,7 +159,10 @@ router.get('/api/currentuser/:id', async (req, res) => {
         matches: result.matches,
         profilePictures: result.profilePictures,
         likes: result.likes,
-        rejects: result.rejects
+        rejects: result.rejects,
+        questionsAnswered: result.questionsAnswered,
+        myCharacteristics: result.myCharacteristics,
+        partnerCharacteristics: result.partnerCharacteristics
     }
     res.json(currentUser)
 })
@@ -169,6 +186,17 @@ router.get('/api/feed-post/:id', async (req, res) => {
         res.json({ error: "no post found" })
     }
 });
+
+router.get('/api/questions/:skip', async (req, res) => {
+    let result = await dbModels['questions']
+        .find()
+        .skip(parseInt(req.params.skip, 10))
+        .limit(1)
+    if (result) {
+        res.json(result[0])
+    }
+})
+
 
 router.get('/api/feed-posts/:skip', async (req, res) => {
     let result = await dbModels['feedPost']
@@ -195,12 +223,23 @@ router.put('/api/update/:id', async (req, res) => {
                 gender: req.body.checkedGender,
                 interests,
                 profilePictures: req.body.imagesPaths,
-                hometown : req.body.hometown
+                hometown: req.body.hometown
             },
         }, { upsert: true })
     if (result) {
         res.json({ success: true })
     }
+})
+
+router.put('/api/characteristics/:id', async (req, res) => {
+    let char = await dbModels['characteristics'].findOne({_id: req.params.id})
+    console.log(req.body.red)
+    char.red += req.body.red
+    char.yellow += req.body.yellow
+    char.green += req.body.green
+    char.blue += req.body.blue
+    char.save()
+    res.json({ success: true })
 })
 
 router.put('/api/feed-post/like/:id', async (req, res) => {
@@ -215,6 +254,12 @@ router.put('/api/feed-post/dislike/:id', async (req, res) => {
     post.likes.splice(post.likes.indexOf(req.body.id), 1)
     post.save()
     res.json({ success: "success" })
+})
+
+router.put('/api/user-question/setAnswered', async (req, res) => {
+    let currentUser = await dbModels['user'].findOne({ _id: req.body.userId })
+    currentUser.questionsAnswered += req.body.questionsAnswered
+    currentUser.save()
 })
 
 router.put('/api/add-interest', async (req, res) => {
@@ -255,7 +300,6 @@ router.post('/api/new-image', upload.single('feedImage'), async (req, res) => {
 })
 
 router.post('/api/delete-image/', (req, res) => {
-    console.log(req.body.images)
     if (!req.body.images) {
         return res.status(500).json({ msg: 'Error in delete' });
     }
@@ -315,7 +359,6 @@ router.get('/api/users', (req, res) => {
                     bio: user.bio,
                     dateOfBirth: user.dateOfBirth,
                     gender: user.gender,
-                    characteristics: user.characteristics,
                     interests: user.interests,
                     matches: user.matches,
                     profilePictures: user.profilePictures,
@@ -409,7 +452,7 @@ router.get('/api/onepost', async (req, res) => {
 router.get('/api/comment/:id', async (req, res) => {
     let resoult = await dbModels.Comments.findById({ _id: req.params.id }).populate('writtenBy').exec();
     res.json(resoult);
-
 })
+
 
 module.exports = { router };

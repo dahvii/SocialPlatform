@@ -7,10 +7,9 @@
 .swipe-question-button{
   width: 80%;
   border-radius: 50px;
-  padding: 8px 60px 8px 60px;
   color: #eb6f6d;
-  margin-top: 4vh;
-  margin-bottom: 2vh;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
   align-self: center;
 }
 
