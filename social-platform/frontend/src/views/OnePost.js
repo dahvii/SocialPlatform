@@ -51,6 +51,19 @@ export default function OnePost(props) {
         getOnePost();
     }
 
+    const removeMyFollow = async () =>{
+        let data = {
+            id: state.currentUser.id
+        }
+        let addToMyFollow = await fetch(`/api/removeMyFollow/${post._id}`, {
+            method: "PUT",
+            body: JSON.stringify(data),
+            headers: { "Content-Type": "application/json" }
+        })
+        let result = await addToMyFollow.json();
+        getOnePost();
+    }
+
     return (
         <>
             {haveLocktFordata ?
@@ -65,7 +78,10 @@ export default function OnePost(props) {
                                 <span onClick={addToMyFollow}>
                                     <i className="far fa-plus-square"></i>
                                 </span>
-                                : ''}
+                                : 
+                                <span onClick={removeMyFollow}>
+                                    <i className="fa fa-trash"></i>
+                                </span>}
                             {post.image == null ? '' : <Card.Img variant="top" src={`http://localhost:3001/` + post.image} className="feed-post-image" />}
                         </Card.Text>
                         <Card.Text className="forum-text">{post.text}</Card.Text>
