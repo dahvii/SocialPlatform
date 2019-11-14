@@ -28,6 +28,7 @@ function App() {
     useLifeCycle({
         mount: () => {
             checkLoginStatus()
+            console.log(state.currentUser)
         }
     })
 

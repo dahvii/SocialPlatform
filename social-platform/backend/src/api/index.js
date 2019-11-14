@@ -133,7 +133,8 @@ router.get('/api/person/:id', async (req, res) => {
 })
 
 router.get('/api/currentuser/:id', async (req, res) => {
-    let result = await dbModels["user"].findOne({ _id: req.params.id }).populate('interests');
+    let result = await dbModels["user"].findOne({ _id: req.params.id }).populate('interests').populate('matches', ['firstName', 'profilePictures']);
+    console.log(result)
     const currentUser = {
         id: result._id,
         firstName: result.firstName,
