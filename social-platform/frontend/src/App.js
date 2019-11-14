@@ -89,7 +89,7 @@ function App() {
         <PrivateRoute exact path="/edit-profile" component={EditProfile} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
         <PrivateRoute exact path="/feed-post/:id" component={FeedComments} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
         <PrivateRoute exact path="/new-feed-post" component={NewFeed} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
-        <PrivateRoute exact path="/chat" component={Chat} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
+        <PrivateRoute exact path="/chat/:id" component={Chat} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
         <PrivateRoute path="/start" component={Start} isAuthenticated={!state.isLoggedIn} loading={loading} redirectPath="/"/>
         <PrivateRoute path="/register" component={Register} isAuthenticated={!state.isLoggedIn} loading={loading} redirectPath="/"/>
         <PrivateRoute path="/login" component={Login} isAuthenticated={!state.isLoggedIn} loading={loading} redirectPath="/"/>

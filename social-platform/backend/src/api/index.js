@@ -42,7 +42,8 @@ const dbModels = {
     user: require('../models/User'),
     forumPost: require('../models/ForumPost'),
     feedPost: require('../models/FeedPost'),
-    Comments: require('../models/Comments')
+    Comments: require('../models/Comments'),
+    Message: require('../models/Message')
 }
 
 router.post('/api/register', (req, res) => {
@@ -134,7 +135,6 @@ router.get('/api/person/:id', async (req, res) => {
 
 router.get('/api/currentuser/:id', async (req, res) => {
     let result = await dbModels["user"].findOne({ _id: req.params.id }).populate('interests').populate('matches', ['firstName', 'profilePictures']);
-    console.log(result)
     const currentUser = {
         id: result._id,
         firstName: result.firstName,
@@ -196,7 +196,7 @@ router.put('/api/update/:id', async (req, res) => {
                 gender: req.body.checkedGender,
                 interests,
                 profilePictures: req.body.imagesPaths,
-                hometown : req.body.hometown
+                hometown: req.body.hometown
             },
         }, { upsert: true })
     if (result) {
@@ -287,6 +287,38 @@ router.post('/api/feed-post/new-comment', async (req, res) => {
         res.status(200).json({ status: 200, newComment: getNewComment })
     } else {
         res.status(400).json({ status: 400 })
+    }
+})
+
+router.get('/api/get-messages/:user/:user2', async (req, res) => {
+    let result = await dbModels['Message'].find({
+        $and: [
+            {
+                sender: { $in: [ req.params.user, req.params.user2 ] }
+            },
+            {
+                receiver: { $in: [ req.params.user, req.params.user2 ] }
+            }
+        ]
+    })
+    res.json(result)
+})
+
+router.post('/api/new-message', async (req, res) => {
+    console.log(req.body)
+    if (req.body) {
+        const newMessage = new dbModels.Message({
+            message: req.body.message,
+            sender: req.body.sender,
+            receiver: req.body.receiver,
+            seen: req.body.seen,
+            sentAt: req.body.sentAt
+        })
+        newMessage.save()
+        res.status(200).json({ status: 'message sent' })
+
+    } else {
+        res.status(400).json({ status: 'something went wrong'})
     }
 })
 
