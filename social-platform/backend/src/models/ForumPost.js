@@ -9,7 +9,8 @@ let ForumPostSchema = new Schema({
     image: String,
     text: String,
     timeStamp: Date,
-    isAnonym: Boolean
+    isAnonym: Boolean,
+    followers: [{type: ObjectId, ref: 'User'}],
 })
 
 class ForumPostClass {}
