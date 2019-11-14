@@ -3,7 +3,7 @@ import { Form, Button } from 'react-bootstrap'
 import '../css/register.css'
 import { Link } from 'react-router-dom'
 
-export default function Register() {
+export default function Register(props) {
     useEffect(() => {
         document.body.className += " loaded"
     })
@@ -94,7 +94,11 @@ export default function Register() {
             headers: { 'Content-Type': 'application/json' }
         });
 
-        let result = await registerUser.json();
+        let result= await registerUser.json();
+
+        if(result.status === 200){
+            props.history.push('/login')
+        }
 
     }
 
@@ -157,9 +161,9 @@ export default function Register() {
 
     return (
         <div className="register-content">
-            <Form noValidate onSubmit={validate} className="form">
-                <h1 className="form-headline">SKAPA KONTO</h1>
-                <Form.Group className="birthday-input">
+            <Form noValidate onSubmit={validate} className="register-form">
+                <h1 className="register-form-headline">SKAPA KONTO</h1>
+                <Form.Group className="register-birthday-input">
                     <div>
                     <Form.Label>År</Form.Label>
                     <Form.Control onChange={updateDates} ref={year} as="select">
@@ -182,57 +186,57 @@ export default function Register() {
                     </div>
                 </Form.Group>
                     {ageError &&
-                        <p className="form-error">Du måste vara över 18 för att använda appen</p>
+                        <p className="register-form-error">Du måste vara över 18 för att använda appen</p>
                     }
-                <Form.Group className="form-group" controlId="exampleForm.ControlInput1">
-                    <Form.Label className="form-label">Namn</Form.Label>
-                    <Form.Control required ref={firstName} className="form-controll" type="name" placeholder="Lisa" />
+                <Form.Group className="register-form-group" controlId="exampleForm.ControlInput1">
+                    <Form.Label className="register-form-label">Namn</Form.Label>
+                    <Form.Control required ref={firstName} className="register-form-controll" type="name" placeholder="Lisa" />
                     {firstNameError ?
-                        <p className="form-error">Du måste fylla i ett förnamn</p>
-                        : <p className="form-error form-error-hidden">&mvsp;</p>
+                        <p className="register-form-error">Du måste fylla i ett förnamn</p>
+                        : <p className="register-form-error register-form-error-hidden">&mvsp;</p>
                     }
                 </Form.Group>
-                <Form.Group className="form-group" controlId="exampleForm.ControlInput2">
+                <Form.Group className="register-form-group" controlId="exampleForm.ControlInput2">
                     <Form.Label>Efternamn</Form.Label>
-                    <Form.Control required ref={lastName} className="form-controll" type="name" placeholder="Svensson" />
+                    <Form.Control required ref={lastName} className="register-form-controll" type="name" placeholder="Svensson" />
                     {lastNameError ?
-                        <p className="form-error">Du måste fylla i ett efternamn</p>
-                        : <p className="form-error form-error-hidden">&mvsp;</p>
+                        <p className="register-form-error">Du måste fylla i ett efternamn</p>
+                        : <p className="register-form-error register-form-error-hidden">&mvsp;</p>
                     }
                 </Form.Group>
-                <Form.Group className="form-group" controlId="exampleForm.ControlInput3">
+                <Form.Group className="register-form-group" controlId="exampleForm.ControlInput3">
                     <Form.Label>Email address</Form.Label>
-                    <Form.Control required ref={email} className="form-controll" type="email" placeholder="name@example.com" autoComplete="email" />
+                    <Form.Control required ref={email} className="register-form-controll" type="email" placeholder="name@example.com" autoComplete="email" />
                     {emailError ?
-                        <p className="form-error">Du måste fylla i en email</p>
-                        : <p className="form-error form-error-hidden">&mvsp;</p>
+                        <p className="register-form-error">Du måste fylla i en email</p>
+                        : <p className="register-form-error register-form-error-hidden">&mvsp;</p>
                     }
                 </Form.Group>
-                <Form.Group className="form-group" controlId="exampleForm.ControlInput4">
+                <Form.Group className="register-form-group" controlId="exampleForm.ControlInput4">
                     <Form.Label>Lösenord</Form.Label>
-                    <Form.Control required ref={password} className="form-controll" type="password" placeholder="*******" autoComplete="new-password" />
+                    <Form.Control required ref={password} className="register-form-controll" type="password" placeholder="*******" autoComplete="new-password" />
                     {passwordError ?
-                        <p className="form-error">Du måste fylla i ett lösenord</p>
-                        : <p className="form-error form-error-hidden">&mvsp;</p>
+                        <p className="register-form-error">Du måste fylla i ett lösenord</p>
+                        : <p className="register-form-error register-form-error-hidden">&mvsp;</p>
                     }
                 </Form.Group>
-                <Form.Group className="form-group" controlId="exampleForm.ControlInput5">
+                <Form.Group className="register-form-group" controlId="exampleForm.ControlInput5">
                     <Form.Label>Upprepa lösenord</Form.Label>
-                    <Form.Control required ref={password2} className="form-controll" type="password" placeholder="*******" autoComplete="new-password" />
+                    <Form.Control required ref={password2} className="register-form-controll" type="password" placeholder="*******" autoComplete="new-password" />
                     {password2Error ?
-                        <p className="form-error">Du måste fylla i ett lösenord</p>
-                        : <p className="form-error form-error-hidden">&mvsp;</p>
+                        <p className="register-form-error">Du måste fylla i ett lösenord</p>
+                        : <p className="register-form-error register-form-error-hidden">&mvsp;</p>
                     }
                     {
                         matchingPasswordError ?
-                            <p className="form-error">Dina lösenord ska matcha</p>
-                            : <p className="form-error form-error-hidden">&mvsp;</p>
+                            <p className="register-form-error">Dina lösenord ska matcha</p>
+                            : <p className="register-form-error register-form-error-hidden">&mvsp;</p>
                     }
                 </Form.Group>
                 <Button variant="light" type="submit" className="register-button">SKAPA KONTO</Button>
             </Form>
             <Link to="/login">
-                <p className="already-account">
+                <p className="register-already-account">
                     Har du redan ett konto?
         </p>
             </Link>

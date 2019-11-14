@@ -10,25 +10,7 @@ export default function Login(props) {
     const { dispatch } = React.useContext(Store);
 
     function validate(e) {
-        let allGood = false;
-        if (email.current.value === '') {
-            setLoginError(true)
-            allGood = false;
-        } else {
-            allGood = true;
-            setLoginError(false)
-        }
-        if (password.current.value === '') {
-            setLoginError(true)
-            allGood = false;
-        } else {
-            allGood = true;
-            setLoginError(false)
-        }
-
-        if (allGood) {
-            login(email.current.value, password.current.value)
-        }
+        login(email.current.value, password.current.value)
         e.preventDefault();
     }
 
@@ -56,8 +38,12 @@ export default function Login(props) {
                 type: 'SET_CURRENT_SESSION',
                 payload: result.sessUser
             })
-            checkCurrentUser(result.sessUser.id)
-            props.history.push('/')
+            let currUser = await checkCurrentUser(result.sessUser.id);
+            let gotEmptyProps = await checkForEmptyProp(currUser);            
+            props.history.push({
+                pathname: '/',
+                state: { emptyProps: gotEmptyProps }
+            })
         }
 
     }
@@ -71,32 +57,43 @@ export default function Login(props) {
         dispatch({
             type: 'SET_CURRENT_USER',
             payload: data
-        })
+        })        
+        return data;
+    }
+
+    const checkForEmptyProp = (currUser) =>{
+        let gotEmptyProps=false;
+        if(!currUser.gender){
+            gotEmptyProps=true;
+        }
+        if(!currUser.bio){
+            gotEmptyProps=true;
+        }
+        if(currUser.profilePictures.length === 0){
+            gotEmptyProps=true;
+        }
+        return gotEmptyProps;
     }
 
 
     return (
         <div className="login-content">
             <Form noValidate onSubmit={validate} className="form">
-                <h1 className="form-headline">LOGGA IN</h1>
-                <Form.Group className="form-group" controlId="exampleForm.ControlInput1">
-                    <Form.Label className="form-label">Namn</Form.Label>
-                    <Form.Control required ref={email} className="form-controll" type="email" placeholder="lisa@live.se" />
-                    {loginError ?
-                        <p className="form-error">Du måste fylla i ett förnamn</p>
-                        : <p className="form-error form-error-hidden">&nbsp;</p>
-                    }
+                <h1 className="login-form-headline">LOGGA IN</h1>
+                <Form.Group className="login-form-group" controlId="exampleForm.ControlInput1">
+                    <Form.Label className="login-form-label">Email</Form.Label>
+                    <Form.Control required ref={email} className="login-form-controll" type="email" placeholder="lisa@live.se" />
                 </Form.Group>
-                <Form.Group className="form-group" controlId="exampleForm.ControlInput2">
+                <Form.Group className="login-form-group" controlId="exampleForm.ControlInput2">
                     <Form.Label>Lösenord</Form.Label>
-                    <Form.Control required ref={password} className="form-controll" type="name" placeholder="Svensson" />
+                    <Form.Control required ref={password} className="login-form-controll" type="password" placeholder="Svensson" />
                     {loginError ?
-                        <p className="form-error">Du måste fylla i ett efternamn</p>
-                        : <p className="form-error form-error-hidden">&nbsp;</p>
+                        <p className="login-form-error">Email och lösenord matchade inte</p>
+                        : <p className="login-form-error login-form-error-hidden">&nbsp;</p>
                     }
                 </Form.Group>
 
-                <Button variant="light" type="submit" className="register-button">Logga in</Button>
+                <Button variant="light" type="submit" className="login-button">Logga in</Button>
             </Form>
         </div>
     )

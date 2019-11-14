@@ -3,6 +3,8 @@
     position: fixed;
     bottom: 10vh;
     right: 6vw;
+    background-color: #e3ddddc2;
+    border-color: #e3ddddc2;
 }
 
 .plus-icon{

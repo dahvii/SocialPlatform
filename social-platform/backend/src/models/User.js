@@ -10,6 +10,7 @@ let userSchema = new Schema({
     lastName: String,
     dateOfBirth: Date,
     gender: String,
+    hometown: String,
     bio: String,
     interests: [{
         type: Schema.Types.ObjectId,
@@ -19,7 +20,7 @@ let userSchema = new Schema({
     profilePictures: [],
     likes: [], //array of users 
     rejects: [], //array of users 
-
+    matches: []
 })
 
 class UserClass {}

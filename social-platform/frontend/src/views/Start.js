@@ -1,16 +1,20 @@
 import React from 'react'
-import {Button} from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import '../css/start.css';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 export default function Start() {
     // window.onload = function() {
     //     document.body.className += " loaded";
     // }
     return (
-        <div className="content">
-            <h1 className="lisa">Lisa<span className="dot">.</span></h1>
-            <Link to="/register"><Button variant="light" className="start-button">CONTINUE WITH LOGIN</Button></Link>
+        <div className="start-page-content">
+            <div>
+                <h1 className="start-page-tri">Tri<span className="start-page-dot">.</span></h1>
+            </div>
+            <div>
+                <Link to="/register"><Button variant="light" className="start-page-button">CONTINUE WITH LOGIN</Button></Link>
+            </div>
         </div>
     )
 }
