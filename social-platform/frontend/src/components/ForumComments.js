@@ -7,6 +7,10 @@ export default function FormComments(props){
     const [writtenBy, setWrittenBy] = useState({});
     const [haveLocktFordata, setHaveLocktFordata] = useState(false);
 
+    function goToOwner() {
+        props.history.push('/profile/' + props.post.owner._id)
+    }
+
     const getOneComment = async() =>{
         setHaveLocktFordata(true)
         const data = await fetch('/api/comment/' + props.comment._id);
@@ -20,11 +24,14 @@ export default function FormComments(props){
         }
     })
     return(  
-        <Card className="Postcard">  
-            <Card.Body> 
-                <Card.Title className="titel"><Moment fromNow>{props.comment.timeStamp}</Moment></Card.Title>
-                {!props.post.isAnonym ? <Card.Title className="titel">Skriven av {writtenBy.firstName}</Card.Title> : ''}
-                <Card.Text>{props.comment.text}</Card.Text>
+        <Card className="forum-postcard">  
+            <Card.Body className="forum-cardbody"> 
+            <Card.Text className="forum-post-time forum-text"><Moment fromNow>{props.comment.timeStamp}</Moment>
+            <span className="postCreater" onClick={goToOwner}>
+                    {!props.post.isAnonym ? ' '+ props.post.owner.firstName : ''}
+                </span>
+                </Card.Text>
+                <Card.Text className="forum-text">{props.comment.text}</Card.Text>
             </Card.Body>
     </Card> 
         )    

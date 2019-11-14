@@ -195,7 +195,7 @@ router.put('/api/update/:id', async (req, res) => {
                 gender: req.body.checkedGender,
                 interests,
                 profilePictures: req.body.imagesPaths,
-                hometown : req.body.hometown
+                hometown: req.body.hometown
             },
         }, { upsert: true })
     if (result) {
@@ -366,7 +366,6 @@ router.delete('/api/delete/:id', (req, res) => {
 router.post('/api/forum', (req, res) => {
     const newForumPost = new ForumPost({
         owner: { _id: req.session.user.id },
-        titel: req.body.titel,
         text: req.body.text,
         timeStamp: Date.now(),
         isAnonym: req.body.anonym,
@@ -377,13 +376,13 @@ router.post('/api/forum', (req, res) => {
 })
 
 router.get('/api/forum', async (req, res) => {
-    let resoult = await dbModels.forumPost.find().populate('owner').sort({ 'timeStamp': -1 }).exec();
-    res.json(resoult);
+    let result = await dbModels.forumPost.find().populate('owner').sort({ 'timeStamp': -1 }).populate('followers').exec();
+    res.json(result);
 })
 
 router.get('/api/onepost/:id', async (req, res) => {
-    let resoult = await dbModels.forumPost.findById({ _id: req.params.id }).populate('owner').populate('comments').exec();
-    res.json(resoult);
+    let result = await dbModels.forumPost.findById({ _id: req.params.id }).populate('owner').populate('comments').populate('followers').exec();
+    res.json(result);
 })
 
 router.post('/api/onepost', async (req, res) => {
@@ -401,15 +400,35 @@ router.post('/api/onepost', async (req, res) => {
 
 
 router.get('/api/onepost', async (req, res) => {
-    let resoult = await dbModels.Comments.findById({ _id: req.params.id })
-    res.json(resoult);
+    let result = await dbModels.Comments.findById({ _id: req.params.id })
+    res.json(result);
 })
 
 
 router.get('/api/comment/:id', async (req, res) => {
-    let resoult = await dbModels.Comments.findById({ _id: req.params.id }).populate('writtenBy').exec();
-    res.json(resoult);
+    let result = await dbModels.Comments.findById({ _id: req.params.id }).populate('writtenBy').exec();
+    res.json(result);
 
 })
+//add
+router.put('/api/addToMyFollow/:id', async (req, res) => {
+    let post = await dbModels.forumPost.findById({ _id: req.params.id }).populate('owner').populate('comments').populate('followers').exec();
+    post.followers.push(req.body.id);
+    post.save();
+    res.json({ success: "success" });
+})
 
+//Remove
+router.put('/api/removeMyFollow/:id', async (req, res) => {
+    let post = await dbModels.forumPost.findById({ _id: req.params.id }).populate('owner').populate('comments').populate('followers').exec();
+    post.followers.shift(req.body.id);
+    post.save();
+    res.json({ success: "success" });
+})
+
+router.get('/api/iFollow', async (req, res) => {
+    let result = await dbModels.forumPost.find().populate('owner').populate('comments').sort({ 'timeStamp': -1 }).exec();
+    result = result.filter(post => post.followers.includes(req.session.user.id))
+    res.json(result);
+})
 module.exports = { router };

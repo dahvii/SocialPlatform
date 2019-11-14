@@ -7,10 +7,10 @@ let ForumPostSchema = new Schema({
     owner: {type: ObjectId, ref: 'User'},
     comments: [{type: ObjectId, ref: 'Comments'}],
     image: String,
-    titel: String,
     text: String,
     timeStamp: Date,
-    isAnonym: Boolean
+    isAnonym: Boolean,
+    followers: [{type: ObjectId, ref: 'User'}],
 })
 
 class ForumPostClass {}
