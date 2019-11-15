@@ -8,13 +8,14 @@ export default function SwipeQuestion() {
     const { dispatch } = React.useContext(Store);
     const { state } = React.useContext(Store);
     const [checkedAnswere, setCheckedAnswere] = useState();
-    const [questionNumber, setQuestionNumber] = useState(0);
+    // const [questionNumber, setQuestionNumber] = useState(0);
     const [questions, setQuestions] = useState()
     const [hasloaded, setHasLoaded] = useState(false)
     const [skip, setSkip] = useState()
 
     useLifeCycle({
         mount: () => {
+            console.log(state.currentUser)
             setSkip(state.currentUser.questionsAnswered)
             getQuestion();
         }

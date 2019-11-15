@@ -106,7 +106,7 @@
             },
             {
                 "text": "Han är en clown",
-                "red": -1,
+                "red": 0,
                 "blue": 1,
                 "yellow": 2,
                 "green": 1
@@ -380,6 +380,74 @@
                 "blue": 0,
                 "yellow": 2,
                 "green": 1
+            }
+        ]
+    },
+    {
+        "type": "myCharacteristics",
+        "question": "Du ska sätta ihop nya möbler, hur gör du?",
+        "answer": [
+            {
+                "text": "Jag bygger mina egna möbler",
+                "red": 2,
+                "blue": -1,
+                "yellow": 0,
+                "green": -1
+            },
+            {
+                "text": "Jag följer instruktionerna noga",
+                "red": 1,
+                "blue": 2,
+                "yellow": -2,
+                "green": 0
+            },
+            {
+                "text": "Jag slänger bruksanvisningen och kör igång",
+                "red": -1,
+                "blue": -2,
+                "yellow": 2,
+                "green": -1
+            },
+            {
+                "text": "Jag försöker men kanske ber om hjälp, har ju trots allt hjälpt andra innan",
+                "red": -2,
+                "blue": 1,
+                "yellow": 0,
+                "green": 2
+            }
+        ]
+    },
+    {
+        "type": "myCharacteristics",
+        "question": "",
+        "answer": [
+            {
+                "text": "Jag bygger mina egna möbler",
+                "red": 2,
+                "blue": -1,
+                "yellow": 0,
+                "green": -1
+            },
+            {
+                "text": "Jag följer instruktionerna noga",
+                "red": 1,
+                "blue": 2,
+                "yellow": -2,
+                "green": 0
+            },
+            {
+                "text": "Jag slänger bruksanvisningen och kör igång",
+                "red": -1,
+                "blue": -2,
+                "yellow": 2,
+                "green": -1
+            },
+            {
+                "text": "Jag försöker men kanske ber om hjälp, har ju trots allt hjälpt andra innan",
+                "red": -2,
+                "blue": 1,
+                "yellow": 0,
+                "green": 2
             }
         ]
     }
