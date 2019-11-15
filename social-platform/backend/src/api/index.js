@@ -11,6 +11,7 @@ const uuid = require('uuid')
 const sharp = require('sharp')
 const path = require('path')
 const fs = require('fs')
+const Reported = require('../models/Reported')
 const innit = require('./loadQuestions.js');
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -456,25 +457,43 @@ router.get('/api/comment/:id', async (req, res) => {
     res.json(result);
 
 })
-//add
 router.put('/api/addToMyFollow/:id', async (req, res) => {
     let post = await dbModels.forumPost.findById({ _id: req.params.id }).populate('owner').populate('comments').populate('followers').exec();
     post.followers.push(req.body.id);
     post.save();
     res.json({ success: "success" });
 })
-
-//Remove
 router.put('/api/removeMyFollow/:id', async (req, res) => {
     let post = await dbModels.forumPost.findById({ _id: req.params.id }).populate('owner').populate('comments').populate('followers').exec();
     post.followers.shift(req.body.id);
     post.save();
     res.json({ success: "success" });
 })
-
 router.get('/api/iFollow', async (req, res) => {
     let result = await dbModels.forumPost.find().populate('owner').populate('comments').sort({ 'timeStamp': -1 }).exec();
     result = result.filter(post => post.followers.includes(req.session.user.id))
     res.json(result);
 })
+
+//add forum post to Reported list
+router.put('/api/addForumPostToReportedList/:id' ,async (req, res) => {
+    let post = await dbModels.forumPost.findById({ _id: req.params.id });  
+    
+    console.log(reported)
+    reported.forumPost.push(post);
+    reported.save();
+    res.json({reported: 'Reported'}) 
+   
+})
+
+/*
+titta på 
+ newForumComments.save();
+    let post = await dbModels.forumPost.findById({ _id: req.body.forumPostId });
+    post.comments.push(newForumComments);
+    post.save();
+    res.json(newForumComments)
+
+*/
+
 module.exports = { router };

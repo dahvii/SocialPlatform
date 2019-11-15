@@ -42,28 +42,42 @@ export default function OnePost(props) {
         let data = {
             id: state.currentUser.id
         }
-        let addToMyFollow = await fetch(`/api/addToMyFollow/${post._id}`, {
+        await fetch(`/api/addToMyFollow/${post._id}`, {
             method: "PUT",
             body: JSON.stringify(data),
             headers: { "Content-Type": "application/json" }
         })
-        let result = await addToMyFollow.json();
+        //let result = await addToMyFollow.json();
         getOnePost();
     }
 
-    const removeMyFollow = async () =>{
+    const removeMyFollow = async () => {
         let data = {
             id: state.currentUser.id
         }
-        let addToMyFollow = await fetch(`/api/removeMyFollow/${post._id}`, {
+        await fetch(`/api/removeMyFollow/${post._id}`, {
             method: "PUT",
             body: JSON.stringify(data),
             headers: { "Content-Type": "application/json" }
         })
-        let result = await addToMyFollow.json();
+        //let result = await addToMyFollow.json();
         getOnePost();
     }
 
+    const report = async () => {
+        console.log('hej');
+        console.log(post._id);
+        let data = {
+            id: post._id
+        }
+        let result = await fetch(`/api/addForumPostToReportedList/${post._id}`, {
+            method: "PUT",
+            body: JSON.stringify(data),
+            headers: { "Content-Type": "application/json" }
+        })
+        console.log(result);
+        
+    }
     return (
         <>
             {haveLocktFordata ?
@@ -78,10 +92,16 @@ export default function OnePost(props) {
                                 <span onClick={addToMyFollow}>
                                     <i className="far fa-plus-square"></i>
                                 </span>
-                                : 
+                                :
                                 <span onClick={removeMyFollow}>
                                     <i className="fa fa-trash"></i>
                                 </span>}
+                            {' '}
+
+                            <span onClick={report}>
+                                <i className="fas fa-flag"></i>
+                            </span>
+                            {' '}
                             {post.image == null ? '' : <Card.Img variant="top" src={`http://localhost:3001/` + post.image} className="feed-post-image" />}
                         </Card.Text>
                         <Card.Text className="forum-text">{post.text}</Card.Text>
