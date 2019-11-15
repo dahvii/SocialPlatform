@@ -13,6 +13,8 @@ const path = require('path')
 const fs = require('fs')
 const Reported = require('../models/Reported')
 const innit = require('./loadQuestions.js');
+const { db } = require('../loaders');
+
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './uploads/');
@@ -47,7 +49,8 @@ const dbModels = {
     feedPost: require('../models/FeedPost'),
     Comments: require('../models/Comments'),
     questions: require('../models/Questions'),
-    characteristics: require('../models/Characteristics')
+    characteristics: require('../models/Characteristics'),
+    reports: require('../models/Reported')
 }
 
 innit.loadJson();
@@ -475,25 +478,25 @@ router.get('/api/iFollow', async (req, res) => {
     res.json(result);
 })
 
+
+const createnewRepported = async (reported) =>{
+    if (reported.length < 1 ){
+        const reported = new Reported();
+        await reported.save()
+        console.log(reported)
+    }
+}
+
 //add forum post to Reported list
 router.put('/api/addForumPostToReportedList/:id' ,async (req, res) => {
     let post = await dbModels.forumPost.findById({ _id: req.params.id });  
-    
-    console.log(reported)
-    reported.forumPost.push(post);
-    reported.save();
-    res.json({reported: 'Reported'}) 
-   
-})
+    let reported = await dbModels['reports'].find();
+    await createnewRepported(reported)
+    console.log(reported[0]._id)
+    reported[0].forumPosts.push(post);
+    reported[0].save();
+    res.json({reported}) 
+   })
 
-/*
-titta på 
- newForumComments.save();
-    let post = await dbModels.forumPost.findById({ _id: req.body.forumPostId });
-    post.comments.push(newForumComments);
-    post.save();
-    res.json(newForumComments)
-
-*/
 
 module.exports = { router };

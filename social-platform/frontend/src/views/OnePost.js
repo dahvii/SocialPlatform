@@ -47,7 +47,6 @@ export default function OnePost(props) {
             body: JSON.stringify(data),
             headers: { "Content-Type": "application/json" }
         })
-        //let result = await addToMyFollow.json();
         getOnePost();
     }
 
@@ -65,18 +64,16 @@ export default function OnePost(props) {
     }
 
     const report = async () => {
-        console.log('hej');
-        console.log(post._id);
         let data = {
             id: post._id
         }
-        let result = await fetch(`/api/addForumPostToReportedList/${post._id}`, {
+        let newreport = await fetch(`/api/addForumPostToReportedList/${post._id}`, {
             method: "PUT",
             body: JSON.stringify(data),
             headers: { "Content-Type": "application/json" }
         })
+        let result = await newreport.json();
         console.log(result);
-        
     }
     return (
         <>
