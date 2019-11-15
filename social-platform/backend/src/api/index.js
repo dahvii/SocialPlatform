@@ -234,7 +234,6 @@ router.put('/api/update/:id', async (req, res) => {
 
 router.put('/api/characteristics/:id', async (req, res) => {
     let char = await dbModels['characteristics'].findOne({_id: req.params.id})
-    console.log(req.body.red)
     char.red += req.body.red
     char.yellow += req.body.yellow
     char.green += req.body.green
@@ -261,8 +260,7 @@ router.put('/api/user-question/setAnswered', async (req, res) => {
     let currentUser = await dbModels['user'].findOne({ _id: req.body.userId })
     currentUser.questionsAnswered += req.body.questionsAnswered
     currentUser.save()
-    res.json({success: "success"})
-    console.log(currentUser.questionsAnswered);
+    res.json(currentUser)
 })
 
 router.put('/api/add-interest', async (req, res) => {
