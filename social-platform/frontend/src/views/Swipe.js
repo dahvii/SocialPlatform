@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 import SwipePreview from '../components/SwipePreview';
+import SwipeQuestion from '../components/SwipeQuestion'
 import LikeRejectBtn from '../components/LikeRejectBtn.js';
 import { Store } from '../utilities/Store'
 import Profile from './Profile';
 import useLifeCycle from '../utilities/useLifeCycle';
-import { Image } from 'react-bootstrap'
+import { Image, Button } from 'react-bootstrap'
 
 
 export default function Swipe() {
-    const { state } = React.useContext(Store);
+    const { state, dispatch } = React.useContext(Store);
     const [showDetails, setShowDetails] = useState(false);
     const [people, setPeople] = useState([]);
     const [endOfSwipe, setEndOfSwipe] = useState(false);
@@ -56,6 +57,13 @@ export default function Swipe() {
         setShowDetails(!showDetails);
     }
 
+    function changeValue(){
+        dispatch({
+            type: "SHOW_QUESTION",
+            payload: true
+        })
+    }
+
     function nextPerson() {
         let newIndex = displayedPersonindex + 1;
         if (newIndex >= people.length) {
@@ -87,6 +95,8 @@ export default function Swipe() {
                     <LikeRejectBtn callback = {btnCallback} displayedPerson = {people[displayedPersonindex]}></LikeRejectBtn>
                 </div>
             }
+            <Button onClick={changeValue}>meeeeeeh</Button>
+            <SwipeQuestion/>
 
             {endOfSwipe &&
                 <div>

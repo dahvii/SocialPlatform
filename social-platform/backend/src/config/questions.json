@@ -1,0 +1,454 @@
+[
+    {
+        "type": "myCharacteristics",
+        "question": "Hur studerar du bäst?",
+        "answer": [
+            {
+                "text": "Vid ett rent skrivbort",
+                "red": 0,
+                "blue": 2,
+                "yellow": -2,
+                "green": -1
+            },
+            {
+                "text": "På ett kafe med vänner",
+                "red": 0,
+                "blue": -2,
+                "yellow": 2,
+                "green": 1
+            }
+        ]
+    },
+    {
+        "type": "partnerCharacteristics",
+        "question": "Vad är viktigast i en partner",
+        "answer": [
+            {
+                "text": "Att hen är spontan",
+                "red": 0,
+                "blue": 0,
+                "yellow": 2,
+                "green": 0
+            },
+            {
+                "text": "Att hen är ambitiös",
+                "red": 2,
+                "blue": 0,
+                "yellow": 0,
+                "green": 0
+            }
+        ]
+    },
+    {
+        "type": "myCharacteristics",
+        "question": "Vad gör du helst en onsdag-kväll?",
+        "answer": [
+            {
+                "text": "Tränar",
+                "red": 1,
+                "blue": 1,
+                "yellow": -1,
+                "green": 0
+            },
+            {
+                "text": "Kollar tv",
+                "red": 1,
+                "blue": 0,
+                "yellow": -1,
+                "green": 1
+            },
+            {
+                "text": "Umgås med vänner",
+                "red": -1,
+                "blue": 0,
+                "yellow": 2,
+                "green": 0
+            }
+        ]
+    },
+    {
+        "type": "myCharacteristics",
+        "question": "Vad gör du helst en lördag-kväll?",
+        "answer": [
+            {
+                "text": "Äter en god middag",
+                "red": 2,
+                "blue": 1,
+                "yellow": 0,
+                "green": -1
+            },
+            {
+                "text": "Träffar min familj",
+                "red": 0,
+                "blue": 1,
+                "yellow": 1,
+                "green": 2
+            },
+            {
+                "text": "Festar",
+                "red": 1,
+                "blue": 0,
+                "yellow": 2,
+                "green": 0
+            }
+        ]
+    },
+    {
+        "type": "myCharacteristics",
+        "question": "Vad tycker du om Donald Trump?",
+        "answer": [
+            {
+                "text": "Han får saker gjorda",
+                "red": 2,
+                "blue": 0,
+                "yellow": -2,
+                "green": -2
+            },
+            {
+                "text": "Han är en clown",
+                "red": 0,
+                "blue": 1,
+                "yellow": 2,
+                "green": 1
+            },
+            {
+                "text": "Bryr mig inte",
+                "red": -2,
+                "blue": -1,
+                "yellow": 0,
+                "green": 1
+            }
+        ]
+    },
+    {
+        "type": "myCharacteristics",
+        "question": "Hur tycker du om att klä dig?",
+        "answer": [
+            {
+                "text": "Funktionellt",
+                "red": 1,
+                "blue": 2,
+                "yellow": -2,
+                "green": 1
+            },
+            {
+                "text": "I mina gamla vanliga plagg",
+                "red": 0,
+                "blue": 1,
+                "yellow": -1,
+                "green": 2
+            },
+            {
+                "text": "Jag tycker om att experimentera",
+                "red": -2,
+                "blue": -1,
+                "yellow": 2,
+                "green": 0
+            }
+        ]
+    },
+    {
+        "type": "myCharacteristics",
+        "question": "Du ska hålla i en presentation, hur gör du?",
+        "answer": [
+            {
+                "text": "Jag förbereder mig och kanske skapar en power-point",
+                "red": 1,
+                "blue": 2,
+                "yellow": -2,
+                "green": 1
+            },
+            {
+                "text": "Jag tar det som det kommer",
+                "red": -1,
+                "blue": -2,
+                "yellow": 2,
+                "green": 0
+            },
+            {
+                "text": "Jag öppnar upp för diskussioner",
+                "red": -2,
+                "blue": -1,
+                "yellow": 1,
+                "green": 2
+            }
+        ]
+    },
+    {
+        "type": "myCharacteristics",
+        "question": "En nära vän har blivit dumpad av sin partner, hur gör du?",
+        "answer": [
+            {
+                "text": "Om den vill prata så kan jag gå med på det",
+                "red": 1,
+                "blue": 2,
+                "yellow": -1,
+                "green": -2
+            },
+            {
+                "text": "Jag tar kontakt med den och försöker prata om det",
+                "red": -1,
+                "blue": -2,
+                "yellow": 1,
+                "green": 2
+            },
+            {
+                "text": "Jag hittar på något kul med den",
+                "red": 2,
+                "blue": 1,
+                "yellow": 0,
+                "green": 0
+            }
+        ]
+    },
+    {
+        "type": "myCharacteristics",
+        "question": "På midsommar är det hoppa-säck tävling, hur är du?",
+        "answer": [
+            {
+                "text": "Det finns bara vinst som gäller",
+                "red": 2,
+                "blue": 0,
+                "yellow": -2,
+                "green": -1
+            },
+            {
+                "text": "Jag försöker skoja till det",
+                "red": -2,
+                "blue": -2,
+                "yellow": 2,
+                "green": -1
+            },
+            {
+                "text": "Det viktiga är att alla har kul",
+                "red": -1,
+                "blue": 0,
+                "yellow": 1,
+                "green": 2
+            }
+        ]
+    },
+    {
+        "type": "myCharacteristics",
+        "question": "På midsommar är det hoppa-säck tävling, hur är du?",
+        "answer": [
+            {
+                "text": "Det finns bara vinst som gäller",
+                "red": 2,
+                "blue": 0,
+                "yellow": -2,
+                "green": 0
+            },
+            {
+                "text": "Jag försöker skoja till det",
+                "red": -2,
+                "blue": -2,
+                "yellow": 2,
+                "green": 0
+            },
+            {
+                "text": "Det viktiga är att alla har kul",
+                "red": -1,
+                "blue": 0,
+                "yellow": 1,
+                "green": 2
+            }
+        ]
+    },
+    {
+        "type": "myCharacteristics",
+        "question": "Kyparen kommer in med fel mat, vad gör du?",
+        "answer": [
+            {
+                "text": "Jag ber direkt om att få in det jag beställde",
+                "red": 2,
+                "blue": 0,
+                "yellow": -2,
+                "green": -2
+            },
+            {
+                "text": "Jag tar emot maten, det kan ju va gott det här också?",
+                "red": -2,
+                "blue": 0,
+                "yellow": 2,
+                "green": 2
+            },
+            {
+                "text": "Jag smakar på maten, det var inte så gott så jag ber om något annat",
+                "red": 0,
+                "blue": 2,
+                "yellow": 1,
+                "green": 0
+            }
+        ]
+    },
+    {
+        "type": "myCharacteristics",
+        "question": "Du ärver 100 000kr, vad gör du?",
+        "answer": [
+            {
+                "text": "Jag placerar pengarna i en fond",
+                "red": 1,
+                "blue": 2,
+                "yellow": -2,
+                "green": 0
+            },
+            {
+                "text": "Jag unnar mig något",
+                "red": 2,
+                "blue": 0,
+                "yellow": 1,
+                "green": 1
+            },
+            {
+                "text": "Jag gör ingenting, det kommer säkert gå åt ändå",
+                "red": 0,
+                "blue": -2,
+                "yellow": 1,
+                "green": 1
+            }
+        ]
+    },
+    {
+        "type": "myCharacteristics",
+        "question": "Vilken styrka värderar du mest?",
+        "answer": [
+            {
+                "text": "Min nyfikenhet",
+                "red": 2,
+                "blue": 0,
+                "yellow": 0,
+                "green": 0
+            },
+            {
+                "text": "Min spontanitet",
+                "red": 0,
+                "blue": 0,
+                "yellow": 2,
+                "green": 0
+            },
+            {
+                "text": "Min lojalitet",
+                "red": 0,
+                "blue": 0,
+                "yellow": 0,
+                "green": 2
+            }
+        ]
+    },
+    {   
+        "type": "myCharacteristics",
+        "question": "Hur är du på lönesamtal?",
+        "answer": [
+            {
+                "text": "Jag förklarar rakt och tydligt varför jag förtjänar den lön jag ber om",
+                "red": 2,
+                "blue": 0,
+                "yellow": 0,
+                "green": -1
+            },
+            {
+                "text": "Jag hoppas på att min chef ska förstå att jag förtjänar med i lön",
+                "red": -2,
+                "blue": 1,
+                "yellow": 0,
+                "green": 2
+            },
+            {
+                "text": "Samtalet blir långt och interessant men lönen blir vad den blir",
+                "red": -2,
+                "blue": -2,
+                "yellow": 2,
+                "green": -1
+            }
+        ]
+    },
+    {
+        "type": "myCharacteristics",
+        "question": "Vad tycker du mest om?",
+        "answer": [
+            {
+                "text": "Att vara ensam",
+                "red": 0,
+                "blue": 2,
+                "yellow": 0,
+                "green": 0
+            },
+            {
+                "text": "Att vara i grupp",
+                "red": 1,
+                "blue": 0,
+                "yellow": 2,
+                "green": 1
+            }
+        ]
+    },
+    {
+        "type": "myCharacteristics",
+        "question": "Du ska sätta ihop nya möbler, hur gör du?",
+        "answer": [
+            {
+                "text": "Jag bygger mina egna möbler",
+                "red": 2,
+                "blue": -1,
+                "yellow": 0,
+                "green": -1
+            },
+            {
+                "text": "Jag följer instruktionerna noga",
+                "red": 1,
+                "blue": 2,
+                "yellow": -2,
+                "green": 0
+            },
+            {
+                "text": "Jag slänger bruksanvisningen och kör igång",
+                "red": -1,
+                "blue": -2,
+                "yellow": 2,
+                "green": -1
+            },
+            {
+                "text": "Jag försöker men kanske ber om hjälp, har ju trots allt hjälpt andra innan",
+                "red": -2,
+                "blue": 1,
+                "yellow": 0,
+                "green": 2
+            }
+        ]
+    },
+    {
+        "type": "myCharacteristics",
+        "question": "",
+        "answer": [
+            {
+                "text": "Jag bygger mina egna möbler",
+                "red": 2,
+                "blue": -1,
+                "yellow": 0,
+                "green": -1
+            },
+            {
+                "text": "Jag följer instruktionerna noga",
+                "red": 1,
+                "blue": 2,
+                "yellow": -2,
+                "green": 0
+            },
+            {
+                "text": "Jag slänger bruksanvisningen och kör igång",
+                "red": -1,
+                "blue": -2,
+                "yellow": 2,
+                "green": -1
+            },
+            {
+                "text": "Jag försöker men kanske ber om hjälp, har ju trots allt hjälpt andra innan",
+                "red": -2,
+                "blue": 1,
+                "yellow": 0,
+                "green": 2
+            }
+        ]
+    }
+]

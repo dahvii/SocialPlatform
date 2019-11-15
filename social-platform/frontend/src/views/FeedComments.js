@@ -7,7 +7,7 @@ import '../css/FeedComment.css'
 import Moment from 'react-moment'
 import 'moment/locale/sv'
 
-export default function FeedComments(recievedProps) {
+export default function FeedComments(props) {
     const { state } = useContext(Store);
     const [post, setPost] = useState();
     const [loading, setLoading] = useState(true)
@@ -47,16 +47,16 @@ export default function FeedComments(recievedProps) {
     }
 
     function goToOwner() {
-        recievedProps.history.push('/profile/' + post.owner._id)
+        props.history.push('/profile/' + post.owner._id)
     }
 
     function goBack() {
-        recievedProps.history.push('/')
+        props.history.push('/')
     }
 
 
     async function getPost() {
-        let result = await fetch(`/api${recievedProps.location.pathname}`);
+        let result = await fetch(`/api${props.location.pathname}`);
         result = await result.json();
         setPost(result);
         setLoading(false)
@@ -81,7 +81,7 @@ export default function FeedComments(recievedProps) {
                         </Card.Body>
                         <div className="feed-comments-all-comments">
                             {
-                                post.comments.map(comment => <Comment key={comment._id} comment={comment} history={recievedProps.history} />)
+                                post.comments.map(comment => <Comment key={comment._id} comment={comment} history={props.history} />)
                             }
                         </div>
                     </Card>
