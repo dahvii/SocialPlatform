@@ -1,19 +1,14 @@
-.form-error{
-    color: black;
-}
+
 .form-error-hidden{
+    
     opacity: 0;
     margin: 0;
 }
-.ForumPost{
-    background-color: whitesmoke;
-}
-.form-titel{
-    font-weight: 800;
-    color: black;
+
+.addpost-form-titel{
+    font-weight: 600;
+    color: whitesmoke;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    margin-top: 10%;
-    margin-bottom: 10%;
 }
 .post-button{
     width: 80%;
@@ -22,9 +17,15 @@
     color: black;
     margin-top: 5%;
 }
-.formBasicCheckboxAnonym{
-    color: black;
-}
 .anonymBasicCheckbox{
-    color: black;
+    color: whitesmoke;
+}
+.form-controll-textarea{
+    border-radius: 0;
+}
+.addpost-form-group{
+    background-color: #eb6f6d;
+}
+.form-label-red{
+    color: #eb6f6d;
 }

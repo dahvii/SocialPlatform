@@ -1,5 +1,12 @@
 .add-forum-buton{
-    background-color: #eb6f6d;
-    color: whitesmoke;
-    border: #eb6f6d;
+    border-radius: 50%;
+    position: fixed;
+    bottom: 10vh;
+    right: 3vw;
+}
+.forum-button-icon{
+    font-size: 2em;
+}
+.forum-tab{
+    color: black;
 }
