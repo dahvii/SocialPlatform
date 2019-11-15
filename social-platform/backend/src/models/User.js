@@ -22,7 +22,7 @@ let userSchema = new Schema({
     rejects: [], //array of users 
     matches: [{
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'Match'
     }]
 })
 

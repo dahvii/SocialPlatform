@@ -43,7 +43,8 @@ const dbModels = {
     forumPost: require('../models/ForumPost'),
     feedPost: require('../models/FeedPost'),
     Comments: require('../models/Comments'),
-    Message: require('../models/Message')
+    Message: require('../models/Message'),
+    Match: require('../models/Match')
 }
 
 router.post('/api/register', (req, res) => {
@@ -134,7 +135,27 @@ router.get('/api/person/:id', async (req, res) => {
 })
 
 router.get('/api/currentuser/:id', async (req, res) => {
-    let result = await dbModels["user"].findOne({ _id: req.params.id }).populate('interests').populate('matches', ['firstName', 'profilePictures']);
+    let result = await dbModels["user"]
+        .findOne({ _id: req.params.id })
+        .populate('interests')
+        .populate({
+            path: 'matches',
+            populate: {
+                path: 'person',
+                model: 'User',
+                select: 'firstName profilePictures'
+            }
+        })
+        .populate({
+            path: 'matches',
+            populate: {
+                path: 'messages',
+                model: 'Message'
+            }
+        })
+    // .populate('matches', ['firstName', 'profilePictures'])
+
+
     const currentUser = {
         id: result._id,
         firstName: result.firstName,
@@ -294,10 +315,10 @@ router.get('/api/get-messages/:user/:user2', async (req, res) => {
     let result = await dbModels['Message'].find({
         $and: [
             {
-                sender: { $in: [ req.params.user, req.params.user2 ] }
+                sender: { $in: [req.params.user, req.params.user2] }
             },
             {
-                receiver: { $in: [ req.params.user, req.params.user2 ] }
+                receiver: { $in: [req.params.user, req.params.user2] }
             }
         ]
     })
@@ -305,7 +326,7 @@ router.get('/api/get-messages/:user/:user2', async (req, res) => {
 })
 
 router.post('/api/new-message', async (req, res) => {
-    console.log(req.body)
+    // console.log(req.body)
     if (req.body) {
         const newMessage = new dbModels.Message({
             message: req.body.message,
@@ -315,10 +336,24 @@ router.post('/api/new-message', async (req, res) => {
             sentAt: req.body.sentAt
         })
         newMessage.save()
+
+        let matches = await dbModels['Match'].find({ $or: [
+            {matchId: req.body.sender+req.body.receiver},
+            {matchId: req.body.receiver+req.body.sender}
+        ]})
+
+        matches.forEach((match) => {
+            console.log(match)
+            match.messages = newMessage
+            match.save()
+        })
+        
+        
+        // match.messages.push(newMessage)
         res.status(200).json({ status: 'message sent' })
 
     } else {
-        res.status(400).json({ status: 'something went wrong'})
+        res.status(400).json({ status: 'something went wrong' })
     }
 })
 
@@ -377,6 +412,29 @@ router.put('/api/match', async (req, res) => {
     await User.findOneAndUpdate({ _id: req.body.currUser }, { $push: { matches: req.body.match } }).catch(err => res.status(400).json('Error: ' + err));
     await User.findOneAndUpdate({ _id: req.body.match }, { $push: { matches: req.body.currUser } }).catch(err => res.status(400).json('Error: ' + err));
     res.json({ success: true })
+})
+
+router.post('/api/match2', async (req, res) => {
+    if (req.body) {
+        const myMatch = new dbModels.Match({
+            person: req.body.match,
+            match_seen: false,
+            matchId: req.body.currUser+req.body.match
+        })
+
+        const theirMatch = new dbModels.Match({
+            person: req.body.currUser,
+            match_seen: false,
+            matchId: req.body.currUser+req.body.match
+        })
+        myMatch.save()
+        theirMatch.save()
+        await User.findOneAndUpdate({ _id: req.body.currUser }, { $push: { matches: myMatch._id } }).catch(err => res.status(400).json('Error: ' + err));
+        await User.findOneAndUpdate({ _id: req.body.match }, { $push: { matches: theirMatch._id } }).catch(err => res.status(400).json('Error: ' + err))
+            .then(res.status(200).json({ status: 200 }))
+    } else {
+        res.status(400).json({ status: 'Something went wrong' })
+    }
 })
 
 router.get('/api/populated/:id', async (req, res) => {
