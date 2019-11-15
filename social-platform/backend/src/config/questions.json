@@ -365,19 +365,100 @@
     },
     {
         "type": "myCharacteristics",
-        "question": "Vad tycker du mest om?",
+        "question": "Hur tar du stora besult?",
         "answer": [
             {
-                "text": "Att vara ensam",
-                "red": 0,
+                "text": "Jag överväger noga för- och nackdelar och olika konsekvenser av beslutet",
+                "red": 1,
                 "blue": 2,
-                "yellow": 0,
+                "yellow": -2,
                 "green": 0
             },
             {
-                "text": "Att vara i grupp",
-                "red": 1,
+                "text": "Jag frågar folk jag litar på vad de skulle ha gjort",
+                "red": -1,
                 "blue": 0,
+                "yellow": 1,
+                "green": 2
+            },
+            {
+                "text": "Jag tar ett spontant beslut, det får bära eller brista",
+                "red": 0,
+                "blue": -2,
+                "yellow": 1,
+                "green": -2
+            }
+        ]
+    },
+    {
+        "type": "myCharacteristics",
+        "question": "Hur öppen är du med dina känslor?",
+        "answer": [
+            {
+                "text": "Jag dela dem endast med de närmaste",
+                "red": 0,
+                "blue": 2,
+                "yellow": -1,
+                "green": 0
+            },
+            {
+                "text": "Jag pratar gärna om känslor, både mina egna och andras",
+                "red": -2,
+                "blue": -2,
+                "yellow": 2,
+                "green": 2
+            },
+            {
+                "text": "Jag är öppen och rak men gillar inte att prata känslor i större utsträckning",
+                "red": 2,
+                "blue": 0,
+                "yellow": -1,
+                "green": -2
+            }
+        ]
+    },
+    {
+        "type": "myCharacteristics",
+        "question": "Hur bra självförtroende har du?",
+        "answer": [
+            {
+                "text": "Relativt bra, jag tycker inte en ska nervärdera sig själv",
+                "red": 1,
+                "blue": 1,
+                "yellow": -1,
+                "green": -1
+            },
+            {
+                "text": "Inte så bra, jag är bättre på att uppskatta andra än mig själv",
+                "red": -1,
+                "blue": -1,
+                "yellow": 1,
+                "green": 1
+            }
+        ]
+    },
+    {
+        "type": "myCharacteristics",
+        "question": "Hur viktigt tycker du det är att ha en stabil ekonomi?",
+        "answer": [
+            {
+                "text": "Jag investerar gärna spontant",
+                "red": 1,
+                "blue": -1,
+                "yellow": 1,
+                "green": 0
+            },
+            {
+                "text": "Väldigt viktigt, jag planerar min ekonomi väl",
+                "red": 1,
+                "blue": 2,
+                "yellow": -3,
+                "green": -1
+            },
+            {
+                "text": "Jag tycker njutning är viktigare än ekonomisk trygghet",
+                "red": -2,
+                "blue": -1,
                 "yellow": 2,
                 "green": 1
             }
@@ -447,6 +528,40 @@
                 "red": -2,
                 "blue": 1,
                 "yellow": 0,
+                "green": 2
+            }
+        ]
+    },
+    {
+        "type": "myCharacteristics",
+        "question": "Vilka ord beskriver bäst din träningsstil?",
+        "answer": [
+            {
+                "text": "Spontant och lustfyllt",
+                "red": -2,
+                "blue": -2,
+                "yellow": 2,
+                "green": -2
+            },
+            {
+                "text": "Målinriktat och ambitöst",
+                "red": 2,
+                "blue": 1,
+                "yellow": -2,
+                "green": 0
+            },
+            {
+                "text": "Strukturerat och välplanerat",
+                "red": 1,
+                "blue": 2,
+                "yellow": -1,
+                "green": 0
+            },
+            {
+                "text": "Lagsport och gruppträning",
+                "red": -1,
+                "blue": -1,
+                "yellow": 1,
                 "green": 2
             }
         ]
