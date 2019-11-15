@@ -19,6 +19,7 @@ function FeedPost(props) {
 
     useLifeCycle({
         mount: () => {
+            console.log(state.currentUser)
             if (props.post.likes.length > 0) {
                 if (props.post.likes.map(like => like._id === state.currentUser.id).includes(true)) {
                     setIsLiked(true)

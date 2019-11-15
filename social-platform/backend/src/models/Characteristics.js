@@ -4,11 +4,11 @@ const Schema = mongoose.Schema;
 
 let characteristicsSchema = new Schema({
 
-    name: String,
-    value: Number
+    blue: { type: Number, default: 0 },
+    red: { type: Number, default: 0 },
+    yellow: { type: Number, default: 0 },
+    green: { type: Number, default: 0 }
 
 })
 
-class CharateristicsClass {}
-
-module.exports = db.model('Charateristics', characteristicsSchema)
+module.exports = db.model('Characteristics', characteristicsSchema)
