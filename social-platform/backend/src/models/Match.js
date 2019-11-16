@@ -22,6 +22,7 @@ let matchSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    match_seen: Boolean
 })
 
 module.exports = db.model('Match', matchSchema)

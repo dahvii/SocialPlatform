@@ -154,8 +154,7 @@ router.get('/api/currentuser/:id', async (req, res) => {
             }
         })
     // .populate('matches', ['firstName', 'profilePictures'])
-
-
+        
     const currentUser = {
         id: result._id,
         firstName: result.firstName,
@@ -326,7 +325,6 @@ router.get('/api/get-messages/:user/:user2', async (req, res) => {
 })
 
 router.post('/api/new-message', async (req, res) => {
-    // console.log(req.body)
     if (req.body) {
         const newMessage = new dbModels.Message({
             message: req.body.message,
@@ -419,13 +417,13 @@ router.post('/api/match2', async (req, res) => {
         const myMatch = new dbModels.Match({
             person: req.body.match,
             match_seen: false,
-            matchId: req.body.currUser+req.body.match
+            matchId: req.body.currUser+req.body.match,
         })
 
         const theirMatch = new dbModels.Match({
             person: req.body.currUser,
             match_seen: false,
-            matchId: req.body.currUser+req.body.match
+            matchId: req.body.currUser+req.body.match,
         })
         myMatch.save()
         theirMatch.save()

@@ -5,6 +5,8 @@ import '../css/BottomNavbar.css'
 
 export default function BottomNavbar() {
 
+
+
   return (
     <div>
       <Navbar fixed="bottom" bg="light">
