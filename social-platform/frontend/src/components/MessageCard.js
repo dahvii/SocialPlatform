@@ -3,28 +3,52 @@ import { Image } from 'react-bootstrap';
 import '../css/MessageCard.css'
 import { Link } from 'react-router-dom'
 import { Store } from '../utilities/Store'
+import useLifeCycle from '../utilities/useLifeCycle'
 
 export default function MessageCard(props) {
 
     const { state } = React.useContext(Store);
     const [showNotification, setShowNotification] = useState(false)
 
-    useEffect(() => {
-        if (state.currentUser) {
-            shouldNotificationShow()
+    // useEffect(() => {
+    //     console.log(state.currentUser)
+    //     if (state.currentUser) {
+    //         shouldNotificationShow()
+    //     }
+    // })
+
+    useLifeCycle({
+        mount: () => {
+            console.log(props.match)
+            if (state.currentUser) {
+                shouldNotificationShow()
+            }
         }
     })
 
+    // const shouldNotificationShow = () => {
+    //     for (let i = 0; i < state.currentUser.matches.length; i++) {
+    //         if (state.currentUser.matches[i].match_seen === false) {
+    //             setShowNotification(true)
+    //             break;
+    //         } else if (state.currentUser.matches[i].messages !== undefined) {
+    //             if (state.currentUser.matches[i].messages.receiver === state.currentUser.id && state.currentUser.matches[i].messages.seen === false) {
+    //                 setShowNotification(true)
+    //                 break;
+    //             }
+    //         }
+    //     }
+    // }
+
+    
     const shouldNotificationShow = () => {
-        for (let i = 0; i < state.currentUser.matches.length; i++) {
-            if (state.currentUser.matches[i].match_seen === false) {
+            if (props.match.match_seen === false) {
                 setShowNotification(true)
-                break;
-            } else if (state.currentUser.matches[i].messages.receiver === state.currentUser.id && state.currentUser.matches[i].messages.seen === false) {
-                setShowNotification(true)
-                break;
+            } else if (props.match.messages !== undefined) {
+                if (props.match.messages.receiver === state.currentUser.id && props.match.messages.seen === false) {
+                    setShowNotification(true)
+                }
             }
-        }
     }
 
     return (

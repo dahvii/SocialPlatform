@@ -9,10 +9,9 @@ export default function BottomNavbar() {
   const { state } = React.useContext(Store);
   const [showNotification, setShowNotification] = useState(false)
 
-  
+
 
   useEffect(() => {
-    console.log(state.currentUser)
     if (state.currentUser) {
       setShowNotification(false)
       shouldNotificationShow()
@@ -24,9 +23,11 @@ export default function BottomNavbar() {
       if (state.currentUser.matches[i].match_seen === false) {
         setShowNotification(true)
         break;
-      } else if (state.currentUser.matches[i].messages.receiver === state.currentUser.id && state.currentUser.matches[i].messages.seen === false) {
-        setShowNotification(true)
-        break;
+      } else if (state.currentUser.matches[i].messages !== undefined) {
+        if (state.currentUser.matches[i].messages.receiver === state.currentUser.id && state.currentUser.matches[i].messages.seen === false) {
+          setShowNotification(true)
+          break;
+        }
       }
     }
   }

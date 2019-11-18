@@ -18,9 +18,14 @@ export default function Chat(props) {
             if (props.location.state.seen === false) {
                 updateMatchStatus()
             }
-            else if (props.location.state.latestMessage.receiver === state.currentUser.id && props.location.state.latestMessage.seen === false) {
-                updateMessageStatus()
+            else if (props.location.state.latestMessage !== undefined) {
+                if (props.location.state.latestMessage.receiver === state.currentUser.id && props.location.state.latestMessage.seen === false) {
+                    updateMessageStatus()
+                }   
             }
+        },
+        unmount: () => {
+            updateStateWithNewProfile()
         }
     })
 
