@@ -12,6 +12,7 @@ const sharp = require('sharp')
 const path = require('path')
 const fs = require('fs')
 const innit = require('./loadQuestions.js');
+const loadUsers = require('./loadUsers.js');
 const searchAlgorithm = require('./searchAlgorithm.js')
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -51,6 +52,7 @@ const dbModels = {
 }
 
 innit.loadJson();
+loadUsers.loadUsers();
 
 router.get('/api/searchAlgorithm/:id', (req, res) => {
     searchAlgorithm.getTop10(req, res);

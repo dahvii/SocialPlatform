@@ -120,7 +120,7 @@
             },
             {
                 "text": "Träffar min familj",
-                "red": 0,
+                "red": -3,
                 "blue": 1,
                 "yellow": 1,
                 "green": 2
