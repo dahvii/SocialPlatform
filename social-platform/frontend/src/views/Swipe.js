@@ -13,6 +13,7 @@ export default function Swipe() {
     const [showDetails, setShowDetails] = useState(false);
     const [people, setPeople] = useState([]);
     const [endOfSwipe, setEndOfSwipe] = useState(false);
+    const [amountOfSwipes, setAmountOfSwipes] = useState(0)
     const [displayedPersonindex, setDisplayedPersonindex] = useState(0);
     const [currUserId]  = useState(state.currentUser.id);
 
@@ -52,6 +53,19 @@ export default function Swipe() {
             //take next person in array and show their profile
             setDisplayedPersonindex(newIndex);
             setShowDetails(false);
+            setSwipecounter();
+        }
+    }
+
+    function setSwipecounter(){
+        if(amountOfSwipes > 9){
+            dispatch({
+                type: "SHOW_QUESTION",
+                payload: true
+            })
+            setAmountOfSwipes(0)
+        } else{
+            setAmountOfSwipes(amountOfSwipes += 1)
         }
     }
 
