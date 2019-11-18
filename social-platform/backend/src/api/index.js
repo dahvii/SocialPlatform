@@ -12,6 +12,7 @@ const sharp = require('sharp')
 const path = require('path')
 const fs = require('fs')
 const innit = require('./loadQuestions.js');
+const searchAlgorithm = require('./searchAlgorithm.js')
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './uploads/');
@@ -50,6 +51,10 @@ const dbModels = {
 }
 
 innit.loadJson();
+
+router.get('/api/searchAlgorithm/:id', (req, res) => {
+    searchAlgorithm.getTop10(req, res);
+})
 
 router.post('/api/register', async (req, res) => {
     let user = await User.findOne({ email: req.body.email }).catch();
@@ -188,7 +193,6 @@ router.get('/api/feed-post/:id', async (req, res) => {
 });
 
 router.get('/api/questions/:skip', async (req, res) => {
-    console.log("req params skip: ", req.params.skip)
     let result = await dbModels['questions']
         .find()
         .skip(parseInt(req.params.skip, 10))
@@ -349,29 +353,7 @@ router.post('/api/new-post', async (req, res) => {
     }
 })
 
-router.get('/api/users', (req, res) => {
-    User.find()
-        .then(result => {
-            let idFixedArr = [];
-            result.map((user) => {
-                const idFixedUser = {
-                    id: user._id,
-                    firstName: user.firstName,
-                    bio: user.bio,
-                    dateOfBirth: user.dateOfBirth,
-                    gender: user.gender,
-                    interests: user.interests,
-                    matches: user.matches,
-                    profilePictures: user.profilePictures,
-                    likes: user.likes,
-                    rejects: user.rejects
-                }
-                idFixedArr.push(idFixedUser);
-            })
-            res.json(idFixedArr)
-        })
-        .catch(err => res.status(400).json('Error: ' + err));
-});
+
 
 router.put('/api/like/:id', async (req, res) => {
     await User.findOneAndUpdate({ _id: req.params.id }, { $push: { likes: req.body.judgedPerson } })

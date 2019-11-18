@@ -26,10 +26,10 @@ export default function Swipe() {
         let response = await fetch('/api/searchAlgorithm/'+currUserId);
         let data = await response.json();
         console.log("data ", data);
-        setPeople(data);
-        if (data.length === 0) {
-            setEndOfSwipe(true);
-        }        
+        // setPeople(data);
+        // if (data.length === 0) {
+        //     setEndOfSwipe(true);
+        // }        
     }
 
     function changeView() {
