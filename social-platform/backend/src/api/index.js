@@ -11,7 +11,10 @@ const uuid = require('uuid')
 const sharp = require('sharp')
 const path = require('path')
 const fs = require('fs')
+const Reported = require('../models/Reported')
 const innit = require('./loadQuestions.js');
+const { db } = require('../loaders');
+
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './uploads/');
@@ -46,7 +49,8 @@ const dbModels = {
     feedPost: require('../models/FeedPost'),
     Comments: require('../models/Comments'),
     questions: require('../models/Questions'),
-    characteristics: require('../models/Characteristics')
+    characteristics: require('../models/Characteristics'),
+    reports: require('../models/Reported')
 }
 
 innit.loadJson();
@@ -456,25 +460,55 @@ router.get('/api/comment/:id', async (req, res) => {
     res.json(result);
 
 })
-//add
 router.put('/api/addToMyFollow/:id', async (req, res) => {
     let post = await dbModels.forumPost.findById({ _id: req.params.id }).populate('owner').populate('comments').populate('followers').exec();
     post.followers.push(req.body.id);
     post.save();
     res.json({ success: "success" });
 })
-
-//Remove
 router.put('/api/removeMyFollow/:id', async (req, res) => {
     let post = await dbModels.forumPost.findById({ _id: req.params.id }).populate('owner').populate('comments').populate('followers').exec();
     post.followers.shift(req.body.id);
     post.save();
     res.json({ success: "success" });
 })
-
 router.get('/api/iFollow', async (req, res) => {
     let result = await dbModels.forumPost.find().populate('owner').populate('comments').sort({ 'timeStamp': -1 }).exec();
     result = result.filter(post => post.followers.includes(req.session.user.id))
     res.json(result);
 })
+
+
+const createnewRepported = async (reported) =>{
+    if (reported.length < 1 ){
+        const reported = new Reported();
+        await reported.save()
+        console.log(reported)
+    }
+}
+
+//add forum post to Reported list
+router.put('/api/addForumPostToReportedList/:id' ,async (req, res) => {
+    let post = await dbModels.forumPost.findById({ _id: req.params.id });  
+    let reported = await dbModels['reports'].find();
+    await createnewRepported(reported);
+    reported[0].forumPosts.push(post);
+    reported[0].save();
+    res.json({reported});
+
+    //spära så man kan bara läga till en post en gång 
+    //console.log(reported[0].filter(reported =>reported.forumPost.includes({_id: req.params.id} )));
+   })
+/*
+   router.get('/api/reportedpost', async (req, res) => {
+    let reported = await dbModels['reports'].find().populate('owner').populate('comments').exec();
+    await createnewRepported(reported)
+    result = await dbModels['reports'].find().populate('owner').populate('comments').exec();
+    console.log(result.map(obj => obj.forumPosts));
+    //resoult = result.map(obj => obj.forumPosts);
+
+    res.json(result);
+   
+})
+ */
 module.exports = { router };

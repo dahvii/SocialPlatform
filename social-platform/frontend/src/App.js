@@ -19,6 +19,7 @@ import EditProfile from './views/EditProfile';
 import useLifeCycle from './utilities/useLifeCycle';
 import FeedComments from './views/FeedComments';
 import ReactNotifications from 'react-notifications-component';
+import Adminpage from './views/Adminpage';
 
 function App() {
     const { state, dispatch } = React.useContext(Store);
@@ -92,6 +93,7 @@ function App() {
         <PrivateRoute path="/login" component={Login} isAuthenticated={!state.isLoggedIn} loading={loading} redirectPath="/"/>
         <PrivateRoute path="/forum" component={Forum} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start"/>
         <PrivateRoute exact path="/onepost/:id" component={OnePost} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
+        <PrivateRoute exact path="/adminpage" component={Adminpage} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
                     <ReactNotifications />
                 </div>
             </div>
