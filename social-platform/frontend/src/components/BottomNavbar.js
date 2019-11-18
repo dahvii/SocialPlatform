@@ -20,8 +20,6 @@ export default function BottomNavbar() {
   })
 
   const shouldNotificationShow = () => {
-    console.log("INNENEEEE")
-    console.log(state.currentUser)
     for (let i = 0; i < state.currentUser.matches.length; i++) {
       if (state.currentUser.matches[i].match_seen === false) {
         setShowNotification(true)
