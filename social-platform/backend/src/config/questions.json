@@ -25,8 +25,8 @@
         "answer": [
             {
                 "text": "Att hen är spontan",
-                "red": 0,
-                "blue": 0,
+                "red": -1,
+                "blue": -1,
                 "yellow": 2,
                 "green": 0
             },
@@ -34,8 +34,22 @@
                 "text": "Att hen är ambitiös",
                 "red": 2,
                 "blue": 0,
+                "yellow": -1,
+                "green": -1
+            },
+            {
+                "text": "Att hen är stödjande och en god lyssnare",
+                "red": -1,
+                "blue": -1,
                 "yellow": 0,
-                "green": 0
+                "green": 2
+            },
+            {
+                "text": "Att hen är strukturerad och utforskande",
+                "red": 0,
+                "blue": 2,
+                "yellow": -1,
+                "green": -1
             }
         ]
     },
@@ -67,6 +81,33 @@
         ]
     },
     {
+        "type": "partnerCharacteristics",
+        "question": "Hur vill du att din partner delar med sig av sina känslor?",
+        "answer": [
+            {
+                "text": "Hen delar dem endast med de närmaste",
+                "red": 0,
+                "blue": 2,
+                "yellow": -1,
+                "green": 0
+            },
+            {
+                "text": "Hen pratar gärna om känslor, både sina egna och andras",
+                "red": -2,
+                "blue": -2,
+                "yellow": 2,
+                "green": 2
+            },
+            {
+                "text": "Hen är öppen och rak men gillar inte att prata känslor i större utsträckning",
+                "red": 2,
+                "blue": 0,
+                "yellow": -1,
+                "green": -2
+            }
+        ]
+    },
+    {
         "type": "myCharacteristics",
         "question": "Vad gör du helst en lördag-kväll?",
         "answer": [
@@ -79,7 +120,7 @@
             },
             {
                 "text": "Träffar min familj",
-                "red": 0,
+                "red": -3,
                 "blue": 1,
                 "yellow": 1,
                 "green": 2
@@ -90,6 +131,33 @@
                 "blue": 0,
                 "yellow": 2,
                 "green": 0
+            }
+        ]
+    },
+    {
+        "type": "partnerCharacteristics",
+        "question": "Vad tycker din partner om Donald Trump?",
+        "answer": [
+            {
+                "text": "Han får saker gjorda",
+                "red": 2,
+                "blue": 0,
+                "yellow": -2,
+                "green": -2
+            },
+            {
+                "text": "Han är en clown",
+                "red": 0,
+                "blue": 1,
+                "yellow": 2,
+                "green": 1
+            },
+            {
+                "text": "Bryr mig inte",
+                "red": -2,
+                "blue": -1,
+                "yellow": 0,
+                "green": 1
             }
         ]
     },
@@ -121,6 +189,33 @@
         ]
     },
     {
+        "type": "partnerCharacteristics",
+        "question": "På midsommar är det hoppa-säck tävling, hur är din partner?",
+        "answer": [
+            {
+                "text": "Hen är målinriktad, bara vinst som gäller",
+                "red": 2,
+                "blue": 0,
+                "yellow": -2,
+                "green": -1
+            },
+            {
+                "text": "Hen försöker skoja till det",
+                "red": -1,
+                "blue": -2,
+                "yellow": 2,
+                "green": -1
+            },
+            {
+                "text": "Hen tycker att viktiga är att alla har kul",
+                "red": -1,
+                "blue": 0,
+                "yellow": 0,
+                "green": 2
+            }
+        ]
+    },
+    {
         "type": "myCharacteristics",
         "question": "Hur tycker du om att klä dig?",
         "answer": [
@@ -144,6 +239,33 @@
                 "blue": -1,
                 "yellow": 2,
                 "green": 0
+            }
+        ]
+    },
+    {
+        "type": "partnerCharacteristics",
+        "question": "Din partner ärver 100 000kr, vad gör hen?",
+        "answer": [
+            {
+                "text": "Hen placerar pengarna i en fond",
+                "red": 1,
+                "blue": 2,
+                "yellow": -2,
+                "green": -2
+            },
+            {
+                "text": "Hen unnar sig något",
+                "red": 0,
+                "blue": 0,
+                "yellow": 1,
+                "green": 1
+            },
+            {
+                "text": "Hen gör ingenting, det kommer säkert gå åt ändå",
+                "red": -1,
+                "blue": -2,
+                "yellow": 1,
+                "green": 1
             }
         ]
     },
@@ -175,6 +297,33 @@
         ]
     },
     {
+        "type": "partnerCharacteristics",
+        "question": "Hur tar din partner stora besult?",
+        "answer": [
+            {
+                "text": "Hen överväger noga för- och nackdelar och olika konsekvenser av beslutet",
+                "red": 1,
+                "blue": 2,
+                "yellow": -2,
+                "green": 0
+            },
+            {
+                "text": "Hen frågar folk hen litar på vad de skulle ha gjort",
+                "red": -1,
+                "blue": 0,
+                "yellow": 1,
+                "green": 2
+            },
+            {
+                "text": "Hen tar ett spontant beslut, det får bära eller brista",
+                "red": 0,
+                "blue": -2,
+                "yellow": 1,
+                "green": -2
+            }
+        ]
+    },
+    {
         "type": "myCharacteristics",
         "question": "En nära vän har blivit dumpad av sin partner, hur gör du?",
         "answer": [
@@ -202,29 +351,29 @@
         ]
     },
     {
-        "type": "myCharacteristics",
-        "question": "På midsommar är det hoppa-säck tävling, hur är du?",
+        "type": "partnerCharacteristics",
+        "question": "Hur viktigt tycker din partner det är att ha en stabil ekonomi?",
         "answer": [
             {
-                "text": "Det finns bara vinst som gäller",
-                "red": 2,
-                "blue": 0,
-                "yellow": -2,
-                "green": -1
-            },
-            {
-                "text": "Jag försöker skoja till det",
-                "red": -2,
-                "blue": -2,
-                "yellow": 2,
-                "green": -1
-            },
-            {
-                "text": "Det viktiga är att alla har kul",
-                "red": -1,
-                "blue": 0,
+                "text": "Hen investerar gärna spontant",
+                "red": 1,
+                "blue": -1,
                 "yellow": 1,
-                "green": 2
+                "green": 0
+            },
+            {
+                "text": "Väldigt viktigt, hen planerar sin ekonomi väl",
+                "red": 1,
+                "blue": 2,
+                "yellow": -3,
+                "green": -1
+            },
+            {
+                "text": "Hen tycker njutning är viktigare än ekonomisk trygghet",
+                "red": -2,
+                "blue": -1,
+                "yellow": 2,
+                "green": 1
             }
         ]
     },
@@ -233,24 +382,58 @@
         "question": "På midsommar är det hoppa-säck tävling, hur är du?",
         "answer": [
             {
-                "text": "Det finns bara vinst som gäller",
+                "text": "Jag är målinriktad, bara vinst som gäller",
                 "red": 2,
                 "blue": 0,
+                "yellow": -2,
+                "green": -1
+            },
+            {
+                "text": "Jag försöker skoja till det",
+                "red": -1,
+                "blue": -2,
+                "yellow": 2,
+                "green": -1
+            },
+            {
+                "text": "Jag tycker att viktiga är att alla har kul",
+                "red": -1,
+                "blue": 0,
+                "yellow": 0,
+                "green": 2
+            }
+        ]
+    },
+    {
+        "type": "partnerCharacteristics",
+        "question": "Din partner ska sätta ihop nya möbler, hur gör hen?",
+        "answer": [
+            {
+                "text": "Hen bygger sina egna möbler",
+                "red": 2,
+                "blue": -1,
+                "yellow": 0,
+                "green": -1
+            },
+            {
+                "text": "Hen följer instruktionerna noga",
+                "red": 1,
+                "blue": 2,
                 "yellow": -2,
                 "green": 0
             },
             {
-                "text": "Jag försöker skoja till det",
-                "red": -2,
+                "text": "Hen slänger bruksanvisningen och kör igång",
+                "red": -1,
                 "blue": -2,
                 "yellow": 2,
-                "green": 0
+                "green": -1
             },
             {
-                "text": "Det viktiga är att alla har kul",
-                "red": -1,
-                "blue": 0,
-                "yellow": 1,
+                "text": "Hen försöker men kanske ber om hjälp, har ju trots allt hjälpt andra innan",
+                "red": -2,
+                "blue": 1,
+                "yellow": 0,
                 "green": 2
             }
         ]
@@ -291,18 +474,18 @@
                 "red": 1,
                 "blue": 2,
                 "yellow": -2,
-                "green": 0
+                "green": -2
             },
             {
-                "text": "Jag unnar mig något",
-                "red": 2,
+                "text": "Jag unnar sig något",
+                "red": 0,
                 "blue": 0,
                 "yellow": 1,
                 "green": 1
             },
             {
                 "text": "Jag gör ingenting, det kommer säkert gå åt ändå",
-                "red": 0,
+                "red": -1,
                 "blue": -2,
                 "yellow": 1,
                 "green": 1
@@ -348,7 +531,7 @@
                 "green": -1
             },
             {
-                "text": "Jag hoppas på att min chef ska förstå att jag förtjänar med i lön",
+                "text": "Jag hoppas på att min chef ska förstå att jag förtjänar mer i lön",
                 "red": -2,
                 "blue": 1,
                 "yellow": 0,
@@ -365,19 +548,100 @@
     },
     {
         "type": "myCharacteristics",
-        "question": "Vad tycker du mest om?",
+        "question": "Hur tar du stora besult?",
         "answer": [
             {
-                "text": "Att vara ensam",
-                "red": 0,
+                "text": "Jag överväger noga för- och nackdelar och olika konsekvenser av beslutet",
+                "red": 1,
                 "blue": 2,
-                "yellow": 0,
+                "yellow": -2,
                 "green": 0
             },
             {
-                "text": "Att vara i grupp",
-                "red": 1,
+                "text": "Jag frågar folk jag litar på vad de skulle ha gjort",
+                "red": -1,
                 "blue": 0,
+                "yellow": 1,
+                "green": 2
+            },
+            {
+                "text": "Jag tar ett spontant beslut, det får bära eller brista",
+                "red": 0,
+                "blue": -2,
+                "yellow": 1,
+                "green": -2
+            }
+        ]
+    },
+    {
+        "type": "myCharacteristics",
+        "question": "Hur öppen är du med dina känslor?",
+        "answer": [
+            {
+                "text": "Jag dela dem endast med de närmaste",
+                "red": 0,
+                "blue": 2,
+                "yellow": -1,
+                "green": 0
+            },
+            {
+                "text": "Jag pratar gärna om känslor, både mina egna och andras",
+                "red": -2,
+                "blue": -2,
+                "yellow": 2,
+                "green": 2
+            },
+            {
+                "text": "Jag är öppen och rak men gillar inte att prata känslor i större utsträckning",
+                "red": 2,
+                "blue": 0,
+                "yellow": -1,
+                "green": -2
+            }
+        ]
+    },
+    {
+        "type": "myCharacteristics",
+        "question": "Hur bra självförtroende har du?",
+        "answer": [
+            {
+                "text": "Relativt bra, jag tycker inte en ska nervärdera sig själv",
+                "red": 1,
+                "blue": 1,
+                "yellow": -1,
+                "green": -1
+            },
+            {
+                "text": "Inte så bra, jag är bättre på att uppskatta andra än mig själv",
+                "red": -1,
+                "blue": -1,
+                "yellow": 1,
+                "green": 1
+            }
+        ]
+    },
+    {
+        "type": "myCharacteristics",
+        "question": "Hur viktigt tycker du det är att ha en stabil ekonomi?",
+        "answer": [
+            {
+                "text": "Jag investerar gärna spontant",
+                "red": 1,
+                "blue": -1,
+                "yellow": 1,
+                "green": 0
+            },
+            {
+                "text": "Väldigt viktigt, jag planerar min ekonomi väl",
+                "red": 1,
+                "blue": 2,
+                "yellow": -3,
+                "green": -1
+            },
+            {
+                "text": "Jag tycker njutning är viktigare än ekonomisk trygghet",
+                "red": -2,
+                "blue": -1,
                 "yellow": 2,
                 "green": 1
             }
@@ -419,34 +683,34 @@
     },
     {
         "type": "myCharacteristics",
-        "question": "",
+        "question": "Vilka ord beskriver bäst din träningsstil?",
         "answer": [
             {
-                "text": "Jag bygger mina egna möbler",
-                "red": 2,
-                "blue": -1,
-                "yellow": 0,
-                "green": -1
+                "text": "Spontant och lustfyllt",
+                "red": -2,
+                "blue": -2,
+                "yellow": 2,
+                "green": -2
             },
             {
-                "text": "Jag följer instruktionerna noga",
-                "red": 1,
-                "blue": 2,
+                "text": "Målinriktat och ambitöst",
+                "red": 2,
+                "blue": 1,
                 "yellow": -2,
                 "green": 0
             },
             {
-                "text": "Jag slänger bruksanvisningen och kör igång",
-                "red": -1,
-                "blue": -2,
-                "yellow": 2,
-                "green": -1
+                "text": "Strukturerat och välplanerat",
+                "red": 1,
+                "blue": 2,
+                "yellow": -1,
+                "green": 0
             },
             {
-                "text": "Jag försöker men kanske ber om hjälp, har ju trots allt hjälpt andra innan",
-                "red": -2,
-                "blue": 1,
-                "yellow": 0,
+                "text": "Lagsport och gruppträning",
+                "red": -1,
+                "blue": -1,
+                "yellow": 1,
                 "green": 2
             }
         ]
