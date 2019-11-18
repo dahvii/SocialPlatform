@@ -5,7 +5,6 @@ const User = require('../models/User')
 
 async function getTop10(req, res) {
     let thisUser = await User.findOne({ _id: req.params.id }).populate('myCharacteristics').populate('partnerCharacteristics').catch(err => res.status(400));
-    //2. skicka tillbaka den SORTERADE listan snyggt - nu är det en galen array så vi skickar tbk osorterad lista istället
     //3.skicka bara tbk topp tio - inte hela listan 
     
     //find users that havent been seen before 
@@ -25,8 +24,30 @@ async function getTop10(req, res) {
         user.myCharSorted = sortPreference(user.myCharacteristics)
     })
 
-    //topresult 1
+    let sortedUsers = sortList(users, myPrefSorted);
+
+    sortedUsers = removeDuplicates(sortedUsers)
+
+    //format fix before sending to frontend
+    let peopleToSwipe = fixFormat(sortedUsers);
+    
+    res.json(peopleToSwipe)
+}
+
+function sortPreference(obj) {    
+    let arr = [];
+    arr.push({ value: obj.blue, color: "blue" })
+    arr.push({ value: obj.yellow, color: "yellow" })
+    arr.push({ value: obj.red, color: "red" })
+    arr.push({ value: obj.green, color: "green" })
+
+    arr.sort((a, b) => (a.value > b.value) ? -1 : ((b.value > a.value) ? 1 : 0))
+    return arr;
+}
+
+function sortList(users, myPrefSorted){
     let sortedUsers = [];
+    //topresult 1
     users.forEach((user) => {
         if (myPrefSorted[0].color === user.myCharSorted[0].color && myPrefSorted[1].color === user.myCharSorted[1].color && myPrefSorted[2].color === user.myCharSorted[2].color && myPrefSorted[3].color === user.myCharSorted[3].color) {
             sortedUsers.push(user);
@@ -45,10 +66,14 @@ async function getTop10(req, res) {
             sortedUsers.push(user);
         }
     }) 
-
+    
     //add the lowest result
     sortedUsers = sortedUsers.concat(users);
+    
+    return sortedUsers;
+}
 
+function removeDuplicates(sortedUsers){
     //take away all duplicate
     for (let i = sortedUsers.length - 1; i > 0; i--) {
         let otherIndex = sortedUsers.findIndex(obj => obj._id === sortedUsers[i]._id);
@@ -56,8 +81,10 @@ async function getTop10(req, res) {
             sortedUsers.splice(i, 1);
         }
     }
+    return sortedUsers;
+}
 
-    //format fix before sending to frontend
+function fixFormat(sortedUsers){
     let peopleToSwipe = [];
     sortedUsers.forEach(user => {
         let person = {
@@ -78,20 +105,7 @@ async function getTop10(req, res) {
         }
         peopleToSwipe.push(person)
     });
-
-    res.json(peopleToSwipe)
+    return peopleToSwipe;
 }
-
-function sortPreference(obj) {    
-    let arr = [];
-    arr.push({ value: obj.blue, color: "blue" })
-    arr.push({ value: obj.yellow, color: "yellow" })
-    arr.push({ value: obj.red, color: "red" })
-    arr.push({ value: obj.green, color: "green" })
-
-    arr.sort((a, b) => (a.value > b.value) ? -1 : ((b.value > a.value) ? 1 : 0))
-    return arr;
-}
-
 
 module.exports.getTop10 = getTop10;
