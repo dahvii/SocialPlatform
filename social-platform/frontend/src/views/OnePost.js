@@ -7,7 +7,7 @@ import '../css/Comments.css'
 import Moment from 'react-moment'
 import 'moment/locale/sv'
 import { Store } from '../utilities/Store'
-
+import Reportflag from '../components/ReportFlag';
 export default function OnePost(props) {
     const [post, setPost] = useState();
     const [comments, setComments] = useState([]);
@@ -63,18 +63,7 @@ export default function OnePost(props) {
         getOnePost();
     }
 
-    const report = async () => {
-        let data = {
-            id: post._id
-        }
-        let newreport = await fetch(`/api/addForumPostToReportedList/${post._id}`, {
-            method: "PUT",
-            body: JSON.stringify(data),
-            headers: { "Content-Type": "application/json" }
-        })
-        let result = await newreport.json();
-        console.log(result);
-    }
+   
     return (
         <>
             {haveLocktFordata ?
@@ -94,10 +83,7 @@ export default function OnePost(props) {
                                     <i className="fa fa-trash"></i>
                                 </span>}
                             {' '}
-
-                            <span onClick={report}>
-                                <i className="fas fa-flag"></i>
-                            </span>
+                            <Reportflag props={props} post={post} type={"forumpost"}/>
                             {' '}
                             {post.image == null ? '' : <Card.Img variant="top" src={`http://localhost:3001/` + post.image} className="feed-post-image" />}
                         </Card.Text>

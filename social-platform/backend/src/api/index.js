@@ -491,12 +491,24 @@ const createnewRepported = async (reported) =>{
 router.put('/api/addForumPostToReportedList/:id' ,async (req, res) => {
     let post = await dbModels.forumPost.findById({ _id: req.params.id });  
     let reported = await dbModels['reports'].find();
-    await createnewRepported(reported)
-    console.log(reported[0]._id)
+    await createnewRepported(reported);
     reported[0].forumPosts.push(post);
     reported[0].save();
-    res.json({reported}) 
+    res.json({reported});
+
+    //spära så man kan bara läga till en post en gång 
+    //console.log(reported[0].filter(reported =>reported.forumPost.includes({_id: req.params.id} )));
    })
+/*
+   router.get('/api/reportedpost', async (req, res) => {
+    let reported = await dbModels['reports'].find().populate('owner').populate('comments').exec();
+    await createnewRepported(reported)
+    result = await dbModels['reports'].find().populate('owner').populate('comments').exec();
+    console.log(result.map(obj => obj.forumPosts));
+    //resoult = result.map(obj => obj.forumPosts);
 
-
+    res.json(result);
+   
+})
+ */
 module.exports = { router };
