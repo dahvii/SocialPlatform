@@ -18,7 +18,18 @@ async function getTop10(req, res) {
         }
     })
    // console.log("thisUser.partnerCharacteristics: ", thisUser.partnerCharacteristics)
-    topColors(thisUser);
+    let myPrefSorted = sortPreference(thisUser.partnerCharacteristics);
+
+    
+    let allUsersChar = [];
+    allUsers.forEach((user)=> {
+        let userCharSorted = sortPreference(user.partnerCharacteristics);
+        userCharSorted.push(user._id);
+        allUsersChar.push(userCharSorted);
+    })
+
+    console.log("AllUsersChar ",allUsersChar);
+    
 
    
 
@@ -47,27 +58,17 @@ async function getTop10(req, res) {
         ;
 }
 
-function topColors(thisUser){
-    console.log("topColors initial: ",thisUser.partnerCharacteristics);
+function sortPreference(obj){
+    console.log("sortPref ", obj);
     
-    const getMax = object => {
-        return Object.keys(object).filter(x => {
-             return object[x] == Math.max.apply(null, 
-             Object.values(object));
-       });
-    };
-
-    console.log("AFTER ", getMax(thisUser.partnerCharacteristics));
+    let arr = [];
+    arr.push({value : obj.blue, color: "blue"})
+    arr.push({value : obj.yellow, color: "yellow"})
+    arr.push({value : obj.red, color: "red"})
+    arr.push({value : obj.green, color: "green"})
     
-    
-    /*
-    {
-            blue: 10,
-            red: 3,
-            green: -2,
-            yellow: 7
-        }
-    */
+    arr.sort((a,b) => (a.value > b.value) ? -1 : ((b.value > a.value) ? 1 : 0))
+    return arr;
 }
 
 
