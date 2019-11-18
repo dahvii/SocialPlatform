@@ -26,19 +26,8 @@ export default function Swipe() {
         let response = await fetch('/api/searchAlgorithm/'+currUserId);
         let data = await response.json();
         console.log("data ", data);
-        filterThePeople(data);
-    }
-    
-    function filterThePeople(data){    
-        //take away currrUser from the list                
-        let newArray = data.filter(function(item) {            
-            return item.id !== currUserId;
-        });
-        //take away people you already liked
-        //take away people you already rejected 
-    
-        setPeople(newArray);
-        if (newArray.length === 0) {
+        setPeople(data);
+        if (data.length === 0) {
             setEndOfSwipe(true);
         }        
     }
