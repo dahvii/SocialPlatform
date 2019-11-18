@@ -18,73 +18,66 @@ async function getTop10(req, res) {
         .populate('partnerCharacteristics')
         .catch(err => res.status(400));
         
-        console.log("listans längd ", users.length);
 
     let myPrefSorted = sortPreference(thisUser.partnerCharacteristics);
-    //console.log("myPrefSorted ", myPrefSorted);
-
-    let usersChar = [];
+    
     users.forEach((user) => {
-        let userCharSorted = sortPreference(user.partnerCharacteristics);
-        userCharSorted.push({ id: user._id });
-        usersChar.push(userCharSorted);
+        user.myCharSorted = sortPreference(user.myCharacteristics)
     })
 
     //topresult 1
     let sortedUsers = [];
-    usersChar.forEach((user) => {
-        if (myPrefSorted[0].color === user[0].color && myPrefSorted[1].color === user[1].color && myPrefSorted[2].color === user[2].color && myPrefSorted[3].color === user[3].color) {
+    users.forEach((user) => {
+        if (myPrefSorted[0].color === user.myCharSorted[0].color && myPrefSorted[1].color === user.myCharSorted[1].color && myPrefSorted[2].color === user.myCharSorted[2].color && myPrefSorted[3].color === user.myCharSorted[3].color) {
             sortedUsers.push(user);
         }
-    })
-
+    })    
+    
     //result 2
-    usersChar.forEach((user) => {
-        if (myPrefSorted[0].color === user[0].color && myPrefSorted[1].color === user[1].color) {
+    users.forEach((user) => {
+        if (myPrefSorted[0].color === user.myCharSorted[0].color && myPrefSorted[1].color === user.myCharSorted[1].color ) {
             sortedUsers.push(user);
         }
-    })
-
+    }) 
     //result 3
-    usersChar.forEach((user) => {
-        if (myPrefSorted[0].color === user[0].color) {
+    users.forEach((user) => {
+        if (myPrefSorted[0].color === user.myCharSorted[0].color) {
             sortedUsers.push(user);
         }
-    })
+    }) 
 
-    sortedUsers = sortedUsers.concat(usersChar);
+    //add the lowest result
+    sortedUsers = sortedUsers.concat(users);
 
     //take away all duplicate
     for (let i = sortedUsers.length - 1; i > 0; i--) {
-        let otherIndex = sortedUsers.findIndex(obj => obj[4] === sortedUsers[i][4]);
+        let otherIndex = sortedUsers.findIndex(obj => obj._id === sortedUsers[i]._id);
         if (otherIndex !== i) {
             sortedUsers.splice(i, 1);
         }
     }
 
-
-    //id fix before sending to frontend
+    //format fix before sending to frontend
     let peopleToSwipe = [];
-    users.forEach(result => {
+    sortedUsers.forEach(user => {
         let person = {
-            interests: result.interests,
-            questionsAnswered: result.questionsAnswered,
-            profilePictures: result.profilePictures,
-            likes: result.likes,
-            rejects: result.rejects,
-            matches: result.matches,
-            id: result.id,
-            firstName: result.firstName,
-            email: result.email,
-            gender: result.gender,
-            hometown: result.hometown,
-            bio: result.bio,
-            myCharacteristics: result.myCharacteristics,
-            partnerCharacteristics: result.partnerCharacteristics,
+            interests: user.interests,
+            questionsAnswered: user.questionsAnswered,
+            profilePictures: user.profilePictures,
+            likes: user.likes,
+            rejects: user.rejects,
+            matches: user.matches,
+            id: user.id,
+            firstName: user.firstName,
+            email: user.email,
+            gender: user.gender,
+            hometown: user.hometown,
+            bio: user.bio,
+            myCharacteristics: user.myCharacteristics,
+            partnerCharacteristics: user.partnerCharacteristics,
         }
         peopleToSwipe.push(person)
     });
-
 
     res.json(peopleToSwipe)
 }
