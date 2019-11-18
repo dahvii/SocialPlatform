@@ -29,7 +29,7 @@ let userSchema = new Schema({
     likes: [], //array of users 
     rejects: [], //array of users 
     matches: [],
-    admin: Boolean,
+    admin: Boolean
 })
 
 class UserClass {}

@@ -18,39 +18,18 @@ export default function Swipe() {
 
     useLifeCycle({
         mount: () => {
-            getUsers();
+            getTopTen();
         }
     })
 
-    /*
-    async function getPopulatedUser(){
-        let response = await fetch('/api/populated/'+currUserId);
+    async function getTopTen() {
+        let response = await fetch('/api/searchAlgorithm/'+currUserId);
         let data = await response.json();
-        console.log("populated ", data);
-
-    }
-    */
-    //later to be an algorithm to find suitable matches 
-    //but for now read on all users 
-    async function getUsers() {
-        let response = await fetch('/api/users');
-        let data = await response.json();
-        //console.log("data ", data);
-        filterThePeople(data);
-    }
-    
-    function filterThePeople(data){    
-        //take away currrUser from the list                
-        let newArray = data.filter(function(item) {            
-            return item.id !== currUserId;
-        });
-        //take away people you already liked
-        //take away people you already rejected 
-    
-        setPeople(newArray);
-        if (newArray.length === 0) {
-            setEndOfSwipe(true);
-        }        
+        console.log("data ", data);
+        // setPeople(data);
+        // if (data.length === 0) {
+        //     setEndOfSwipe(true);
+        // }        
     }
 
     function changeView() {
