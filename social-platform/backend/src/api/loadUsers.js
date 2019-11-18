@@ -2,6 +2,7 @@ const { db } = require('../loaders');
 const data = require('../config/users.json')
 const User = require('../models/User')
 const Characteristics = require('../models/Characteristics')
+const bcrypt = require('bcryptjs')
 
 async function loadUsers() {
     await db.collection('users').drop().catch((err) => console.log("no users in db"));
@@ -24,8 +25,15 @@ async function loadUsers() {
             myCharacteristics,
             partnerCharacteristics
         })
-        newUser.save()
-            .catch();
+        bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(newUser.password, salt, (err, hash) => {
+                if (err) throw err;
+                newUser.password = hash;
+                newUser
+                    .save()
+                    .catch(err);
+            });
+        });
     })
 }
 
