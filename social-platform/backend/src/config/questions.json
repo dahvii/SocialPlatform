@@ -440,24 +440,51 @@
     },
     {
         "type": "myCharacteristics",
-        "question": "Kyparen kommer in med fel mat, vad gör du?",
+        "question": "Du är missnöjd med maten på en restaurang, vad gör du?",
         "answer": [
             {
-                "text": "Jag ber direkt om att få in det jag beställde",
+                "text": "Jag säger till och ber om att få något som är gott",
                 "red": 2,
                 "blue": 0,
                 "yellow": -2,
                 "green": -2
             },
             {
-                "text": "Jag tar emot maten, det kan ju va gott det här också?",
+                "text": "Jag äter så mycket som möjligt och säger inte till",
                 "red": -2,
                 "blue": 0,
                 "yellow": 2,
                 "green": 2
             },
             {
-                "text": "Jag smakar på maten, det var inte så gott så jag ber om något annat",
+                "text": "Jag smakar på maten, provar med lite extra salt, frågar runt bordet om någon vill byta, sen ber om att få prata med kyparen",
+                "red": 0,
+                "blue": 2,
+                "yellow": 1,
+                "green": 0
+            }
+        ]
+    },
+    {
+        "type": "partnerCharacteristics",
+        "question": "Din partner är missnöjd med maten på en restaurang, vad gör hen?",
+        "answer": [
+            {
+                "text": "Hen säger till och ber om att få något som är gott",
+                "red": 2,
+                "blue": 0,
+                "yellow": -2,
+                "green": -2
+            },
+            {
+                "text": "Hen äter så mycket som möjligt och säger inte till",
+                "red": -2,
+                "blue": 0,
+                "yellow": 2,
+                "green": 2
+            },
+            {
+                "text": "Hen smakar på maten, provar med lite extra salt, frågar runt bordet om någon vill byta, sen ber om att få prata med kyparen",
                 "red": 0,
                 "blue": 2,
                 "yellow": 1,
@@ -493,6 +520,33 @@
         ]
     },
     {
+        "type": "partnerCharacteristics",
+        "question": "Hen ärver 100 000kr, vad gör du?",
+        "answer": [
+            {
+                "text": "Hen placerar pengarna i en fond",
+                "red": 1,
+                "blue": 2,
+                "yellow": -2,
+                "green": -2
+            },
+            {
+                "text": "Hen unnar sig något",
+                "red": 0,
+                "blue": 0,
+                "yellow": 1,
+                "green": 1
+            },
+            {
+                "text": "Hen gör ingenting, det kommer säkert gå åt ändå",
+                "red": -1,
+                "blue": -2,
+                "yellow": 1,
+                "green": 1
+            }
+        ]
+    },
+    {
         "type": "myCharacteristics",
         "question": "Vilken styrka värderar du mest?",
         "answer": [
@@ -512,6 +566,33 @@
             },
             {
                 "text": "Min lojalitet",
+                "red": 0,
+                "blue": 0,
+                "yellow": 0,
+                "green": 2
+            }
+        ]
+    },
+    {
+        "type": "partnerCharacteristics",
+        "question": "Vilken styrka värderar hen mest?",
+        "answer": [
+            {
+                "text": "Hens nyfikenhet",
+                "red": 2,
+                "blue": 0,
+                "yellow": 0,
+                "green": 0
+            },
+            {
+                "text": "Hens spontanitet",
+                "red": 0,
+                "blue": 0,
+                "yellow": 2,
+                "green": 0
+            },
+            {
+                "text": "Hens lojalitet",
                 "red": 0,
                 "blue": 0,
                 "yellow": 0,
@@ -546,6 +627,33 @@
             }
         ]
     },
+    {   
+        "type": "partnerCharacteristics",
+        "question": "Hur är hen på lönesamtal?",
+        "answer": [
+            {
+                "text": "Hen förklarar rakt och tydligt varför hen förtjänar den lön som begärs",
+                "red": 2,
+                "blue": 0,
+                "yellow": 0,
+                "green": -1
+            },
+            {
+                "text": "Hen hoppas på att sin chef ska förstå att det förtjänas mer i lön",
+                "red": -2,
+                "blue": 1,
+                "yellow": 0,
+                "green": 2
+            },
+            {
+                "text": "Samtalet blir långt och interessant men lönen blir vad den blir",
+                "red": -2,
+                "blue": -2,
+                "yellow": 2,
+                "green": -1
+            }
+        ]
+    },
     {
         "type": "myCharacteristics",
         "question": "Hur tar du stora besult?",
@@ -561,14 +669,41 @@
                 "text": "Jag frågar folk jag litar på vad de skulle ha gjort",
                 "red": -1,
                 "blue": 0,
-                "yellow": 1,
+                "yellow": 0,
                 "green": 2
             },
             {
                 "text": "Jag tar ett spontant beslut, det får bära eller brista",
                 "red": 0,
                 "blue": -2,
-                "yellow": 1,
+                "yellow": 2,
+                "green": -2
+            }
+        ]
+    },
+    {
+        "type": "partnerCharacteristics",
+        "question": "Hur tar hen stora besult?",
+        "answer": [
+            {
+                "text": "Hen överväger noga för- och nackdelar och olika konsekvenser av beslutet",
+                "red": 1,
+                "blue": 2,
+                "yellow": -2,
+                "green": 0
+            },
+            {
+                "text": "Hen frågar folk den litar på vad de skulle ha gjort",
+                "red": -1,
+                "blue": 0,
+                "yellow": 0,
+                "green": 2
+            },
+            {
+                "text": "Hen tar ett spontant beslut, det får bära eller brista",
+                "red": 0,
+                "blue": -2,
+                "yellow": 2,
                 "green": -2
             }
         ]
@@ -578,7 +713,7 @@
         "question": "Hur öppen är du med dina känslor?",
         "answer": [
             {
-                "text": "Jag dela dem endast med de närmaste",
+                "text": "Jag delar dem endast med de närmaste",
                 "red": 0,
                 "blue": 2,
                 "yellow": -1,
@@ -593,6 +728,32 @@
             },
             {
                 "text": "Jag är öppen och rak men gillar inte att prata känslor i större utsträckning",
+                "red": 2,
+                "blue": 0,
+                "yellow": -1,
+                "green": -2
+            }
+        ]
+    },{
+        "type": "partnerCharacteristics",
+        "question": "Hur öppen är hen med sina känslor?",
+        "answer": [
+            {
+                "text": "Hen delar dem endast med de närmaste",
+                "red": 0,
+                "blue": 2,
+                "yellow": -1,
+                "green": 0
+            },
+            {
+                "text": "Hen pratar gärna om känslor, både sina egna och andras",
+                "red": -2,
+                "blue": -2,
+                "yellow": 2,
+                "green": 2
+            },
+            {
+                "text": "Hen är öppen och rak men gillar inte att prata känslor i större utsträckning",
                 "red": 2,
                 "blue": 0,
                 "yellow": -1,
@@ -640,6 +801,33 @@
             },
             {
                 "text": "Jag tycker njutning är viktigare än ekonomisk trygghet",
+                "red": -2,
+                "blue": -1,
+                "yellow": 2,
+                "green": 1
+            }
+        ]
+    },
+    {
+        "type": "partnerCharacteristics",
+        "question": "Hur viktigt tycker hen det är att ha en stabil ekonomi?",
+        "answer": [
+            {
+                "text": "Hen investerar gärna spontant",
+                "red": 1,
+                "blue": -1,
+                "yellow": 1,
+                "green": 0
+            },
+            {
+                "text": "Väldigt viktigt, hen planerar sin ekonomi väl",
+                "red": 1,
+                "blue": 2,
+                "yellow": -3,
+                "green": -1
+            },
+            {
+                "text": "Hen tycker njutning är viktigare än ekonomisk trygghet",
                 "red": -2,
                 "blue": -1,
                 "yellow": 2,
