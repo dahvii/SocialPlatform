@@ -18,24 +18,14 @@ export default function Swipe() {
 
     useLifeCycle({
         mount: () => {
-            getUsers();
+            getTopTen();
         }
     })
 
-    /*
-    async function getPopulatedUser(){
-        let response = await fetch('/api/populated/'+currUserId);
+    async function getTopTen() {
+        let response = await fetch('/api/searchAlgorithm/'+currUserId);
         let data = await response.json();
-        console.log("populated ", data);
-
-    }
-    */
-    //later to be an algorithm to find suitable matches 
-    //but for now read on all users 
-    async function getUsers() {
-        let response = await fetch('/api/users');
-        let data = await response.json();
-        //console.log("data ", data);
+        console.log("data ", data);
         filterThePeople(data);
     }
     
