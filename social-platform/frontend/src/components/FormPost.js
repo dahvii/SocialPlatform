@@ -18,6 +18,8 @@ export default function FormPost(props) {
     }
   }
 
+  
+
   return (
     <Card className="forum-postcard">
       <span className="forumLink" onClick={goToPost} >
@@ -29,7 +31,12 @@ export default function FormPost(props) {
             </span>
           </Card.Text>
           <Card.Text className="forum-text">{props.post.text}</Card.Text>
-          <Card.Text className="forum-text forum-text-bot">{props.post.image == null ? '' : <i className="far fa-image"></i>} <i className="far fa-comments forum-text"></i> {props.post.comments.length}</Card.Text>
+          <Card.Text className="forum-text forum-text-bot">{props.post.image == null ? '' : <i className="far fa-image"></i>} 
+          {' '}
+          <i className="far fa-comments forum-text"></i> 
+          {' '}
+          {props.post.comments.length}
+          </Card.Text>
         </Card.Body>
       </span>
     </Card>
