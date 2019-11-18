@@ -52,7 +52,7 @@ const dbModels = {
 }
 
 innit.loadJson();
-// loadUsers.loadUsers();
+loadUsers.loadUsers();
 
 router.get('/api/searchAlgorithm/:id', (req, res) => {
     searchAlgorithm.getTop10(req, res);
