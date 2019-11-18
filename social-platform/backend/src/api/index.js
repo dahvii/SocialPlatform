@@ -72,7 +72,6 @@ router.post('/api/register', async (req, res) => {
         hometown: '',
         dateOfBirth: req.body.dateOfBirth,
         bio: '',
-        questionsAnswered: 0,
         myCharacteristics,
         partnerCharacteristics
 
