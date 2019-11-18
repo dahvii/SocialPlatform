@@ -40,3 +40,8 @@
     box-shadow: 2px -2px 2px 0 rgb(163, 49, 49);
     right: -9px;    
 }
+
+.chat-message-time{
+    font-size: 0.9rem;
+    margin: 10px;
+}

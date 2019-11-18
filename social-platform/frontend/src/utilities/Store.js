@@ -6,7 +6,8 @@ const initialState = {
     image: '',
     isLoggedIn: false,
     currentUser: '',
-    currentSession: ''
+    currentSession: '',
+    showNotification: false
 }
 
 function reducer(state, action) {
@@ -20,7 +21,9 @@ function reducer(state, action) {
         case 'SET_CURRENT_USER':
             return { ...state, currentUser: action.payload };
         case 'LOGOUT_USER':
-            return { ...state, currentUser: '', isLoggedIn: false }
+            return { ...state, currentUser: '', isLoggedIn: false };
+        case 'SET_SHOW_NOTIFICATION':
+            return { ...state, showNotification: action.payload };
         default:
             return state;
     }

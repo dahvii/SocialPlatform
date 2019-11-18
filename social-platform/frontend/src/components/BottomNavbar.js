@@ -9,15 +9,24 @@ export default function BottomNavbar() {
   const { state } = React.useContext(Store);
   const [showNotification, setShowNotification] = useState(false)
 
+  
+
   useEffect(() => {
+    console.log(state.currentUser)
     if (state.currentUser) {
+      setShowNotification(false)
       shouldNotificationShow()
     }
   })
 
   const shouldNotificationShow = () => {
+    console.log("INNENEEEE")
+    console.log(state.currentUser)
     for (let i = 0; i < state.currentUser.matches.length; i++) {
       if (state.currentUser.matches[i].match_seen === false) {
+        setShowNotification(true)
+        break;
+      } else if (state.currentUser.matches[i].messages.receiver === state.currentUser.id && state.currentUser.matches[i].messages.seen === false) {
         setShowNotification(true)
         break;
       }

@@ -343,6 +343,7 @@ router.post('/api/new-message', async (req, res) => {
         matches.forEach((match) => {
             console.log(match)
             match.messages = newMessage
+            match.updatedAt = Date.now()
             match.save()
         })
         
@@ -438,6 +439,22 @@ router.post('/api/match2', async (req, res) => {
 router.get('/api/populated/:id', async (req, res) => {
     let result = await User.findOne({ _id: req.params.id }).populate('matches').exec();
     res.json(result);
+})
+
+router.put('/api/update-match-status', async (req, res) => {
+    console.log(req.body)
+    let result = await dbModels['Match'].findOneAndUpdate({_id: req.body.matchId}, { $set: { match_seen: true } })
+})
+
+router.put('/api/update-message-status', async (req, res) => {
+    console.log(req.body)
+    let result = await dbModels['Message'].findOneAndUpdate({_id: req.body.messageId}, { $set: { seen: true } })
+    
+    if(result){
+        res.json(result)
+    } else {
+        res.json({ error: 'Message status not updated'})
+    }
 })
 
 router.put('/api/update/:id', (req, res) => {

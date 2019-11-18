@@ -5,29 +5,69 @@ import MessageReceiver from '../components/MessageReceiver'
 import { Store } from '../utilities/Store'
 import useLifeCycle from '../utilities/useLifeCycle'
 import '../css/Chat.css'
-import { get } from 'http';
 
 export default function Chat(props) {
-    const { state } = React.useContext(Store);
+    const { state, dispatch } = React.useContext(Store);
     const message = useRef();
     const [allMessages, setAllMessages] = useState([])
 
     useLifeCycle({
         mount: () => {
+            console.log(state.currentUser)
             getMessages()
+            if (props.location.state.seen === false) {
+                updateMatchStatus()
+            }
+            else if (props.location.state.latestMessage.receiver === state.currentUser.id && props.location.state.latestMessage.seen === false) {
+                updateMessageStatus()
+            }
         }
     })
+
+    const updateStateWithNewProfile = async () => {
+        let data = await fetch('/api/currentuser/' + state.currentUser.id)
+        data = await data.json()
+        dispatch({
+            type: 'SET_CURRENT_USER',
+            payload: data
+        })
+    }
 
     const backToMessages = () => {
         props.history.push('/messages')
     }
 
     const getMessages = async () => {
-        console.log(state.currentUser)
         let result = await fetch(`/api/get-messages/${state.currentUser.id}/${props.match.params.id}`)
         result = await result.json()
         setAllMessages(result)
         console.log(result)
+    }
+
+    const updateMatchStatus = async () => {
+        let data = {
+            matchId: props.location.state.match
+        }
+        console.log(props.location.state.match)
+        let result = await fetch('/api/update-match-status', {
+            method: 'PUT',
+            body: JSON.stringify(data),
+            headers: { 'Content-Type': 'application/json' }
+        })
+        updateStateWithNewProfile()
+    }
+
+    const updateMessageStatus = async () => {
+        let data = {
+            messageId: props.location.state.latestMessage._id
+        }
+
+        let result = await fetch('/api/update-message-status', {
+            method: 'PUT',
+            body: JSON.stringify(data),
+            headers: { 'Content-Type': 'application/json' }
+        })
+        updateStateWithNewProfile()
     }
 
     const sendMessage = async () => {
@@ -50,12 +90,13 @@ export default function Chat(props) {
             console.log(result)
             message.current.value = ''
         }
+        getMessages()
     }
 
-    const displayMessages = allMessages.map(message => message.sender === state.currentUser.id ? 
-        <MessageReceiver key={message._id} message={message.message} /> : 
-        <MessageSender key={message._id} img={props.location.state.img} message={message.message} />
-        )
+    const displayMessages = allMessages.map(message => message.sender === state.currentUser.id ?
+        <MessageReceiver key={message._id} message={message.message} time={message.sentAt} /> :
+        <MessageSender key={message._id} img={props.location.state.img} time={message.sentAt} message={message.message} />
+    )
 
     return (
         <div className="chat-content">
