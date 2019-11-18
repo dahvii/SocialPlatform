@@ -4,24 +4,24 @@ const User = require('../models/User')
 
 
 async function getTop10(req, res) {
-    console.log("innan loopen reqParams: ", req.params.id)
     let allUsers = await User
         .find()
         .populate('myCharacteristics')
         .populate('partnerCharacteristics');
 
-        let thisUser
-
+    let thisUser;
+    
     allUsers.forEach(user => {
         if(user._id == req.params.id){
             thisUser = user;
             allUsers.splice(allUsers.indexOf(user), 1)
         }
     })
-    
+   // console.log("thisUser.partnerCharacteristics: ", thisUser.partnerCharacteristics)
+    topColors(thisUser);
 
-    console.log("allUsers: ", allUsers)
-    console.log("thisUser: ", thisUser)
+   
+
 
         // .then(result => {
         //     let idFixedArr = [];
@@ -47,6 +47,28 @@ async function getTop10(req, res) {
         ;
 }
 
+function topColors(thisUser){
+    console.log("topColors initial: ",thisUser.partnerCharacteristics);
+    
+    const getMax = object => {
+        return Object.keys(object).filter(x => {
+             return object[x] == Math.max.apply(null, 
+             Object.values(object));
+       });
+    };
+
+    console.log("AFTER ", getMax(thisUser.partnerCharacteristics));
+    
+    
+    /*
+    {
+            blue: 10,
+            red: 3,
+            green: -2,
+            yellow: 7
+        }
+    */
+}
 
 
 module.exports.getTop10 = getTop10;
