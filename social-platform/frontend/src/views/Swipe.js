@@ -19,18 +19,19 @@ export default function Swipe() {
 
     useLifeCycle({
         mount: () => {
-            getTopTen();
+            console.log(state.currentUser);
+            getTopTen();            
         }
     })
 
     async function getTopTen() {
         let response = await fetch('/api/searchAlgorithm/'+currUserId);
         let data = await response.json();
-        console.log("data ", data);
-        // setPeople(data);
-        // if (data.length === 0) {
-        //     setEndOfSwipe(true);
-        // }        
+        console.log("swipe getTopTen ", data);
+         setPeople(data);         
+         if (data.length === 0) {
+             setEndOfSwipe(true);
+         }        
     }
 
     function changeView() {
@@ -65,7 +66,8 @@ export default function Swipe() {
             })
             setAmountOfSwipes(0)
         } else{
-            setAmountOfSwipes(amountOfSwipes += 1)
+            let newNumber= amountOfSwipes+1;
+            setAmountOfSwipes(newNumber)
         }
     }
 
