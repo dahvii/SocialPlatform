@@ -76,10 +76,7 @@ router.post('/api/register', async (req, res) => {
         password: req.body.password,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        gender: '',
-        hometown: '',
         dateOfBirth: req.body.dateOfBirth,
-        bio: '',
         myCharacteristics,
         partnerCharacteristics
 
@@ -176,9 +173,13 @@ router.get('/api/currentuser/:id', async (req, res) => {
     // .populate('matches', ['firstName', 'profilePictures'])
         
         .populate('characteristics');
+
     const currentUser = {
+        email: result.email,
+        hometown: result.hometown,
         id: result._id,
         firstName: result.firstName,
+        lastName: result.lastName,
         bio: result.bio,
         dateOfBirth: result.dateOfBirth,
         gender: result.gender,
@@ -190,7 +191,10 @@ router.get('/api/currentuser/:id', async (req, res) => {
         rejects: result.rejects,
         questionsAnswered: result.questionsAnswered,
         myCharacteristics: result.myCharacteristics,
-        partnerCharacteristics: result.partnerCharacteristics
+        partnerCharacteristics: result.partnerCharacteristics,
+        admin: result.admin,
+        genderPreference: result.genderPreference,
+        agePreference: result.agePreference
     }
     res.json(currentUser)
 })
