@@ -7,8 +7,7 @@ let ReportedSchema = new Schema({
     persons: [{type: ObjectId, ref: 'User'}],
     forumPosts: [{type: ObjectId, ref: 'ForumPost'}],
     comments: [{type: ObjectId, ref: 'Comments'}],
-    feedPosts: [{type: ObjectId, ref: ' Feedposts'}],
-
+    feedPosts: [{type: ObjectId, ref: ' FeedPosts'}],
 })
 
 module.exports = db.model('Reported', ReportedSchema)

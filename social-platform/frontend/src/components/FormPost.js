@@ -8,17 +8,34 @@ export default function FormPost(props) {
   let stop;
 
   function goToOwner() {
-    stop = true;
-    props.history.push('/profile/' + props.post.owner._id);
-  }
-  
-  function goToPost() {
-    if (!stop) {
-      props.history.push('/onepost/' + props.post._id);
+
+    if (props.admin !== 'admin') {
+      if (!stop) {
+        stop = true;
+        props.history.push('/profile/' + props.post.owner._id);
+      }
     }
   }
 
-  
+  function goToPost() {
+    if (props.admin !== 'admin') {
+      if (!stop) {
+        props.history.push('/onepost/' + props.post._id);
+      }
+    }
+  }
+
+
+  const delitePost = async () => {
+    const data = await fetch('/api/delitforumpost');
+    const result = await data.json();
+    console.log(result);
+    
+  }
+
+  function banAndRemove() {
+    delitePost();
+  }
 
   return (
     <Card className="forum-postcard">
@@ -26,16 +43,23 @@ export default function FormPost(props) {
         <Card.Body className="forum-cardbody">
           <Card.Text className="forum-post-time forum-text forum-text-top">
             <Moment fromNow>{props.post.timeStamp}</Moment>
+            {' '}
+            {props.admin === "admin" ?
+              <span onClick={banAndRemove}>
+                <i className="fas fa-ban"></i>
+              </span>
+              : ''}
             <span className="postCreater" onClick={goToOwner}>
-              {!props.post.isAnonym ? ' ' + props.post.owner.firstName : ''}
+              {props.admin === "admin" ? '' :
+                !props.post.isAnonym ? ' ' + (props.post.owner && props.post.owner.firstName) : ''}
             </span>
           </Card.Text>
           <Card.Text className="forum-text">{props.post.text}</Card.Text>
-          <Card.Text className="forum-text forum-text-bot">{props.post.image == null ? '' : <i className="far fa-image"></i>} 
-          {' '}
-          <i className="far fa-comments forum-text"></i> 
-          {' '}
-          {props.post.comments.length}
+          <Card.Text className="forum-text forum-text-bot">{props.post.image == null ? '' : <i className="far fa-image"></i>}
+            {' '}
+            <i className="far fa-comments forum-text"></i>
+            {' '}
+            {props.post.comments.length}
           </Card.Text>
         </Card.Body>
       </span>

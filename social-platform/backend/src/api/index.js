@@ -260,7 +260,7 @@ router.put('/api/update/:id', async (req, res) => {
 })
 
 router.put('/api/characteristics/:id', async (req, res) => {
-    let char = await dbModels['characteristics'].findOne({_id: req.params.id})
+    let char = await dbModels['characteristics'].findOne({ _id: req.params.id })
     char.red += req.body.red
     char.yellow += req.body.yellow
     char.green += req.body.green
@@ -563,68 +563,64 @@ router.get('/api/iFollow', async (req, res) => {
 })
 
 
-const createnewRepported = async (reported) =>{
-    if (reported.length < 1 ){
+const createnewRepported = async (reported) => {
+    if (reported.length < 1) {
         const reported = new Reported();
         await reported.save()
-       // console.log(reported)
     }
 }
 
 //add forum post to Reported list
-router.put('/api/addForumPostToReportedList/:id' ,async (req, res) => {
-    let post = await dbModels.forumPost.findById({ _id: req.params.id });  
+router.put('/api/addForumPostToReportedList/:id', async (req, res) => {
+    let post = await dbModels.forumPost.findById({ _id: req.params.id });
     let reported = await dbModels['reports'].find();
     await createnewRepported(reported);
     reported[0].forumPosts.push(post);
     reported[0].save();
-    res.json({reported});
-
-    //spära så man kan bara läga till en post en gång 
-    //console.log(reported[0].filter(reported =>reported.forumPost.includes({_id: req.params.id} )));
-   })
+    res.json({ reported });
+})
 //add forum coment to Reported list
-router.put('/api/addCommentToReportedList/:id' ,async (req, res) => {
-    let post = await dbModels.Comments.findById({ _id: req.params.id });  
+router.put('/api/addCommentToReportedList/:id', async (req, res) => {
+    let post = await dbModels.Comments.findById({ _id: req.params.id });
     let reported = await dbModels['reports'].find();
     await createnewRepported(reported);
     reported[0].comments.push(post);
     reported[0].save();
-    res.json({reported});
-
-    //spära så man kan bara läga till en post en gång 
-    //console.log(reported[0].filter(reported =>reported.forumPost.includes({_id: req.params.id} )));
-   })
-   //add forum feedpost to Reported list
-router.put('/api/addFeedPostToReportedList/:id' ,async (req, res) => {
-    let post = await dbModels.feedPost.findById({ _id: req.params.id });  
+    res.json({ reported });
+})
+//add forum feedpost to Reported list
+router.put('/api/addFeedPostToReportedList/:id', async (req, res) => {
+    let post = await dbModels.feedPost.findById({ _id: req.params.id });
     let reported = await dbModels['reports'].find();
     await createnewRepported(reported);
     reported[0].feedPosts.push(post);
     reported[0].save();
-    res.json({reported});
-
-    //spära så man kan bara läga till en post en gång 
-    //console.log(reported[0].filter(reported =>reported.forumPost.includes({_id: req.params.id} )));
-   })
-   // add user 
-   router.put('/api/addUserToReportedList/:id' ,async (req, res) => {
-    let post = await dbModels.user.findById({ _id: req.params.id });  
+    res.json({ reported });
+})
+// add user 
+router.put('/api/addUserToReportedList/:id', async (req, res) => {
+    let post = await dbModels.user.findById({ _id: req.params.id });
     let reported = await dbModels['reports'].find();
     await createnewRepported(reported);
     reported[0].persons.push(post);
     reported[0].save();
-    res.json({reported});
+    res.json({ reported });
 
-    //spära så man kan bara läga till en post en gång 
-    //console.log(reported[0].filter(reported =>reported.forumPost.includes({_id: req.params.id} )));
-    console.log(reported.map(obj => obj._id).includes(req.params.id));
-    
-   })
+})
 
-   router.get('/api/reportedpost', async (req, res) => {
+router.get('/api/reportedpost', async (req, res) => {
     let reported = await dbModels['reports'].find().populate('forumPosts').exec();
     res.json(reported);
-   
+    
 })
+router.get('/api/reportedcomment', async (req, res) => {
+    let reported = await dbModels['reports'].find().populate('comments').exec();
+    res.json(reported);
+})
+
+router.delete('/api/delitforumpost', async (req, res) => {
+    let result = await dbModels.Comments.findById({ _id: req.params.id }).remove().exec();
+    res.json(result);
+})
+
 module.exports = { router };

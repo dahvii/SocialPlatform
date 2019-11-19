@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React from 'react'
 export default function ReportFlag(props) {
     console.log(props);
     
@@ -29,40 +29,36 @@ export default function ReportFlag(props) {
 
     const reportForumPost = async () => {
        
-        let newreport = await fetch(`/api/addForumPostToReportedList/${props.post._id}`, {
+        await fetch(`/api/addForumPostToReportedList/${props.post._id}`, {
             method: "PUT",
             body: JSON.stringify(flagat),
             headers: { "Content-Type": "application/json" }
         })
-        let result = await newreport.json();
     }
 
     const reportForumComment = async () => {
-        let newreport = await fetch(`/api/addCommentToReportedList/${props.post._id}`, {
+        await fetch(`/api/addCommentToReportedList/${props.post._id}`, {
             method: "PUT",
             body: JSON.stringify(flagat),
             headers: { "Content-Type": "application/json" }
         })
-        let result = await newreport.json();
     }
 
     const reportFeedPostComment = async () => {
-        let newreport = await fetch(`/api/addFeedPostToReportedList/${props.post._id}`, {
+        await fetch(`/api/addFeedPostToReportedList/${props.post._id}`, {
             method: "PUT",
             body: JSON.stringify(flagat),
             headers: { "Content-Type": "application/json" }
         })
-        let result = await newreport.json();
     }
     
     const reportUser = async () => {
         console.log(props.post.id);
-        let newreport = await fetch(`/api/addUserToReportedList/${props.post.id}`, {
+        await fetch(`/api/addUserToReportedList/${props.post.id}`, {
             method: "PUT",
             body: JSON.stringify(flagat),
             headers: { "Content-Type": "application/json" }
         })
-        let result = await newreport.json();
     }
     return (
             <span onClick={swhitch}>
