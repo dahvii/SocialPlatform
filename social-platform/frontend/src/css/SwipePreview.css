@@ -1,12 +1,21 @@
+.content{
+    position: relative;
+    }
+
 .preview-info{
     text-align: left;
-    margin-top: 92%;
     z-index: 5;
     position: absolute;
-    padding-top: 10vh;
+    padding: 10px;
     padding-left: 2vw;
     width: 100vw;
+    background-color: rgba(0, 0, 0, 0.342);
+    bottom: 0;
+}
 
+
+.preview-info p{
+    margin: 0;
 }
 
 .name-age{
