@@ -31,7 +31,7 @@ let userSchema = new Schema({
     matches: [{
         type: Schema.Types.ObjectId,
         ref: 'Match'
-    }]
+    }],
     admin: Boolean
 })
 

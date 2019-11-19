@@ -50,7 +50,7 @@ const dbModels = {
     Comments: require('../models/Comments'),
     questions: require('../models/Questions'),
     characteristics: require('../models/Characteristics'),
-    reports: require('../models/Reported')
+    reports: require('../models/Reported'),
     Message: require('../models/Message'),
     Match: require('../models/Match')
 }
