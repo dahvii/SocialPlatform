@@ -86,7 +86,7 @@ export default function Login(props) {
                 </Form.Group>
                 <Form.Group className="login-form-group" controlId="exampleForm.ControlInput2">
                     <Form.Label>Lösenord</Form.Label>
-                    <Form.Control required ref={password} className="login-form-controll" type="password" placeholder="Svensson" />
+                    <Form.Control required ref={password} className="login-form-controll" type="password" placeholder="Lösenord" />
                     {loginError ?
                         <p className="login-form-error">Email och lösenord matchade inte</p>
                         : <p className="login-form-error login-form-error-hidden">&nbsp;</p>
