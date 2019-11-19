@@ -563,55 +563,81 @@ router.get('/api/iFollow', async (req, res) => {
 })
 
 
-const createnewRepported = async (reported) => {
-    if (reported.length < 1) {
-        const reported = new Reported();
-        await reported.save()
-    }
+const createnewRepported = async () => {
+    const reported = new Reported();
+    await reported.save()
+    return reported;
 }
 
 //add forum post to Reported list
 router.put('/api/addForumPostToReportedList/:id', async (req, res) => {
     let post = await dbModels.forumPost.findById({ _id: req.params.id });
     let reported = await dbModels['reports'].find();
-    await createnewRepported(reported);
-    reported[0].forumPosts.push(post);
-    reported[0].save();
+    if (reported.length < 1) {
+        reported = await createnewRepported();
+        reported.forumPosts.push(post);
+        reported.save();
+    }else{
+        if(!reported[0].forumPosts.includes(post._id)){
+            reported[0].forumPosts.push(post);
+            reported[0].save();
+        }
+    }
     res.json({ reported });
 })
 //add forum coment to Reported list
 router.put('/api/addCommentToReportedList/:id', async (req, res) => {
     let post = await dbModels.Comments.findById({ _id: req.params.id });
     let reported = await dbModels['reports'].find();
-    await createnewRepported(reported);
-    reported[0].comments.push(post);
-    reported[0].save();
+    if (reported.length < 1) {
+        reported = await createnewRepported();
+        reported.comments.push(post);
+        reported.save();
+    }else{
+        if(!reported[0].comments.includes(post._id)){            
+            reported[0].comments.push(post);
+            reported[0].save();
+        }
+    }    
     res.json({ reported });
 })
 //add forum feedpost to Reported list
 router.put('/api/addFeedPostToReportedList/:id', async (req, res) => {
     let post = await dbModels.feedPost.findById({ _id: req.params.id });
     let reported = await dbModels['reports'].find();
-    await createnewRepported(reported);
-    reported[0].feedPosts.push(post);
-    reported[0].save();
+    if (reported.length < 1) {
+        reported = await createnewRepported();
+        reported.feedPosts.push(post);
+        reported.save();
+    }else{
+        if(!reported[0].feedPosts.includes(post._id)){
+            reported[0].feedPosts.push(post);
+            reported[0].save();
+        }
+    }
     res.json({ reported });
 })
 // add user 
 router.put('/api/addUserToReportedList/:id', async (req, res) => {
     let post = await dbModels.user.findById({ _id: req.params.id });
     let reported = await dbModels['reports'].find();
-    await createnewRepported(reported);
-    reported[0].persons.push(post);
-    reported[0].save();
+    if (reported.length < 1) {
+        reported = await createnewRepported();
+        reported.persons.push(post);
+        reported.save();
+    }else{
+        if(!reported[0].persons.includes(post._id)){
+            reported[0].persons.push(post);
+            reported[0].save();
+        }
+    }
     res.json({ reported });
-
 })
 
 router.get('/api/reportedpost', async (req, res) => {
     let reported = await dbModels['reports'].find().populate('forumPosts').exec();
     res.json(reported);
-    
+
 })
 router.get('/api/reportedcomment', async (req, res) => {
     let reported = await dbModels['reports'].find().populate('comments').exec();
