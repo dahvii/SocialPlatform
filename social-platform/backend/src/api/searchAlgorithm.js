@@ -104,6 +104,7 @@ function fixFormat(sortedUsers){
             bio: user.bio,
             myCharacteristics: user.myCharacteristics,
             partnerCharacteristics: user.partnerCharacteristics,
+            dateOfBirth: user.dateOfBirth
         }
         peopleToSwipe.push(person)
     });

@@ -12,6 +12,7 @@ import AgeSlider from '../components/AgeSlider'
 export default function EditProfile() {
     const { state, dispatch } = React.useContext(Store);
     const [userBio, setUserBio] = useState(state.currentUser.bio);
+    const [userHometown, setUserHometown] = useState(state.currentUser.hometown);
     const [checkedGender, setCheckedGender] = useState(state.currentUser.gender);
     const [userInterests, setUserInterests] = useState(state.currentUser.interests);
     const [interestInput, setInterestInput] = useState('');
@@ -356,7 +357,7 @@ export default function EditProfile() {
                 </Form>
                 <Form className="selection mt-2">
                     <h4>Hemort</h4>
-                    <Form.Control as="input" className="bio-text" rows="3" defaultValue={userBio} ref={hometown} maxLength="20" />
+                    <Form.Control as="input" className="bio-text" rows="3" defaultValue={userHometown} ref={hometown} maxLength="20" />
                 </Form>
                 <Form className="selection mt-2">
                     <h4>Preferenser</h4>

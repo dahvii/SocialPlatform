@@ -55,7 +55,7 @@ const dbModels = {
     Match: require('../models/Match')
 }
 
-// Use to innit the questions and users (only use once pls?)
+// -----Use to innit the questions and users (only use once pls?)-----
 // innit.loadJson();
 // loadUsers.loadUsers();
 
@@ -138,6 +138,7 @@ router.get('/api/loggedinas', (req, res) => {
 
 router.get('/api/person/:id', async (req, res) => {
     let result = await dbModels["user"].findOne({ _id: req.params.id });
+    console.log(result)
     const publicUser = {
         id: result._id,
         firstName: result.firstName,
@@ -170,8 +171,8 @@ router.get('/api/currentuser/:id', async (req, res) => {
                 model: 'Message'
             }
         })
-    // .populate('matches', ['firstName', 'profilePictures'])
-        
+        // .populate('matches', ['firstName', 'profilePictures'])
+
         .populate('characteristics');
 
     const currentUser = {
@@ -230,17 +231,26 @@ router.get('/api/questions/:skip', async (req, res) => {
 })
 
 
-router.get('/api/feed-posts/:skip', async (req, res) => {
+router.get('/api/feed-posts/:skip/:id', async (req, res) => {
+    let currentUser = await dbModels['user'].findById(req.params.id).populate('matches');
     let result = await dbModels['feedPost']
-        .find({})
+        .find({
+            $or: [
+                { owner: { $in: currentUser.matches.map(match => match.person) } },
+                { owner: currentUser.id }
+            ]
+        })
         .populate('owner')
         .populate('likes')
         .populate('comments')
         .sort({ 'timeStamp': -1 })
         .skip(parseInt(req.params.skip, 10))
         .limit(3)
-    if (result.length > 0) {
+    if (result.length > 2) {
         res.json({ success: true, result: result })
+    }
+    else if (result.length > 0 && result.length < 3) {
+        res.json({ success: true, result: result, fullLength: false })
     } else {
         res.json({ error: "no more posts" })
     }
@@ -266,7 +276,7 @@ router.put('/api/update/:id', async (req, res) => {
 })
 
 router.put('/api/characteristics/:id', async (req, res) => {
-    let char = await dbModels['characteristics'].findOne({_id: req.params.id})
+    let char = await dbModels['characteristics'].findOne({ _id: req.params.id })
     char.red += req.body.red
     char.yellow += req.body.yellow
     char.green += req.body.green
@@ -392,10 +402,12 @@ router.post('/api/new-message', async (req, res) => {
         })
         newMessage.save()
 
-        let matches = await dbModels['Match'].find({ $or: [
-            {matchId: req.body.sender+req.body.receiver},
-            {matchId: req.body.receiver+req.body.sender}
-        ]})
+        let matches = await dbModels['Match'].find({
+            $or: [
+                { matchId: req.body.sender + req.body.receiver },
+                { matchId: req.body.receiver + req.body.sender }
+            ]
+        })
 
         matches.forEach((match) => {
             console.log(match)
@@ -403,8 +415,8 @@ router.post('/api/new-message', async (req, res) => {
             match.updatedAt = Date.now()
             match.save()
         })
-        
-        
+
+
         // match.messages.push(newMessage)
         res.status(200).json({ status: 'message sent' })
 
@@ -452,13 +464,13 @@ router.post('/api/match2', async (req, res) => {
         const myMatch = new dbModels.Match({
             person: req.body.match,
             match_seen: false,
-            matchId: req.body.currUser+req.body.match,
+            matchId: req.body.currUser + req.body.match,
         })
 
         const theirMatch = new dbModels.Match({
             person: req.body.currUser,
             match_seen: false,
-            matchId: req.body.currUser+req.body.match,
+            matchId: req.body.currUser + req.body.match,
         })
         myMatch.save()
         theirMatch.save()
@@ -477,17 +489,17 @@ router.get('/api/populated/:id', async (req, res) => {
 
 router.put('/api/update-match-status', async (req, res) => {
     console.log(req.body)
-    let result = await dbModels['Match'].findOneAndUpdate({_id: req.body.matchId}, { $set: { match_seen: true } })
+    let result = await dbModels['Match'].findOneAndUpdate({ _id: req.body.matchId }, { $set: { match_seen: true } })
 })
 
 router.put('/api/update-message-status', async (req, res) => {
     console.log(req.body)
-    let result = await dbModels['Message'].findOneAndUpdate({_id: req.body.messageId}, { $set: { seen: true } })
-    
-    if(result){
+    let result = await dbModels['Message'].findOneAndUpdate({ _id: req.body.messageId }, { $set: { seen: true } })
+
+    if (result) {
         res.json(result)
     } else {
-        res.json({ error: 'Message status not updated'})
+        res.json({ error: 'Message status not updated' })
     }
 })
 
@@ -569,8 +581,8 @@ router.get('/api/iFollow', async (req, res) => {
 })
 
 
-const createnewRepported = async (reported) =>{
-    if (reported.length < 1 ){
+const createnewRepported = async (reported) => {
+    if (reported.length < 1) {
         const reported = new Reported();
         await reported.save()
         console.log(reported)
@@ -578,17 +590,17 @@ const createnewRepported = async (reported) =>{
 }
 
 //add forum post to Reported list
-router.put('/api/addForumPostToReportedList/:id' ,async (req, res) => {
-    let post = await dbModels.forumPost.findById({ _id: req.params.id });  
+router.put('/api/addForumPostToReportedList/:id', async (req, res) => {
+    let post = await dbModels.forumPost.findById({ _id: req.params.id });
     let reported = await dbModels['reports'].find();
     await createnewRepported(reported);
     reported[0].forumPosts.push(post);
     reported[0].save();
-    res.json({reported});
+    res.json({ reported });
 
     //spära så man kan bara läga till en post en gång 
     //console.log(reported[0].filter(reported =>reported.forumPost.includes({_id: req.params.id} )));
-   })
+})
 /*
    router.get('/api/reportedpost', async (req, res) => {
     let reported = await dbModels['reports'].find().populate('owner').populate('comments').exec();
