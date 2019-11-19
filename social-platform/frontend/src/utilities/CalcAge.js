@@ -1,5 +1,4 @@
 function getAge(dateString) {
-    console.log("i calcAge")
     var today = new Date();
     var birthDate = new Date(dateString);
     var newAge = today.getFullYear() - birthDate.getFullYear();

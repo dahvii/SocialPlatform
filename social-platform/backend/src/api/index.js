@@ -221,9 +221,10 @@ router.get('/api/feed-post/:id', async (req, res) => {
 });
 
 router.get('/api/questions/:skip', async (req, res) => {
+    console.log("req.params.skip: ", req.params.skip)
     let result = await dbModels['questions']
         .find()
-        .skip(parseInt(req.params.skip, 10))
+        .skip(parseInt(req.params.skip))
         .limit(1)
     if (result) {
         res.json(result[0])
@@ -303,6 +304,7 @@ router.put('/api/user-question/setAnswered', async (req, res) => {
     let currentUser = await dbModels['user'].findOne({ _id: req.body.userId })
     currentUser.questionsAnswered += req.body.questionsAnswered
     currentUser.save()
+    console.log("i setAnswered: ", currentUser.questionsAnswered)
     res.json(currentUser)
 })
 
