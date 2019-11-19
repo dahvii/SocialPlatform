@@ -7,7 +7,7 @@ const initialState = {
     isLoggedIn: false,
     currentUser: '',
     currentSession: '',
-    showNotification: false
+    showQuestion: false
 }
 
 function reducer(state, action) {
@@ -21,9 +21,9 @@ function reducer(state, action) {
         case 'SET_CURRENT_USER':
             return { ...state, currentUser: action.payload };
         case 'LOGOUT_USER':
-            return { ...state, currentUser: '', isLoggedIn: false };
-        case 'SET_SHOW_NOTIFICATION':
-            return { ...state, showNotification: action.payload };
+            return { ...state, currentUser: '', isLoggedIn: false }
+        case 'SHOW_QUESTION': 
+            return {...state, showQuestion: action.payload}
         default:
             return state;
     }

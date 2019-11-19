@@ -4,12 +4,17 @@ const User = require('../models/User')
 const Interest = require('../models/Interests')
 const bcrypt = require('bcryptjs')
 const ForumPost = require('../models/ForumPost')
+const Characteristics = require('../models/Characteristics')
 const Comments = require('../models/Comments')
 const multer = require('multer')
 const uuid = require('uuid')
 const sharp = require('sharp')
 const path = require('path')
 const fs = require('fs')
+const Reported = require('../models/Reported')
+const innit = require('./loadQuestions.js');
+const loadUsers = require('./loadUsers.js');
+const searchAlgorithm = require('./searchAlgorithm.js')
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './uploads/');
@@ -43,36 +48,50 @@ const dbModels = {
     forumPost: require('../models/ForumPost'),
     feedPost: require('../models/FeedPost'),
     Comments: require('../models/Comments'),
+    questions: require('../models/Questions'),
+    characteristics: require('../models/Characteristics'),
+    reports: require('../models/Reported')
     Message: require('../models/Message'),
     Match: require('../models/Match')
 }
 
-router.post('/api/register', (req, res) => {
-    User.findOne({ email: req.body.email }).then(user => {
-        if (user) {
-            return res.status(400).json({ email: "email används redan" });
-        } else {
-            const newUser = new User({
-                email: req.body.email,
-                password: req.body.password,
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
-                gender: '',
-                hometown: '',
-                dateOfBirth: req.body.dateOfBirth,
-                bio: ''
-            });
-            bcrypt.genSalt(10, (err, salt) => {
-                bcrypt.hash(newUser.password, salt, (err, hash) => {
-                    if (err) throw err;
-                    newUser.password = hash;
-                    newUser
-                        .save()
-                        .then(res.status(200).json({ status: 200 }))
-                        .catch(err);
-                });
-            });
-        }
+innit.loadJson();
+loadUsers.loadUsers();
+
+router.get('/api/searchAlgorithm/:id', (req, res) => {
+    searchAlgorithm.getTop10(req, res);
+})
+
+router.post('/api/register', async (req, res) => {
+    let user = await User.findOne({ email: req.body.email }).catch();
+    if (user) {
+        return res.status(400).json({ email: "email används redan" });
+    }
+    const myCharacteristics = await new Characteristics({}).save()
+    const partnerCharacteristics = await new Characteristics({}).save()
+
+    const newUser = new User({
+        email: req.body.email,
+        password: req.body.password,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        gender: '',
+        hometown: '',
+        dateOfBirth: req.body.dateOfBirth,
+        bio: '',
+        myCharacteristics,
+        partnerCharacteristics
+
+    });
+    bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(newUser.password, salt, (err, hash) => {
+            if (err) throw err;
+            newUser.password = hash;
+            newUser
+                .save()
+                .then(res.status(200).json({ status: 200 }))
+                .catch(err);
+        });
     });
 })
 
@@ -155,6 +174,7 @@ router.get('/api/currentuser/:id', async (req, res) => {
         })
     // .populate('matches', ['firstName', 'profilePictures'])
         
+        .populate('characteristics');
     const currentUser = {
         id: result._id,
         firstName: result.firstName,
@@ -166,7 +186,10 @@ router.get('/api/currentuser/:id', async (req, res) => {
         matches: result.matches,
         profilePictures: result.profilePictures,
         likes: result.likes,
-        rejects: result.rejects
+        rejects: result.rejects,
+        questionsAnswered: result.questionsAnswered,
+        myCharacteristics: result.myCharacteristics,
+        partnerCharacteristics: result.partnerCharacteristics
     }
     res.json(currentUser)
 })
@@ -190,6 +213,17 @@ router.get('/api/feed-post/:id', async (req, res) => {
         res.json({ error: "no post found" })
     }
 });
+
+router.get('/api/questions/:skip', async (req, res) => {
+    let result = await dbModels['questions']
+        .find()
+        .skip(parseInt(req.params.skip, 10))
+        .limit(1)
+    if (result) {
+        res.json(result[0])
+    }
+})
+
 
 router.get('/api/feed-posts/:skip', async (req, res) => {
     let result = await dbModels['feedPost']
@@ -224,6 +258,16 @@ router.put('/api/update/:id', async (req, res) => {
     }
 })
 
+router.put('/api/characteristics/:id', async (req, res) => {
+    let char = await dbModels['characteristics'].findOne({_id: req.params.id})
+    char.red += req.body.red
+    char.yellow += req.body.yellow
+    char.green += req.body.green
+    char.blue += req.body.blue
+    char.save()
+    res.json({ success: true })
+})
+
 router.put('/api/feed-post/like/:id', async (req, res) => {
     let post = await dbModels['feedPost'].findOne({ _id: req.params.id })
     post.likes.push(req.body.id)
@@ -236,6 +280,13 @@ router.put('/api/feed-post/dislike/:id', async (req, res) => {
     post.likes.splice(post.likes.indexOf(req.body.id), 1)
     post.save()
     res.json({ success: "success" })
+})
+
+router.put('/api/user-question/setAnswered', async (req, res) => {
+    let currentUser = await dbModels['user'].findOne({ _id: req.body.userId })
+    currentUser.questionsAnswered += req.body.questionsAnswered
+    currentUser.save()
+    res.json(currentUser)
 })
 
 router.put('/api/add-interest', async (req, res) => {
@@ -276,7 +327,6 @@ router.post('/api/new-image', upload.single('feedImage'), async (req, res) => {
 })
 
 router.post('/api/delete-image/', (req, res) => {
-    console.log(req.body.images)
     if (!req.body.images) {
         return res.status(500).json({ msg: 'Error in delete' });
     }
@@ -371,30 +421,7 @@ router.post('/api/new-post', async (req, res) => {
     }
 })
 
-router.get('/api/users', (req, res) => {
-    User.find()
-        .then(result => {
-            let idFixedArr = [];
-            result.map((user) => {
-                const idFixedUser = {
-                    id: user._id,
-                    firstName: user.firstName,
-                    bio: user.bio,
-                    dateOfBirth: user.dateOfBirth,
-                    gender: user.gender,
-                    characteristics: user.characteristics,
-                    interests: user.interests,
-                    matches: user.matches,
-                    profilePictures: user.profilePictures,
-                    likes: user.likes,
-                    rejects: user.rejects
-                }
-                idFixedArr.push(idFixedUser);
-            })
-            res.json(idFixedArr)
-        })
-        .catch(err => res.status(400).json('Error: ' + err));
-});
+
 
 router.put('/api/like/:id', async (req, res) => {
     await User.findOneAndUpdate({ _id: req.params.id }, { $push: { likes: req.body.judgedPerson } })
@@ -472,7 +499,6 @@ router.delete('/api/delete/:id', (req, res) => {
 router.post('/api/forum', (req, res) => {
     const newForumPost = new ForumPost({
         owner: { _id: req.session.user.id },
-        titel: req.body.titel,
         text: req.body.text,
         timeStamp: Date.now(),
         isAnonym: req.body.anonym,
@@ -483,13 +509,13 @@ router.post('/api/forum', (req, res) => {
 })
 
 router.get('/api/forum', async (req, res) => {
-    let resoult = await dbModels.forumPost.find().populate('owner').sort({ 'timeStamp': -1 }).exec();
-    res.json(resoult);
+    let result = await dbModels.forumPost.find().populate('owner').sort({ 'timeStamp': -1 }).populate('followers').exec();
+    res.json(result);
 })
 
 router.get('/api/onepost/:id', async (req, res) => {
-    let resoult = await dbModels.forumPost.findById({ _id: req.params.id }).populate('owner').populate('comments').exec();
-    res.json(resoult);
+    let result = await dbModels.forumPost.findById({ _id: req.params.id }).populate('owner').populate('comments').populate('followers').exec();
+    res.json(result);
 })
 
 router.post('/api/onepost', async (req, res) => {
@@ -507,15 +533,65 @@ router.post('/api/onepost', async (req, res) => {
 
 
 router.get('/api/onepost', async (req, res) => {
-    let resoult = await dbModels.Comments.findById({ _id: req.params.id })
-    res.json(resoult);
+    let result = await dbModels.Comments.findById({ _id: req.params.id })
+    res.json(result);
 })
 
 
 router.get('/api/comment/:id', async (req, res) => {
-    let resoult = await dbModels.Comments.findById({ _id: req.params.id }).populate('writtenBy').exec();
-    res.json(resoult);
+    let result = await dbModels.Comments.findById({ _id: req.params.id }).populate('writtenBy').exec();
+    res.json(result);
 
 })
+router.put('/api/addToMyFollow/:id', async (req, res) => {
+    let post = await dbModels.forumPost.findById({ _id: req.params.id }).populate('owner').populate('comments').populate('followers').exec();
+    post.followers.push(req.body.id);
+    post.save();
+    res.json({ success: "success" });
+})
+router.put('/api/removeMyFollow/:id', async (req, res) => {
+    let post = await dbModels.forumPost.findById({ _id: req.params.id }).populate('owner').populate('comments').populate('followers').exec();
+    post.followers.shift(req.body.id);
+    post.save();
+    res.json({ success: "success" });
+})
+router.get('/api/iFollow', async (req, res) => {
+    let result = await dbModels.forumPost.find().populate('owner').populate('comments').sort({ 'timeStamp': -1 }).exec();
+    result = result.filter(post => post.followers.includes(req.session.user.id))
+    res.json(result);
+})
 
+
+const createnewRepported = async (reported) =>{
+    if (reported.length < 1 ){
+        const reported = new Reported();
+        await reported.save()
+        console.log(reported)
+    }
+}
+
+//add forum post to Reported list
+router.put('/api/addForumPostToReportedList/:id' ,async (req, res) => {
+    let post = await dbModels.forumPost.findById({ _id: req.params.id });  
+    let reported = await dbModels['reports'].find();
+    await createnewRepported(reported);
+    reported[0].forumPosts.push(post);
+    reported[0].save();
+    res.json({reported});
+
+    //spära så man kan bara läga till en post en gång 
+    //console.log(reported[0].filter(reported =>reported.forumPost.includes({_id: req.params.id} )));
+   })
+/*
+   router.get('/api/reportedpost', async (req, res) => {
+    let reported = await dbModels['reports'].find().populate('owner').populate('comments').exec();
+    await createnewRepported(reported)
+    result = await dbModels['reports'].find().populate('owner').populate('comments').exec();
+    console.log(result.map(obj => obj.forumPosts));
+    //resoult = result.map(obj => obj.forumPosts);
+
+    res.json(result);
+   
+})
+ */
 module.exports = { router };

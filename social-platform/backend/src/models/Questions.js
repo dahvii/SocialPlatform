@@ -5,8 +5,8 @@ const Schema = mongoose.Schema;
 let questionsSchema = new Schema({
 
     question: String,
-    type: String,
-    answer: []
+    answer: [],
+    type: String
 
 })
 

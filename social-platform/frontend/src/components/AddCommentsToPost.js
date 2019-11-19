@@ -41,7 +41,7 @@ export default function AddCommentsToPost(props) {
         });
         let result = await registerFormComments.json();
         console.log(result)
-        props.showNewComment();
+        props.showNewComment(result);
     }
 
     return (
@@ -49,11 +49,11 @@ export default function AddCommentsToPost(props) {
         <div className="ForumPost forum-comment">
             <Form noValidate onSubmit={validate} className="form">
                 <Form.Group className="form-group" controlId="textarea">
-                    <Form.Label>Kommentars text</Form.Label>
+                    <Form.Label className="form-label-whitesmoke" >Kommentars text</Form.Label>
                     <Form.Control required ref={text} className="form-controll-textarea" as="textarea" rows="3" placeholder="Post text" />
                     {textError ?
-                        <p className="form-error">Du måste skriva någon Komentar</p>
-                        : <p className="form-error-hidden">&mvsp;</p>
+                        <p className="forum-form-error form-label-whitesmoke">Du måste skriva någon Komentar</p>
+                        : <p className="forum-form-error-hidden form-label-whitesmoke">&nbsp;</p>
                     }
                 </Form.Group>
                 <Button variant="light" type="submit" className="comment-button">Kommentera</Button>

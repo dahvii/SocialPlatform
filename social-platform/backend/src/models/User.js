@@ -16,7 +16,15 @@ let userSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Interests'
     }],
-    characteristics: [], //(from table characteristics)
+    questionsAnswered: { type: Number, default: 0 },
+    myCharacteristics: {
+        type: Schema.Types.ObjectId,
+        ref: "Characteristics"
+    }, 
+    partnerCharacteristics: {
+        type: Schema.Types.ObjectId,
+        ref: "Characteristics"
+    }, 
     profilePictures: [],
     likes: [], //array of users 
     rejects: [], //array of users 
@@ -24,6 +32,7 @@ let userSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Match'
     }]
+    admin: Boolean
 })
 
 class UserClass {}
