@@ -7,26 +7,17 @@ import useLifeCycle from '../utilities/useLifeCycle'
 export default function SwipeQuestion() {
     const { dispatch } = React.useContext(Store);
     const { state } = React.useContext(Store);
-    const [checkedAnswere, setCheckedAnswere] = useState();
-    // const [questionNumber, setQuestionNumber] = useState(0);
     const [questions, setQuestions] = useState()
     const [hasloaded, setHasLoaded] = useState(false)
-    const [skip, setSkip] = useState()
 
     useLifeCycle({
-        mount: ()  => {
-            setSkip(state.currentUser.questionsAnswered)
-            getQuestion();
+        mount: () => {
+            getQuestion(state.currentUser.questionsAnswered);
         }
     })
 
-    async function getQuestion() {
-        let result
-        if(skip === undefined){
-            result = await fetch(`/api/questions/${state.currentUser.questionsAnswered}`);
-        } else{
-            result = await fetch(`/api/questions/${skip}`);
-        }
+    async function getQuestion(newSkip) {
+        let result = await fetch(`/api/questions/${newSkip}`);
         result = await result.json();
         setQuestions(result)
         setHasLoaded(true)
@@ -41,10 +32,9 @@ export default function SwipeQuestion() {
             method: "PUT",
             body: JSON.stringify(data),
             headers: { 'Content-type': "application/json" }
-        })  
+        })
         let result = await setDbQ.json()
-        console.log("setDbQN: ", result.questionsAnswered)
-        setSkip(result.questionsAnswered)
+        getQuestion(result.questionsAnswered)
     }
 
     async function sendAnswer(data) {
@@ -60,9 +50,8 @@ export default function SwipeQuestion() {
             headers: { 'Content-type': "application/json" }
         })
         let result = await answer.json()
-        if(result.success === true){
+        if (result.success === true) {
             await setDBQuestionNumber()
-            getQuestion()
             dispatch({
                 type: "SHOW_QUESTION",
                 payload: false
@@ -83,7 +72,7 @@ export default function SwipeQuestion() {
                             <div>
                                 {
                                     questions.answer.map(answ => <div key={answ.text} className="edit-profile-form-check">
-                                        <Button variant="light" onClick={() => sendAnswer({...answ, type: questions.type})} className="swipe-question-button">{answ.text}</Button>
+                                        <Button variant="light" onClick={() => sendAnswer({ ...answ, type: questions.type })} className="swipe-question-button">{answ.text}</Button>
                                     </div>)
                                 }
                             </div>
