@@ -55,8 +55,9 @@ const dbModels = {
     Match: require('../models/Match')
 }
 
-innit.loadJson();
-loadUsers.loadUsers();
+// Use to innit the questions and users (only use once pls?)
+// innit.loadJson();
+// loadUsers.loadUsers();
 
 router.get('/api/searchAlgorithm/:id', (req, res) => {
     searchAlgorithm.getTop10(req, res);
