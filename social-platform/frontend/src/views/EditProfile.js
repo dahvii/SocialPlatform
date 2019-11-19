@@ -196,7 +196,7 @@ export default function EditProfile() {
     };
 
     return (
-        <div className="test">
+        <div>
             <h2>Redigera profil</h2>
             <div className="edit-profile-content">
                 <div className="all-profile-pictures mb-2">

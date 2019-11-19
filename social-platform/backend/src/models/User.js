@@ -28,7 +28,10 @@ let userSchema = new Schema({
     profilePictures: [],
     likes: [], //array of users 
     rejects: [], //array of users 
-    matches: [],
+    matches: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Match'
+    }],
     admin: Boolean
 })
 

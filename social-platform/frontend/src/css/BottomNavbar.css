@@ -34,3 +34,11 @@
     color: rgba(150, 29, 29, 0.808);
 }
 
+.notification-dot{
+    color: rgb(201, 57, 57);
+    position: absolute;
+    top: 0;
+    font-size: 0.8rem;
+    margin-left: 5px;
+}
+

@@ -50,7 +50,9 @@ const dbModels = {
     Comments: require('../models/Comments'),
     questions: require('../models/Questions'),
     characteristics: require('../models/Characteristics'),
-    reports: require('../models/Reported')
+    reports: require('../models/Reported'),
+    Message: require('../models/Message'),
+    Match: require('../models/Match')
 }
 
 innit.loadJson();
@@ -155,6 +157,23 @@ router.get('/api/currentuser/:id', async (req, res) => {
     let result = await dbModels["user"]
         .findOne({ _id: req.params.id })
         .populate('interests')
+        .populate({
+            path: 'matches',
+            populate: {
+                path: 'person',
+                model: 'User',
+                select: 'firstName profilePictures'
+            }
+        })
+        .populate({
+            path: 'matches',
+            populate: {
+                path: 'messages',
+                model: 'Message'
+            }
+        })
+    // .populate('matches', ['firstName', 'profilePictures'])
+        
         .populate('characteristics');
     const currentUser = {
         id: result._id,
@@ -341,6 +360,52 @@ router.post('/api/feed-post/new-comment', async (req, res) => {
     }
 })
 
+router.get('/api/get-messages/:user/:user2', async (req, res) => {
+    let result = await dbModels['Message'].find({
+        $and: [
+            {
+                sender: { $in: [req.params.user, req.params.user2] }
+            },
+            {
+                receiver: { $in: [req.params.user, req.params.user2] }
+            }
+        ]
+    })
+    res.json(result)
+})
+
+router.post('/api/new-message', async (req, res) => {
+    if (req.body) {
+        const newMessage = new dbModels.Message({
+            message: req.body.message,
+            sender: req.body.sender,
+            receiver: req.body.receiver,
+            seen: req.body.seen,
+            sentAt: req.body.sentAt
+        })
+        newMessage.save()
+
+        let matches = await dbModels['Match'].find({ $or: [
+            {matchId: req.body.sender+req.body.receiver},
+            {matchId: req.body.receiver+req.body.sender}
+        ]})
+
+        matches.forEach((match) => {
+            console.log(match)
+            match.messages = newMessage
+            match.updatedAt = Date.now()
+            match.save()
+        })
+        
+        
+        // match.messages.push(newMessage)
+        res.status(200).json({ status: 'message sent' })
+
+    } else {
+        res.status(400).json({ status: 'something went wrong' })
+    }
+})
+
 router.post('/api/new-post', async (req, res) => {
     if (req.body) {
         const newPost = new dbModels.feedPost({
@@ -375,9 +440,48 @@ router.put('/api/match', async (req, res) => {
     res.json({ success: true })
 })
 
+router.post('/api/match2', async (req, res) => {
+    if (req.body) {
+        const myMatch = new dbModels.Match({
+            person: req.body.match,
+            match_seen: false,
+            matchId: req.body.currUser+req.body.match,
+        })
+
+        const theirMatch = new dbModels.Match({
+            person: req.body.currUser,
+            match_seen: false,
+            matchId: req.body.currUser+req.body.match,
+        })
+        myMatch.save()
+        theirMatch.save()
+        await User.findOneAndUpdate({ _id: req.body.currUser }, { $push: { matches: myMatch._id } }).catch(err => res.status(400).json('Error: ' + err));
+        await User.findOneAndUpdate({ _id: req.body.match }, { $push: { matches: theirMatch._id } }).catch(err => res.status(400).json('Error: ' + err))
+            .then(res.status(200).json({ status: 200 }))
+    } else {
+        res.status(400).json({ status: 'Something went wrong' })
+    }
+})
+
 router.get('/api/populated/:id', async (req, res) => {
     let result = await User.findOne({ _id: req.params.id }).populate('matches').exec();
     res.json(result);
+})
+
+router.put('/api/update-match-status', async (req, res) => {
+    console.log(req.body)
+    let result = await dbModels['Match'].findOneAndUpdate({_id: req.body.matchId}, { $set: { match_seen: true } })
+})
+
+router.put('/api/update-message-status', async (req, res) => {
+    console.log(req.body)
+    let result = await dbModels['Message'].findOneAndUpdate({_id: req.body.messageId}, { $set: { seen: true } })
+    
+    if(result){
+        res.json(result)
+    } else {
+        res.json({ error: 'Message status not updated'})
+    }
 })
 
 router.put('/api/update/:id', (req, res) => {
