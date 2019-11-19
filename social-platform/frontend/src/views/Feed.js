@@ -4,16 +4,18 @@ import '../css/Feed.css'
 import FeedPost from '../components/FeedPost'
 import InfiniteScroll from 'react-infinite-scroller';
 import TRIModal from '../components/TRIModal';
+import { Store } from '../utilities/Store'
 
 export default function Feed(props) {
+    const { state } = React.useContext(Store);
     const [posts, setPosts] = useState([]);
     const [skip, setSkip] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const [showModal, setShowModal] = useState(false);
 
-    
+
     useEffect(() => {
-        if(props.location && props.location.state && props.location.state.emptyProps){
+        if (props.location && props.location.state && props.location.state.emptyProps) {
             setShowModal(true);
         }
     }, [props]);
@@ -23,23 +25,29 @@ export default function Feed(props) {
     }
 
     async function loadMore() {
-        let result = await fetch(`/api/feed-posts/${skip}`);
-        result = await result.json();
-        if (result.error) {
-            setHasMore(false)
-        } else if (result.success) {
-            if (posts.length <= 0) {
-                setPosts(result.result)
-            } else if (posts.length > 0) {
-                setPosts([...posts, ...result.result]);
+        if (state.currentUser.id !== undefined) {
+            let result = await fetch(`/api/feed-posts/${skip}/${state.currentUser.id}`);
+            result = await result.json();
+            if (result.error) {
+                setHasMore(false)
+            } else if (result.success) {
+                if (posts.length == 0) {
+                    if (!result.fullLength) {
+                        setHasMore(false)
+                        setPosts(result.result)
+                    }
+                    setPosts(result.result)
+                } else if (posts.length > 0) {
+                    setPosts([...posts, ...result.result]);
+                }
+                let amountToSkip = skip + 3
+                setSkip(amountToSkip)
             }
-            let amountToSkip = skip
-            setSkip(amountToSkip + 3)
         }
     }
 
     const modalCallback = (redirect) => {
-        if(redirect){
+        if (redirect) {
             props.history.push('/edit-profile');
         }
         setShowModal(false);
@@ -47,7 +55,7 @@ export default function Feed(props) {
 
     return (
         <div>
-            <TRIModal matchModal={false} show= {showModal} callback= {modalCallback}></TRIModal>
+            <TRIModal matchModal={false} show={showModal} callback={modalCallback}></TRIModal>
 
             <InfiniteScroll
                 className="feed-div"
