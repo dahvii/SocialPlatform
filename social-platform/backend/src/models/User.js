@@ -32,7 +32,7 @@ let userSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Match'
     }],
-    admin: Boolean
+    admin: Boolean,
     genderPreference: [String],
     agePreference: [Number]
 })
