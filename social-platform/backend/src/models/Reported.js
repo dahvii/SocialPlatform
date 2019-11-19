@@ -5,7 +5,7 @@ const { ObjectId } = require('mongoose').Types;
 let ReportedSchema = new Schema({
 
     persons: [{type: ObjectId, ref: 'User'}],
-    forumPosts: [{type: ObjectId, ref: 'Forumposts'}],
+    forumPosts: [{type: ObjectId, ref: 'ForumPost'}],
     comments: [{type: ObjectId, ref: 'Comments'}],
     feedPosts: [{type: ObjectId, ref: ' Feedposts'}],
 

@@ -6,7 +6,7 @@ import useLifeCycle from '../utilities/useLifeCycle';
 import LikeRejectBtn from '../components/LikeRejectBtn.js';
 import Moment from 'react-moment';
 import '../css/Profile.css';
-
+import Reportflag from '../components/ReportFlag';
 export default function Profile(props) {
     const [images, setImages] = useState([]);
     const [profile, setProfile] = useState({ profilePictures: [] });
@@ -90,6 +90,9 @@ export default function Profile(props) {
                 <div className="location">
                     <i className="fas fa-map-marker-alt"></i>
                     <p>5 km</p>
+                </div>
+                <div>
+                <Reportflag props={props} post={profile} type={"User"}/>
                 </div>
                 <hr />
                 <div className="bio"><p>{profile.bio}</p></div>

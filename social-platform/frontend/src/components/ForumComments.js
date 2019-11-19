@@ -3,10 +3,11 @@ import Card from 'react-bootstrap/Card';
 import '../css/ForumPost.css'
 import Moment from 'react-moment'
 import 'moment/locale/sv'
+import Reportflag from '../components/ReportFlag'
 export default function FormComments(props){
     const [writtenBy, setWrittenBy] = useState({});
     const [haveLocktFordata, setHaveLocktFordata] = useState(false);
-
+    const [comment, setComment] = useState();
     function goToOwner() {
         props.history.push('/profile/' + props.post.owner._id)
     }
@@ -16,6 +17,7 @@ export default function FormComments(props){
         const data = await fetch('/api/comment/' + props.comment._id);
         const result = await data.json();
         setWrittenBy(result.writtenBy);
+        setComment(result);
     }
 
     useEffect(() => {
@@ -30,6 +32,8 @@ export default function FormComments(props){
             <span className="postCreater" onClick={goToOwner}>
                     {!props.post.isAnonym ? ' '+ props.post.owner.firstName : ''}
                 </span>
+                {' '}
+                <Reportflag props={props} post={comment} type={"comment"}/>
                 </Card.Text>
                 <Card.Text className="forum-text">{props.comment.text}</Card.Text>
             </Card.Body>

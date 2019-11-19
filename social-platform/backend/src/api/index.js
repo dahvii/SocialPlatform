@@ -462,7 +462,7 @@ const createnewRepported = async (reported) =>{
     if (reported.length < 1 ){
         const reported = new Reported();
         await reported.save()
-        console.log(reported)
+       // console.log(reported)
     }
 }
 
@@ -478,16 +478,48 @@ router.put('/api/addForumPostToReportedList/:id' ,async (req, res) => {
     //spära så man kan bara läga till en post en gång 
     //console.log(reported[0].filter(reported =>reported.forumPost.includes({_id: req.params.id} )));
    })
-/*
-   router.get('/api/reportedpost', async (req, res) => {
-    let reported = await dbModels['reports'].find().populate('owner').populate('comments').exec();
-    await createnewRepported(reported)
-    result = await dbModels['reports'].find().populate('owner').populate('comments').exec();
-    console.log(result.map(obj => obj.forumPosts));
-    //resoult = result.map(obj => obj.forumPosts);
+//add forum coment to Reported list
+router.put('/api/addCommentToReportedList/:id' ,async (req, res) => {
+    let post = await dbModels.Comments.findById({ _id: req.params.id });  
+    let reported = await dbModels['reports'].find();
+    await createnewRepported(reported);
+    reported[0].comments.push(post);
+    reported[0].save();
+    res.json({reported});
 
-    res.json(result);
+    //spära så man kan bara läga till en post en gång 
+    //console.log(reported[0].filter(reported =>reported.forumPost.includes({_id: req.params.id} )));
+   })
+   //add forum feedpost to Reported list
+router.put('/api/addFeedPostToReportedList/:id' ,async (req, res) => {
+    let post = await dbModels.feedPost.findById({ _id: req.params.id });  
+    let reported = await dbModels['reports'].find();
+    await createnewRepported(reported);
+    reported[0].feedPosts.push(post);
+    reported[0].save();
+    res.json({reported});
+
+    //spära så man kan bara läga till en post en gång 
+    //console.log(reported[0].filter(reported =>reported.forumPost.includes({_id: req.params.id} )));
+   })
+   // add user 
+   router.put('/api/addUserToReportedList/:id' ,async (req, res) => {
+    let post = await dbModels.user.findById({ _id: req.params.id });  
+    let reported = await dbModels['reports'].find();
+    await createnewRepported(reported);
+    reported[0].persons.push(post);
+    reported[0].save();
+    res.json({reported});
+
+    //spära så man kan bara läga till en post en gång 
+    //console.log(reported[0].filter(reported =>reported.forumPost.includes({_id: req.params.id} )));
+    console.log(reported.map(obj => obj._id).includes(req.params.id));
+    
+   })
+
+   router.get('/api/reportedpost', async (req, res) => {
+    let reported = await dbModels['reports'].find().populate('forumPosts').exec();
+    res.json(reported);
    
 })
- */
 module.exports = { router };
