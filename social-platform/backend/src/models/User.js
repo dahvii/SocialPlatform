@@ -28,11 +28,13 @@ let userSchema = new Schema({
     profilePictures: [],
     likes: [], //array of users 
     rejects: [], //array of users 
-    matches: [],
-    admin: Boolean,
+    matches: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Match'
+    }],
+    admin: Boolean
     genderPreference: [String],
     agePreference: [Number]
-
 })
 
 class UserClass {}
