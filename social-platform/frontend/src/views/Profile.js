@@ -19,6 +19,7 @@ export default function Profile(props) {
 
     useEffect(() => {
         if (props.displayedPerson) {
+            setAge(calcAge(props.displayedPerson.dateOfBirth));
             setProfile(props.displayedPerson)
         } else {
             getProfile();
