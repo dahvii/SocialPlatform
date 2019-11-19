@@ -2,12 +2,14 @@ import React, { useRef, useState } from 'react'
 import { Form, Button } from 'react-bootstrap';
 import { Store } from '../utilities/Store'
 import '../css/login.css'
+import * as io from 'socket.io-client'
 
 export default function Login(props) {
     const email = useRef();
     const password = useRef();
     const [loginError, setLoginError] = useState(false)
     const { dispatch } = React.useContext(Store);
+    const socket = io.connect('http://localhost:3001')
 
     function validate(e) {
         login(email.current.value, password.current.value)
@@ -26,7 +28,7 @@ export default function Login(props) {
         })
 
         let result = await loginUser.json();
-
+        socket.emit('login', { user: result })
         if (result.error === "login-error") {
             setLoginError(true);
         } else {
@@ -39,7 +41,7 @@ export default function Login(props) {
                 payload: result.sessUser
             })
             let currUser = await checkCurrentUser(result.sessUser.id);
-            let gotEmptyProps = await checkForEmptyProp(currUser);            
+            let gotEmptyProps = await checkForEmptyProp(currUser);
             props.history.push({
                 pathname: '/',
                 state: { emptyProps: gotEmptyProps }
@@ -57,20 +59,20 @@ export default function Login(props) {
         dispatch({
             type: 'SET_CURRENT_USER',
             payload: data
-        })        
+        })
         return data;
     }
 
-    const checkForEmptyProp = (currUser) =>{
-        let gotEmptyProps=false;
-        if(!currUser.gender){
-            gotEmptyProps=true;
+    const checkForEmptyProp = (currUser) => {
+        let gotEmptyProps = false;
+        if (!currUser.gender) {
+            gotEmptyProps = true;
         }
-        if(!currUser.bio){
-            gotEmptyProps=true;
+        if (!currUser.bio) {
+            gotEmptyProps = true;
         }
-        if(currUser.profilePictures.length === 0){
-            gotEmptyProps=true;
+        if (currUser.profilePictures.length === 0) {
+            gotEmptyProps = true;
         }
         return gotEmptyProps;
     }
