@@ -8,7 +8,6 @@ import calcAge from '../utilities/CalcAge';
 export default function Profile(props) {
     const [images, setImages] = useState([]);
     const [shortBio, setShortBio] = useState("");
-    const [age, setAge] = useState();
 
     useEffect(() => {
         if (props.displayedPerson && props.displayedPerson.bio && props.displayedPerson.bio.length > 40) {
