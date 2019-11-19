@@ -76,10 +76,7 @@ router.post('/api/register', async (req, res) => {
         password: req.body.password,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        gender: '',
-        hometown: '',
         dateOfBirth: req.body.dateOfBirth,
-        bio: '',
         myCharacteristics,
         partnerCharacteristics
 
@@ -177,9 +174,13 @@ router.get('/api/currentuser/:id', async (req, res) => {
         // .populate('matches', ['firstName', 'profilePictures'])
 
         .populate('characteristics');
+
     const currentUser = {
+        email: result.email,
+        hometown: result.hometown,
         id: result._id,
         firstName: result.firstName,
+        lastName: result.lastName,
         bio: result.bio,
         dateOfBirth: result.dateOfBirth,
         gender: result.gender,
@@ -192,7 +193,9 @@ router.get('/api/currentuser/:id', async (req, res) => {
         questionsAnswered: result.questionsAnswered,
         myCharacteristics: result.myCharacteristics,
         partnerCharacteristics: result.partnerCharacteristics,
-        hometown: result.hometown
+        admin: result.admin,
+        genderPreference: result.genderPreference,
+        agePreference: result.agePreference
     }
     res.json(currentUser)
 })
@@ -262,7 +265,9 @@ router.put('/api/update/:id', async (req, res) => {
                 gender: req.body.checkedGender,
                 interests,
                 profilePictures: req.body.imagesPaths,
-                hometown: req.body.hometown
+                hometown: req.body.hometown,
+                genderPreference: req.body.genderPreference,
+                agePreference: req.body.agePreference
             },
         }, { upsert: true })
     if (result) {
