@@ -37,8 +37,8 @@ export default function LikeRejectBtn(props) {
                 match: likedPerson.id,
                 currUser: currUserId
             }            
-            await fetch('/api/match', {
-                method: "PUT",
+            await fetch('/api/match2', {
+                method: "POST",
                 body: JSON.stringify(data),
                 headers: { 'Content-Type': 'application/json'}
             });

@@ -13,45 +13,56 @@ export default function Swipe() {
     const [showDetails, setShowDetails] = useState(false);
     const [people, setPeople] = useState([]);
     const [endOfSwipe, setEndOfSwipe] = useState(false);
+    const [amountOfSwipes, setAmountOfSwipes] = useState(0)
     const [displayedPersonindex, setDisplayedPersonindex] = useState(0);
     const [currUserId]  = useState(state.currentUser.id);
 
     useLifeCycle({
         mount: () => {
-            getTopTen();
+            console.log(state.currentUser);
+            getTopTen();            
         }
     })
 
     async function getTopTen() {
         let response = await fetch('/api/searchAlgorithm/'+currUserId);
         let data = await response.json();
-        console.log("data ", data);
-        // setPeople(data);
-        // if (data.length === 0) {
-        //     setEndOfSwipe(true);
-        // }        
+        console.log("swipe getTopTen ", data);
+        setPeople(data);         
+        setDisplayedPersonindex(0);
+        if (data.length === 0) {
+            setEndOfSwipe(true);
+        }        
     }
 
     function changeView() {
         setShowDetails(!showDetails);
     }
 
-    function changeValue(){
-        dispatch({
-            type: "SHOW_QUESTION",
-            payload: true
-        })
-    }
-
     function nextPerson() {
         let newIndex = displayedPersonindex + 1;
         if (newIndex >= people.length) {
-            //if array ended - show a endofSwipe-promt or something
-            setEndOfSwipe(true);
+            //if array ended - fetch more 10 more users
+            getTopTen();
+            setSwipecounter();
         } else {
             //take next person in array and show their profile
             setDisplayedPersonindex(newIndex);
             setShowDetails(false);
+            setSwipecounter();
+        }
+    }
+
+    function setSwipecounter(){
+        if(amountOfSwipes > 9){
+            dispatch({
+                type: "SHOW_QUESTION",
+                payload: true
+            })
+            setAmountOfSwipes(0)
+        } else{
+            let newNumber= amountOfSwipes+1;
+            setAmountOfSwipes(newNumber)
         }
     }
 
@@ -74,7 +85,6 @@ export default function Swipe() {
                     <LikeRejectBtn callback = {btnCallback} displayedPerson = {people[displayedPersonindex]}></LikeRejectBtn>
                 </div>
             }
-            <Button onClick={changeValue}>meeeeeeh</Button>
             <SwipeQuestion/>
 
             {endOfSwipe &&

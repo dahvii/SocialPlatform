@@ -1,0 +1,38 @@
+.message-picture{
+    width: 60px;
+    margin-right: 10px;
+}
+
+.message-container{
+    display: flex;
+    padding: 6px;
+    text-align: left;
+    background-color: rgb(216, 191, 191);
+    border-radius: 10px;
+    margin: 2vw;
+}
+
+.message-name-info{
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+.message-name-info p, h3{
+    margin: 0;
+}
+
+.messagecard-image-container{
+    position: relative;
+}
+
+.message-card-notification-dot{
+    color: rgb(201, 57, 57);
+    position: absolute;
+    top: -2px;
+    left: -6px;
+    font-size: 0.9rem;
+    border:3px solid rgb(216, 191, 191);
+    border-radius: 100vh;
+    margin-left: 5px;
+}
