@@ -4,8 +4,9 @@ const User = require('../models/User')
 
 
 async function getTop10(req, res) {
-    let thisUser = await User.findOne({ _id: req.params.id }).populate('myCharacteristics').populate('partnerCharacteristics').catch(err => res.status(400));
-    //3.skicka bara tbk topp tio - inte hela listan 
+    let thisUser = await User.findOne({ _id: req.params.id })
+        .populate('partnerCharacteristics')
+        .catch(err => res.status(400));
     
     //find users that havent been seen before 
     let users = await User.find({ $and:[ 
@@ -14,7 +15,6 @@ async function getTop10(req, res) {
             {_id : { $nin : thisUser.rejects} }]            
         })
         .populate('myCharacteristics')
-        .populate('partnerCharacteristics')
         .catch(err => res.status(400));
         
 
@@ -27,6 +27,8 @@ async function getTop10(req, res) {
     let sortedUsers = sortList(users, myPrefSorted);
 
     sortedUsers = removeDuplicates(sortedUsers)
+
+    sortedUsers.splice(10);    
 
     //format fix before sending to frontend
     let peopleToSwipe = fixFormat(sortedUsers);

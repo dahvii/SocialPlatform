@@ -28,28 +28,23 @@ export default function Swipe() {
         let response = await fetch('/api/searchAlgorithm/'+currUserId);
         let data = await response.json();
         console.log("swipe getTopTen ", data);
-         setPeople(data);         
-         if (data.length === 0) {
-             setEndOfSwipe(true);
-         }        
+        setPeople(data);         
+        setDisplayedPersonindex(0);
+        if (data.length === 0) {
+            setEndOfSwipe(true);
+        }        
     }
 
     function changeView() {
         setShowDetails(!showDetails);
     }
 
-    function changeValue(){
-        dispatch({
-            type: "SHOW_QUESTION",
-            payload: true
-        })
-    }
-
     function nextPerson() {
         let newIndex = displayedPersonindex + 1;
         if (newIndex >= people.length) {
-            //if array ended - show a endofSwipe-promt or something
-            setEndOfSwipe(true);
+            //if array ended - fetch more 10 more users
+            getTopTen();
+            setSwipecounter();
         } else {
             //take next person in array and show their profile
             setDisplayedPersonindex(newIndex);
@@ -90,7 +85,6 @@ export default function Swipe() {
                     <LikeRejectBtn callback = {btnCallback} displayedPerson = {people[displayedPersonindex]}></LikeRejectBtn>
                 </div>
             }
-            <Button onClick={changeValue}>meeeeeeh</Button>
             <SwipeQuestion/>
 
             {endOfSwipe &&
