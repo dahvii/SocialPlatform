@@ -231,7 +231,9 @@ router.put('/api/update/:id', async (req, res) => {
                 gender: req.body.checkedGender,
                 interests,
                 profilePictures: req.body.imagesPaths,
-                hometown: req.body.hometown
+                hometown: req.body.hometown,
+                genderPreference: req.body.genderPreference,
+                agePreference: req.body.agePreference
             },
         }, { upsert: true })
     if (result) {
@@ -378,12 +380,6 @@ router.put('/api/match', async (req, res) => {
 router.get('/api/populated/:id', async (req, res) => {
     let result = await User.findOne({ _id: req.params.id }).populate('matches').exec();
     res.json(result);
-})
-
-router.put('/api/update/:id', (req, res) => {
-    User.findByIdAndUpdate(req.params.id, req.body)
-        .then(user => res.json('Updated successfully!'))
-        .catch(err => res.status(400).json('Error: ' + err));
 })
 
 router.delete('/api/delete/:id', (req, res) => {
