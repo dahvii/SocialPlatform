@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import useLifeCycle from '../utilities/useLifeCycle';
 import 'moment/locale/sv'
 import FormPost from '../components/FormPost';
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
@@ -8,56 +9,41 @@ import FeedPost from '../components/FeedPost'
 export default function Forum(props) {
     const [activeTab, setActiveTab] = useState('1');
 
-    const [post, setPost] = useState();
-    const [comment, setComment] = useState();
-    const [feedpost, setFeedPost] = useState();
-    const [haveLocktForUser, setHaveLocktForUser] = useState(false);
-    const [haveLocktForFeedPost, setHaveLocktForFeedPost] = useState(false);
-    const [haveLocktForForumPost, setHaveLocktForForumPost] = useState(false);
-    const [haveLocktForComment, setHaveLocktForComment] = useState(false);
-    
-    
-    useEffect(() => {
-        /*
-        if (!haveLocktForFeedPost) {
-            getReportedFeedPost();
+    const [forumPosts, setForumPosts] = useState();
+    const [comments, setComments] = useState();
+    const [feedPosts, setFeedPosts] = useState();
+    const [users, setUsers] = useState();
+
+    useLifeCycle({
+        mount: () => {
+            getReports();
         }
-        */
-        if (!haveLocktForForumPost) {
-            getReportedPost();
-        }
-        
-        if (!haveLocktForComment) {
-            getReportedComment();
-        }
-        
     })
 
     const toggle = tab => {
         if (activeTab !== tab) setActiveTab(tab);
-      }
-      /*
-      const getReportedFeedPost = async () => {
-        const data = await fetch('/api/reportedfeedpost');
-        const result = await data.json();
-        setFeedPost(result);
-        setHaveLocktForFeedPost(true);
     }
-    */
-    const getReportedPost = async () => {
-        const data = await fetch('/api/reportedpost');
-        const result = await data.json();
-        setPost(result);
-        setHaveLocktForForumPost(true);
+
+    const getReports = async () => {
+        let data = await fetch('/api/reported');
+        let result = await data.json();
+        console.log("result ",result);
+        if (result[0]) {
+            setForumPosts(result[0].forumPosts);
+            setFeedPosts(result[0].feedPosts);
+            setComments(result[0].comments);
+            setUsers(result[0].persons)
+        }
     }
-    
-    const getReportedComment = async () => {
-        const data = await fetch('/api/reportedcomment');
-        const result = await data.json();
-        setComment(result);
-        setHaveLocktForComment(true);
+
+    function displayForumPosts() {
+        if(forumPosts){
+            return forumPosts.map((post, index) => {
+                return <FormPost key={index} post={post} history={props.history} admin={'admin'} />
+            })
+        }
     }
-    
+
     return (
         <>
             <h1>Admin page</h1>
@@ -89,22 +75,22 @@ export default function Forum(props) {
             </Nav>
             <TabContent activeTab={activeTab}>
                 <TabPane tabId="1">
+                    users
+                    {
 
+                    }
                 </TabPane>
                 <TabPane tabId="2">
-                
+
                 </TabPane>
                 <TabPane tabId="3">
-                {haveLocktForForumPost ?
-                        post.map(obj => obj.forumPosts.map((post, index) =><FormPost key={index} post={post} history={props.history} admin={'admin'} />))
-                        : ''
-                    }
+                    {displayForumPosts()}
                 </TabPane>
                 <TabPane tabId="4">
-                {haveLocktForComment ?
+                    {/*haveLocktForComment ?
                         comment.map(obj => obj.comments.map((comment, index) => <FormComment key={index} comment={comment} post={post} history={props.history} admin={'admin'} />))
                         : ''
-                    }
+                */}
                 </TabPane>
             </TabContent>
 
@@ -116,7 +102,7 @@ export default function Forum(props) {
 /*
                {haveLocktForFeedPost ?
                 console.log(feedpost)
-                
+
                         //feedpost.map(obj => obj.feedpost.map(post => <FeedPost key={post._id} post={post} history={props.history} admin={'admin'} />))
                         : ''
                     }

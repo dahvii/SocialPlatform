@@ -634,18 +634,18 @@ router.put('/api/addUserToReportedList/:id', async (req, res) => {
     res.json({ reported });
 })
 
-router.get('/api/reportedpost', async (req, res) => {
-    let reported = await dbModels['reports'].find().populate('forumPosts').exec();
-    res.json(reported);
-
+router.get('/api/reported', async (req, res) => {
+    let reported = await Reported.find()
+    .populate('comments')
+    .populate('forumPosts')
+    .populate('feedPosts')
+    .populate('persons')
+    .exec();
+    res.json(reported);    
 })
-router.get('/api/reportedcomment', async (req, res) => {
-    let reported = await dbModels['reports'].find().populate('comments').exec();
-    res.json(reported);
-})
 
-router.delete('/api/delitforumpost', async (req, res) => {
-    let result = await dbModels.Comments.findById({ _id: req.params.id }).remove().exec();
+router.delete('/api/deleteforumpost/:id', async (req, res) => {
+    let result = await ForumPost.deleteOne({ _id: req.params.id })
     res.json(result);
 })
 

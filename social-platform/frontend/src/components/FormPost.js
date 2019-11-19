@@ -26,16 +26,10 @@ export default function FormPost(props) {
   }
 
 
-  const delitePost = async () => {
-    const data = await fetch('/api/delitforumpost');
-    const result = await data.json();
-    console.log(result);
-    
+  const deletePost = async () => {
+     await fetch('/api/deleteforumpost/'+props.post._id, {method: 'DELETE',})  
   }
 
-  function banAndRemove() {
-    delitePost();
-  }
 
   return (
     <Card className="forum-postcard">
@@ -45,7 +39,7 @@ export default function FormPost(props) {
             <Moment fromNow>{props.post.timeStamp}</Moment>
             {' '}
             {props.admin === "admin" ?
-              <span onClick={banAndRemove}>
+              <span onClick={deletePost}>
                 <i className="fas fa-ban"></i>
               </span>
               : ''}
