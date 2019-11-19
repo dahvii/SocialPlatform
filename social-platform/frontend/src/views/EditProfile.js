@@ -9,13 +9,6 @@ import 'animate.css';
 import useLifeCycle from '../utilities/useLifeCycle'
 import AgeSlider from '../components/AgeSlider'
 
-//kvar att göra
-//inväntar mockdata så databasen funkar som den ska innan allt kan testas 
-//1. make sure att genderPref kommer in til currUser 
-//2. att ens nya genderprefs sparas i databasen!
-//3. make sure att agePref kommer in till currUser
-//4. att ens nya ageprefs sparas i databasen!
-
 export default function EditProfile() {
     const { state, dispatch } = React.useContext(Store);
     const [userBio, setUserBio] = useState(state.currentUser.bio);
@@ -31,7 +24,7 @@ export default function EditProfile() {
     const [genderPrefFemale, setGenderPrefFemale] = useState(false);
     const [genderPrefNonBinary, setGenderPrefNonBinary] = useState(false);
     const [genderPrefMale, setGenderPrefMale] = useState(false);
-    const [agePref, setAgePref]= useState([26, 55]);
+    const [agePref, setAgePref]= useState([18, 60]);
 
 
 
@@ -40,14 +33,13 @@ export default function EditProfile() {
             getAllInterests()
             addPrefToCheckBox()
             console.log("currUser ", state.currentUser);
-            if(state.currentUser.agePreference){
+            if(state.currentUser.agePreference.length > 1){
                 setAgePref([state.currentUser.agePreference[0],state.currentUser.agePreference[1]]);
-            }     
+            }
         }
     })
 
     function addPrefToCheckBox() {
-        console.log("gender prefs ", state.currentUser.genderPreference);
         if (state.currentUser.genderPreference) {
             if (state.currentUser.genderPreference.includes("Female")) {
                 setGenderPrefFemale(true);
@@ -134,7 +126,6 @@ export default function EditProfile() {
             genderPreference: genderPref,
             agePreference: agePref
         }
-        console.log("data innan skickas till DB", data);
         
         let result = await fetch(`/api/update/${state.currentUser.id}`, {
             method: 'PUT',
@@ -219,7 +210,6 @@ export default function EditProfile() {
     }
 
     const ageSliderCallback = (value) => {
-        console.log("its a callback, value ", value);
         setAgePref(value);
     }
 
@@ -381,7 +371,7 @@ export default function EditProfile() {
                                 className="form-check-input"
                             />
                             <span className="checkmark"></span>
-                            Kvinna
+                            Kvinnor
                         </label>
                     </div>
                     <div className="edit-profile-form-check">
@@ -394,7 +384,7 @@ export default function EditProfile() {
                                 className="form-check-input"
                             />
                             <span className="checkmark"></span>
-                            Icke-binär
+                            Icke-binära
                         </label>
                     </div>
                     <div className="edit-profile-form-check">
@@ -407,7 +397,7 @@ export default function EditProfile() {
                                 className="form-check-input"
                             />
                             <span className="checkmark"></span>
-                            Man
+                            Män
                         </label>
                     </div>
                     <h5>Ålder</h5>
