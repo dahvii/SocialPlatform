@@ -4,6 +4,7 @@ import { Store } from '../utilities/Store'
 import imageLoader from '../utilities/ImageHandler';
 import useLifeCycle from '../utilities/useLifeCycle';
 import LikeRejectBtn from '../components/LikeRejectBtn.js';
+import calcAge from '../utilities/CalcAge';
 import Moment from 'react-moment';
 import '../css/Profile.css';
 import Reportflag from '../components/ReportFlag';
@@ -13,15 +14,17 @@ export default function Profile(props) {
     const [showBtn, setShowBtn] = useState(false);
     const { state } = React.useContext(Store);
     const [currUser] = useState(state.currentUser);
+    const [age, setAge] = useState();
     // const [hasProfilePictures, setHasProfilePictures] = useState(false)
 
     useEffect(() => {
         if (props.displayedPerson) {
+            setAge(calcAge(props.displayedPerson.dateOfBirth));
             setProfile(props.displayedPerson)
         } else {
             getProfile();
-        } 
-        
+        }
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.displayedPerson]);
 
@@ -35,7 +38,7 @@ export default function Profile(props) {
     const getProfile = async () => {
         let result = await (await fetch("/api/person/" + props.match.params.id)).json();
         setProfile(result)
-        console.log(result)
+        setAge(calcAge(result.dateOfBirth));
         toShowOrNotToShowBtn(result);
     }
 
@@ -80,16 +83,19 @@ export default function Profile(props) {
             }
             <div className="profile-info">
                 <div className="name-age">
-                    <h3>{profile.firstName}&nbsp;-</h3 >&nbsp;<h3><Moment durationFromNow>{profile.dateOfBirth}</Moment></h3>
-            </div>
-            <div className="town-location">
-                <div className="hometown">
-                    <i className="fas fa-home"></i>
-                    <p>{profile.hometown}</p>
+                    <h3>{profile.firstName}&nbsp;-</h3 >&nbsp;<h3>{age}</h3>
                 </div>
-                <div className="location">
-                    <i className="fas fa-map-marker-alt"></i>
-                    <p>5 km</p>
+                <div className="town-location">
+                    <div className="hometown">
+                        <i className="fas fa-home"></i>
+                        <p>{profile.hometown}</p>
+                    </div>
+                    <div className="location">
+                        <i className="fas fa-map-marker-alt"></i>
+                        <p>5 km</p>
+                    </div>
+                    <hr />
+                    <div className="bio"><p>{profile.bio}</p></div>
                 </div>
                 <div>
                 <Reportflag props={props} post={profile} type={"User"}/>
@@ -97,11 +103,10 @@ export default function Profile(props) {
                 <hr />
                 <div className="bio"><p>{profile.bio}</p></div>
             </div>
-        </div>
             {
-        showBtn &&
-        <LikeRejectBtn callback={removeBtns} displayedPerson={profile}></LikeRejectBtn>
-    }
+                showBtn &&
+                <LikeRejectBtn callback={removeBtns} displayedPerson={profile}></LikeRejectBtn>
+            }
         </div >
     )
 }

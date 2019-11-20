@@ -7,10 +7,12 @@ import { store } from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
 import 'animate.css';
 import useLifeCycle from '../utilities/useLifeCycle'
+import AgeSlider from '../components/AgeSlider'
 
 export default function EditProfile() {
     const { state, dispatch } = React.useContext(Store);
     const [userBio, setUserBio] = useState(state.currentUser.bio);
+    const [userHometown, setUserHometown] = useState(state.currentUser.hometown);
     const [checkedGender, setCheckedGender] = useState(state.currentUser.gender);
     const [userInterests, setUserInterests] = useState(state.currentUser.interests);
     const [interestInput, setInterestInput] = useState('');
@@ -20,12 +22,37 @@ export default function EditProfile() {
     const [imagesPaths, setImagesPaths] = useState(state.currentUser.profilePictures);
     const [interestsFromDb, setInterestsFromDb] = useState([]);
     const [imagesToRemove, setImagesToRemove] = useState([]);
+    const [genderPrefFemale, setGenderPrefFemale] = useState(false);
+    const [genderPrefNonBinary, setGenderPrefNonBinary] = useState(false);
+    const [genderPrefMale, setGenderPrefMale] = useState(false);
+    const [agePref, setAgePref]= useState([18, 60]);
+
+
 
     useLifeCycle({
         mount: () => {
             getAllInterests()
+            addPrefToCheckBox()
+            console.log("currUser ", state.currentUser);
+            if(state.currentUser.agePreference.length > 1){
+                setAgePref([state.currentUser.agePreference[0],state.currentUser.agePreference[1]]);
+            }
         }
     })
+
+    function addPrefToCheckBox() {
+        if (state.currentUser.genderPreference) {
+            if (state.currentUser.genderPreference.includes("Female")) {
+                setGenderPrefFemale(true);
+            }
+            if (state.currentUser.genderPreference.includes("NonBinary")) {
+                setGenderPrefNonBinary(true);
+            }
+            if (state.currentUser.genderPreference.includes("Male")) {
+                setGenderPrefMale(true);
+            }
+        }
+    }
 
     function fileSelectorHandler(event) {
         const formData = new FormData();
@@ -80,13 +107,27 @@ export default function EditProfile() {
 
         deleteImage()
 
+        let genderPref = []
+        if (genderPrefFemale) {
+            genderPref.push("Female")
+        }
+        if (genderPrefNonBinary) {
+            genderPref.push("NonBinary")
+        }
+        if (genderPrefMale) {
+            genderPref.push("Male")
+        }
+
         let data = {
             userBio,
             checkedGender,
             userInterests,
             imagesPaths,
-            hometown: hometown.current.value
+            hometown: hometown.current.value,
+            genderPreference: genderPref,
+            agePreference: agePref
         }
+        
         let result = await fetch(`/api/update/${state.currentUser.id}`, {
             method: 'PUT',
             body: JSON.stringify(data),
@@ -154,6 +195,23 @@ export default function EditProfile() {
 
     const handleGenderOptionChange = (e) => {
         setCheckedGender(e.target.value)
+    }
+
+    const handleGenderPrefChange = (e) => {
+        if (e.target.value === 'Female') {
+            let newValue = !genderPrefFemale;
+            setGenderPrefFemale(newValue);
+        } else if (e.target.value === 'NonBinary') {
+            let newValue = !genderPrefNonBinary;
+            setGenderPrefNonBinary(newValue);
+        } else {
+            let newValue = !genderPrefMale;
+            setGenderPrefMale(newValue);
+        }
+    }
+
+    const ageSliderCallback = (value) => {
+        setAgePref(value);
     }
 
     const handleBioChange = (e) => {
@@ -238,20 +296,6 @@ export default function EditProfile() {
                 <Form className="selection">
                     <h4>Kön</h4>
                     <div className="edit-profile-form-check">
-                        <label>
-                            <input
-                                type="radio"
-                                value="Male"
-                                checked={checkedGender === "Male"}
-                                onChange={handleGenderOptionChange}
-                                className="form-check-input"
-                            />
-                            <span className="checkmark"></span>
-                            Man
-                        </label>
-                    </div>
-
-                    <div className="edit-profile-form-check">
                         <label className="m-0">
                             <input
                                 type="radio"
@@ -262,6 +306,32 @@ export default function EditProfile() {
                             />
                             <span className="checkmark"></span>
                             Kvinna
+                        </label>
+                    </div>
+                    <div className="edit-profile-form-check">
+                        <label className="m-0">
+                            <input
+                                type="radio"
+                                value="NonBinary"
+                                checked={checkedGender === "NonBinary"}
+                                onChange={handleGenderOptionChange}
+                                className="form-check-input"
+                            />
+                            <span className="checkmark"></span>
+                            Icke-binär
+                        </label>
+                    </div>
+                    <div className="edit-profile-form-check">
+                        <label>
+                            <input
+                                type="radio"
+                                value="Male"
+                                checked={checkedGender === "Male"}
+                                onChange={handleGenderOptionChange}
+                                className="form-check-input"
+                            />
+                            <span className="checkmark"></span>
+                            Man
                         </label>
                     </div>
                 </Form>
@@ -287,7 +357,53 @@ export default function EditProfile() {
                 </Form>
                 <Form className="selection mt-2">
                     <h4>Hemort</h4>
-                    <Form.Control as="input" className="bio-text" rows="3" defaultValue={userBio} ref={hometown} maxLength="20" />
+                    <Form.Control as="input" className="bio-text" rows="3" defaultValue={userHometown} ref={hometown} maxLength="20" />
+                </Form>
+                <Form className="selection mt-2">
+                    <h4>Preferenser</h4>
+                    <h5>Kön</h5>
+                    <div className="edit-profile-form-check">
+                        <label className="m-0">
+                            <input
+                                type="checkbox"
+                                value="Female"
+                                checked={genderPrefFemale}
+                                onChange={handleGenderPrefChange}
+                                className="form-check-input"
+                            />
+                            <span className="checkmark"></span>
+                            Kvinnor
+                        </label>
+                    </div>
+                    <div className="edit-profile-form-check">
+                        <label className="m-0">
+                            <input
+                                type="checkbox"
+                                value="NonBinary"
+                                checked={genderPrefNonBinary}
+                                onChange={handleGenderPrefChange}
+                                className="form-check-input"
+                            />
+                            <span className="checkmark"></span>
+                            Icke-binära
+                        </label>
+                    </div>
+                    <div className="edit-profile-form-check">
+                        <label>
+                            <input
+                                type="checkbox"
+                                value="Male"
+                                checked={genderPrefMale}
+                                onChange={handleGenderPrefChange}
+                                className="form-check-input"
+                            />
+                            <span className="checkmark"></span>
+                            Män
+                        </label>
+                    </div>
+                    <h5>Ålder</h5>
+                    <p>Föreslå personer mellan {agePref[0]} och {agePref[1] >= 60 ? "60+": agePref[1]} </p>
+                    <AgeSlider sliderCallback={ageSliderCallback} startValue= {agePref[0]} endValue= {agePref[1]}/>
                 </Form>
             </div>
             <Button variant="light" className="update-profile-button" onClick={updateProfile}>Uppdatera profil</Button>

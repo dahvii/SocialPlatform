@@ -20,11 +20,21 @@ async function loadUsers() {
             green: Math.floor(Math.random() * 20) - 10,
             yellow: Math.floor(Math.random() * 20) - 10
         }).save()
+
+        let genderPreference= getRandomGenders();
+
+        let minAge= getRandomInt(18, 60)
+        let maxAge= getRandomInt(minAge, 60)
+        let agePreference= [minAge, maxAge];
+
         let newUser = new User({
             ...user,
             myCharacteristics,
-            partnerCharacteristics
+            partnerCharacteristics,
+            genderPreference,
+            agePreference
         })
+
         bcrypt.genSalt(10, (err, salt) => {
             bcrypt.hash(newUser.password, salt, (err, hash) => {
                 if (err) throw err;
@@ -35,6 +45,26 @@ async function loadUsers() {
             });
         });
     })
+
+    function getRandomGenders(){
+        const gender = ["Female", "NonBinary", "Male"];
+        let genderPreference= [];
+
+        for(let i = 0; i < getRandomInt(1, 4); i++){
+            let random = getRandomInt(0, gender.length);
+            genderPreference.push(gender[random]);
+            gender.splice(random, 1);
+        }
+        return genderPreference
+    }
+
+    function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+    }
+  
+    
 }
 
 module.exports.loadUsers = loadUsers;

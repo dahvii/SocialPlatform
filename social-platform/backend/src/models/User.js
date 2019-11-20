@@ -9,9 +9,9 @@ let userSchema = new Schema({
     firstName: String,
     lastName: String,
     dateOfBirth: Date,
-    gender: String,
-    hometown: String,
-    bio: String,
+    gender: { type: String, default: ''},
+    hometown: { type: String, default: ''},
+    bio: { type: String, default: ''},
     interests: [{
         type: Schema.Types.ObjectId,
         ref: 'Interests'
@@ -25,14 +25,17 @@ let userSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "Characteristics"
     }, 
-    profilePictures: [],
-    likes: [], //array of users 
-    rejects: [], //array of users 
+    profilePictures: { type: Array, default: []}, 
+    likes: { type: Array, default: []}, 
+    rejects: { type: Array, default: []}, 
     matches: [{
         type: Schema.Types.ObjectId,
-        ref: 'Match'
+        ref: 'Match',
+        default: []
     }],
-    admin: Boolean
+    admin: {type:Boolean, default: false},
+    genderPreference: { type: Array, default: []},
+    agePreference: { type: Array, default: []}
 })
 
 class UserClass {}

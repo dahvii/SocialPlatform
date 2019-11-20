@@ -19,7 +19,6 @@ export default function Swipe() {
 
     useLifeCycle({
         mount: () => {
-            console.log(state.currentUser);
             getTopTen();            
         }
     })
@@ -27,7 +26,7 @@ export default function Swipe() {
     async function getTopTen() {
         let response = await fetch('/api/searchAlgorithm/'+currUserId);
         let data = await response.json();
-        console.log("swipe getTopTen ", data);
+        // console.log("swipe getTopTen ", data);
         setPeople(data);         
         setDisplayedPersonindex(0);
         if (data.length === 0) {
