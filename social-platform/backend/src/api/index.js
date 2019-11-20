@@ -176,44 +176,12 @@ router.delete('/api/deleteUser/:id', async (req, res) => ReportController.delete
 
 router.put('/api/deleteUserReport/:id', async (req, res) => ReportController.deleteUserReport(req, res))
 
-router.put('/api/deleteUserReport/:id', async (req, res) => {
-    let reported = await Reported.find();
-    if(reported[0]){ 
-        let index = reported[0].persons.findIndex(objId => objId == req.params.id);  
-        reported[0].persons.splice(index,1);
-        reported[0].save();
-    }
-    res.json(reported);
-})
+router.delete('/api/deleteComment/:id', async (req, res) => ReportController.deleteComment(req,res))
 
-router.delete('/api/deleteComment/:id', async (req, res) => {
-    let result = await dbModels.Comments.deleteOne({ _id: req.params.id })
-    res.json(result);
-})
+router.put('/api/deleteCommentReport/:id', async (req, res) => ReportController.deleteCommentReport(req, res))
 
-router.put('/api/deleteCommentReport/:id', async (req, res) => {
-    let reported = await Reported.find();
-    if(reported[0]){ 
-        let index = reported[0].comments.findIndex(objId => objId == req.params.id);  
-        reported[0].comments.splice(index,1);
-        reported[0].save();
-    }
-    res.json(reported);
-})
+router.put('/api/deleteFeedpostReport/:id', async (req, res) => ReportController.deleteFeedpostReport(req,res))
 
-router.put('/api/deleteFeedpostReport/:id', async (req, res) => {
-    let reported = await Reported.find();
-    if(reported[0]){ 
-        let index = reported[0].feedPosts.findIndex(objId => objId == req.params.id);  
-        reported[0].feedPosts.splice(index,1);
-        reported[0].save();
-    }
-    res.json(reported);
-})
-
-router.delete('/api/deleteFeedPost/:id', async (req, res) => {
-    let result = await dbModels.feedPost.deleteOne({ _id: req.params.id })
-    res.json(result);
-})
+router.delete('/api/deleteFeedPost/:id', async (req, res) => ReportController.deleteFeedPost(req, res))
 
 module.exports = { router };
