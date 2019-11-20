@@ -18,7 +18,7 @@
         "gender": "Female",
         "hometown": "Argelia",
         "bio": "Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.",
-        "admin": false,
+        "admin": true,
         "dateOfBirth": "1994-01-29T18:22:47Z"
     },
     {
@@ -49,10 +49,10 @@
         "lastName": "Dartan",
         "email": "ndartan4@blog.com",
         "gender": "Male",
-        "hometown": "Itsukaichi",
-        "bio": "Morbi quis tortor id nulla ultrices aliquet.",
-        "admin": false,
-        "dateOfBirth": "1993-02-28T11:29:48Z"
+        "homeTown": "Austin",
+        "bio": "Morbi ut odio. Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.",
+        "admin": true,
+        "dateOfBirth": "1991-08-10T18:29:30Z"
     },
     {
         "password": "iIS9lEWJG",

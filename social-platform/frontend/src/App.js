@@ -43,6 +43,13 @@ function App() {
             type: 'SET_CURRENT_USER',
             payload: data
         })
+        if (data.isAdmin) {
+            dispatch({
+                type:'SET_Admin',
+                payload: true
+            })
+        }
+        
     }
 
     const checkLoginStatus = async () => {
@@ -96,7 +103,12 @@ function App() {
         <PrivateRoute path="/login" component={Login} isAuthenticated={!state.isLoggedIn} loading={loading} redirectPath="/"/>
         <PrivateRoute path="/forum" component={Forum} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start"/>
         <PrivateRoute exact path="/onepost/:id" component={OnePost} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
+        
+        
         <PrivateRoute exact path="/adminpage" component={Adminpage} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
+        
+        
+        
                     <ReactNotifications />
                 </div>
             </div>

@@ -187,24 +187,106 @@ const createnewRepported = async (reported) => {
 router.put('/api/addForumPostToReportedList/:id', async (req, res) => {
     let post = await dbModels.forumPost.findById({ _id: req.params.id });
     let reported = await dbModels['reports'].find();
-    await createnewRepported(reported);
-    reported[0].forumPosts.push(post);
-    reported[0].save();
+    if (reported.length < 1) {
+        reported = await createnewRepported();
+        reported.forumPosts.push(post);
+        reported.save();
+    }else{
+        if(!reported[0].forumPosts.includes(post._id)){
+            reported[0].forumPosts.push(post);
+            reported[0].save();
+        }
+    }
     res.json({ reported });
-
-    //spära så man kan bara läga till en post en gång 
-    //console.log(reported[0].filter(reported =>reported.forumPost.includes({_id: req.params.id} )));
 })
-/*
-   router.get('/api/reportedpost', async (req, res) => {
-    let reported = await dbModels['reports'].find().populate('owner').populate('comments').exec();
-    await createnewRepported(reported)
-    result = await dbModels['reports'].find().populate('owner').populate('comments').exec();
-    console.log(result.map(obj => obj.forumPosts));
-    //resoult = result.map(obj => obj.forumPosts);
+//add forum coment to Reported list
+router.put('/api/addCommentToReportedList/:id', async (req, res) => {
+    let post = await dbModels.Comments.findById({ _id: req.params.id });
+    let reported = await dbModels['reports'].find();
+    if (reported.length < 1) {
+        reported = await createnewRepported();
+        reported.comments.push(post);
+        reported.save();
+    }else{
+        if(!reported[0].comments.includes(post._id)){            
+            reported[0].comments.push(post);
+            reported[0].save();
+        }
+    }    
+    res.json({ reported });
+})
+//add forum feedpost to Reported list
+router.put('/api/addFeedPostToReportedList/:id', async (req, res) => {
+    let post = await dbModels.feedPost.findById({ _id: req.params.id });
+    let reported = await dbModels['reports'].find();
+    if (reported.length < 1) {
+        reported = await createnewRepported();
+        reported.feedPosts.push(post);
+        reported.save();
+    }else{
+        if(!reported[0].feedPosts.includes(post._id)){
+            reported[0].feedPosts.push(post);
+            reported[0].save();
+        }
+    }
+    res.json({ reported });
+})
+// add user 
+router.put('/api/addUserToReportedList/:id', async (req, res) => {
+    let post = await dbModels.user.findById({ _id: req.params.id });
+    let reported = await dbModels['reports'].find();
+    if (reported.length < 1) {
+        reported = await createnewRepported();
+        reported.persons.push(post);
+        reported.save();
+    }else{
+        if(!reported[0].persons.includes(post._id)){
+            reported[0].persons.push(post);
+            reported[0].save();
+        }
+    }
+    res.json({ reported });
+})
 
+router.get('/api/reported', async (req, res) => {
+    let reported = await Reported.find()
+    .populate('comments')
+    .populate('forumPosts')
+    .populate('feedPosts')
+    .populate('persons')
+    .exec();
+    res.json(reported);    
+})
+
+router.delete('/api/deleteforumpost/:id', async (req, res) => {
+    let result = await ForumPost.deleteOne({ _id: req.params.id })
     res.json(result);
-   
 })
- */
+
+router.put('/api/deleteForumReport/:id', async (req, res) => {
+    let reported = await Reported.find();
+    if(reported[0]){ 
+        let index = reported[0].forumPosts.findIndex(objId => objId == req.params.id);  
+        reported[0].forumPosts.splice(index,1);
+        reported[0].save();
+    }
+    res.json(reported);
+})
+
+router.delete('/api/deleteUser/:id', async (req, res) => {
+    let result = await User.deleteOne({ _id: req.params.id })
+    res.json(result);
+})
+
+router.put('/api/deleteUserReport/:id', async (req, res) => {
+    let reported = await Reported.find();
+    if(reported[0]){ 
+        let index = reported[0].persons.findIndex(objId => objId == req.params.id);  
+        reported[0].persons.splice(index,1);
+        reported[0].save();
+    }
+    res.json(reported);
+})
+
+
 module.exports = { router };

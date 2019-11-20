@@ -7,7 +7,7 @@ import LikeRejectBtn from '../components/LikeRejectBtn.js';
 import calcAge from '../utilities/CalcAge';
 import Moment from 'react-moment';
 import '../css/Profile.css';
-
+import Reportflag from '../components/ReportFlag';
 export default function Profile(props) {
     const [images, setImages] = useState([]);
     const [profile, setProfile] = useState({ profilePictures: [] });
@@ -97,6 +97,11 @@ export default function Profile(props) {
                     <hr />
                     <div className="bio"><p>{profile.bio}</p></div>
                 </div>
+                <div>
+                <Reportflag props={props} post={profile} type={"User"}/>
+                </div>
+                <hr />
+                <div className="bio"><p>{profile.bio}</p></div>
             </div>
             {
                 showBtn &&
