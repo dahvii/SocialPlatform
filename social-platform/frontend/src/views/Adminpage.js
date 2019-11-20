@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import useLifeCycle from '../utilities/useLifeCycle';
 import 'moment/locale/sv'
 import FormPost from '../components/FormPost';
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 import classnames from 'classnames';
-import FormComment from '../components/ForumComments';
-import FeedPost from '../components/FeedPost'
 import { Store } from '../utilities/Store'
 import { Card, Button } from 'react-bootstrap'
-import SwipePreview from '../components/SwipePreview';
 
 
 export default function Forum(props) {
@@ -18,10 +15,7 @@ export default function Forum(props) {
     const [feedPosts, setFeedPosts] = useState();
     const [users, setUsers] = useState();
     const { state } = React.useContext(Store);
-
-    console.log(props);
     
-
     useLifeCycle({
         mount: () => {            
             if(!state.currentUser.admin){
@@ -39,7 +33,6 @@ export default function Forum(props) {
     const getReports = async () => {
         let data = await fetch('/api/reported');
         let result = await data.json();
-        console.log("result ", result);
         if (result[0]) {
             setForumPosts(result[0].forumPosts);
             setFeedPosts(result[0].feedPosts);
@@ -155,7 +148,6 @@ export default function Forum(props) {
                                     <Card.Title>Anmäld användare </Card.Title>
                                     <Card.Text>
                                         Namn: {user.firstName} {user.lastName} <br />
-                                        id: {user._id}
                                         <Button variant="primary" onClick={e => goToProfile(user._id)}>Gå till användare</Button>
                                     </Card.Text>
                                     <Button variant="primary" onClick={e => removeUser(user._id, index)}>Ta bort användaren</Button>
@@ -173,7 +165,6 @@ export default function Forum(props) {
                                     <Card.Title>Anmäld FeedPost </Card.Title>
                                     <Card.Text>
                                         text: {feedPost.text} <br/>
-                                        id: {feedPost._id}
                                         <Button variant="primary" onClick={e => goToFeedPost(feedPost._id)}>Gå till FeedPost</Button>
                                     </Card.Text>
                                     <Button variant="primary" onClick={e => removeFeedPost(feedPost._id, index)}>Ta bort FeedPost</Button>
@@ -214,9 +205,6 @@ export default function Forum(props) {
                     }
                 </TabPane>
             </TabContent>
-
-
         </>
-
     )
 }

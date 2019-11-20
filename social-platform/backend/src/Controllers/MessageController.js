@@ -34,7 +34,6 @@ const postMessage = async (req, res) => {
         })
 
         matches.forEach((match) => {
-            console.log(match)
             match.messages = newMessage
             match.updatedAt = Date.now()
             match.save()
