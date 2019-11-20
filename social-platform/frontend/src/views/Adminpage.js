@@ -7,9 +7,12 @@ import classnames from 'classnames';
 import FormComment from '../components/ForumComments';
 import FeedPost from '../components/FeedPost'
 import { Store } from '../utilities/Store'
+import { Card, Button } from 'react-bootstrap'
+import SwipePreview from '../components/SwipePreview';
+
+
 export default function Forum(props) {
     const [activeTab, setActiveTab] = useState('1');
-
     const [forumPosts, setForumPosts] = useState();
     const [comments, setComments] = useState();
     const [feedPosts, setFeedPosts] = useState();
@@ -32,7 +35,7 @@ export default function Forum(props) {
     const getReports = async () => {
         let data = await fetch('/api/reported');
         let result = await data.json();
-        console.log("result ",result);
+        console.log("result ", result);
         if (result[0]) {
             setForumPosts(result[0].forumPosts);
             setFeedPosts(result[0].feedPosts);
@@ -41,12 +44,19 @@ export default function Forum(props) {
         }
     }
 
-    function displayForumPosts() {
-        if(forumPosts){
-            return forumPosts.map((post, index) => {
-                return <FormPost key={index} post={post} history={props.history} admin={'admin'} />
-            })
-        }
+    async function removeReport(id, index) {
+        await fetch('/api/deleteReport/' + id, { method: 'PUT' });
+        let copyOfList = [...forumPosts];
+        copyOfList.splice(index, 1);
+        setForumPosts(copyOfList);
+    }
+
+    async function removeForumPost(id, index) {
+        await fetch('/api/deleteforumpost/' + id, { method: 'DELETE' });
+        await fetch('/api/deleteReport/' + id, { method: 'PUT' });
+        let copyOfList = [...forumPosts];
+        copyOfList.splice(index, 1);
+        setForumPosts(copyOfList);
     }
 
     return (
@@ -80,16 +90,35 @@ export default function Forum(props) {
             </Nav>
             <TabContent activeTab={activeTab}>
                 <TabPane tabId="1">
-                    users
-                    {
-
+                {users &&
+                        users.map((post, index) => {
+                            return <Card key={index} >
+                                <Card.Body>
+                                    <Card.Title>Anmäld användare </Card.Title>
+                                    <Card.Text></Card.Text>
+                                    <Button variant="primary" onClick={e => removeForumPost(post._id, index)}>Ta bort inlägget</Button>
+                                    <Button variant="primary" onClick={e => removeReport(post._id, index)}>Ta bort anmälningen</Button>
+                                </Card.Body>
+                            </Card>
+                        })
                     }
                 </TabPane>
                 <TabPane tabId="2">
 
                 </TabPane>
                 <TabPane tabId="3">
-                    {displayForumPosts()}
+                    {forumPosts &&
+                        forumPosts.map((post, index) => {
+                            return <Card  key={index}>
+                                <Card.Body>
+                                    <Card.Title>Anmält foruminlägg </Card.Title>
+                                    <FormPost key={index} post={post} history={props.history} admin={'admin'} />
+                                    <Button variant="primary" onClick={e => removeForumPost(post._id, index)}>Ta bort inlägget</Button>
+                                    <Button variant="primary" onClick={e => removeReport(post._id, index)}>Ta bort anmälningen</Button>
+                                </Card.Body>
+                            </Card>
+                        })
+                    }
                 </TabPane>
                 <TabPane tabId="4">
                     {/*haveLocktForComment ?

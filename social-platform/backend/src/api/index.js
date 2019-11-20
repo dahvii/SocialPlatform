@@ -652,7 +652,14 @@ router.delete('/api/deleteforumpost/:id', async (req, res) => {
     res.json(result);
 })
 
-
-
+router.put('/api/deleteReport/:id', async (req, res) => {
+    let reported = await Reported.find();
+    if(reported[0]){ 
+        let index = reported[0].forumPosts.findIndex(objId => objId == req.params.id);  
+        reported[0].forumPosts.splice(index,1);
+        reported[0].save();
+    }
+    res.json(reported);
+})
 
 module.exports = { router };

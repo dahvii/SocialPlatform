@@ -18,18 +18,11 @@ export default function FormPost(props) {
   }
 
   function goToPost() {
-    if (props.admin !== 'admin') {
-      if (!stop) {
-        props.history.push('/onepost/' + props.post._id);
-      }
+    if (!stop) {
+      props.history.push('/onepost/' + props.post._id);
     }
+
   }
-
-
-  const deletePost = async () => {
-     await fetch('/api/deleteforumpost/'+props.post._id, {method: 'DELETE',})  
-  }
-
 
   return (
     <Card className="forum-postcard">
@@ -38,11 +31,6 @@ export default function FormPost(props) {
           <Card.Text className="forum-post-time forum-text forum-text-top">
             <Moment fromNow>{props.post.timeStamp}</Moment>
             {' '}
-            {props.admin === "admin" ?
-              <span onClick={deletePost}>
-                <i className="fas fa-ban"></i>
-              </span>
-              : ''}
             <span className="postCreater" onClick={goToOwner}>
               {props.admin === "admin" ? '' :
                 !props.post.isAnonym ? ' ' + (props.post.owner && props.post.owner.firstName) : ''}
