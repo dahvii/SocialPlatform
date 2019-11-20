@@ -247,6 +247,7 @@ router.put('/api/addUserToReportedList/:id', async (req, res) => {
     }
     res.json({ reported });
 })
+   
 
 router.get('/api/reported', async (req, res) => {
     let reported = await Reported.find()

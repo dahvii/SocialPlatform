@@ -62,6 +62,11 @@ export default function Forum(props) {
     function goToProfile(id){
         props.history.push(`/profile/${id}`);
     }
+
+    function goToFeedPost(id){
+        props.history.push(`/feed-post/${id}`);
+    }
+
     async function removeUserReport(id, index) {
         await fetch('/api/deleteUserReport/' + id, { method: 'PUT' });
         let copyOfList = [...users];
@@ -149,7 +154,22 @@ export default function Forum(props) {
                     }
                 </TabPane>
                 <TabPane tabId="2">
-
+                {feedPosts &&
+                        feedPosts.map((feedPost, index) => {
+                            return <Card key={index} >
+                                <Card.Body>
+                                    <Card.Title>Anmäld FeedPost </Card.Title>
+                                    <Card.Text>
+                                        text: {feedPost.text} <br/>
+                                        id: {feedPost._id}
+                                        <Button variant="primary" onClick={e => goToFeedPost(feedPost._id)}>Gå till Komentaren</Button>
+                                    </Card.Text>
+                                    <Button variant="primary" onClick={e => removeUser(feedPost._id, index)}>Ta bort användaren</Button>
+                                    <Button variant="primary" onClick={e => removeUserReport(feedPost._id, index)}>Ta bort anmälningen</Button>
+                                </Card.Body>
+                            </Card>
+                        })
+                    }
                 </TabPane>
                 <TabPane tabId="3">
                     {forumPosts &&
