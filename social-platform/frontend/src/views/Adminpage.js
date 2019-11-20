@@ -83,26 +83,18 @@ export default function Forum(props) {
     }
 
     async function removeCommentReport(id, index) {
-        console.log("ta bort rapporteringen för ", id);
-        
-        // await fetch('/api/deleteUserReport/' + id, { method: 'PUT' });
-        // let copyOfList = [...users];
-        // copyOfList.splice(index, 1);
-        // setUsers(copyOfList);
+        await fetch('/api/deleteCommentReport/' + id, { method: 'PUT' });
+        let copyOfList = [...comments];
+        copyOfList.splice(index, 1);
+        setComments(copyOfList);
     }
 
     async function removeComment(id, index) {
-        console.log("ta bort kommentaren ", id);
-
-        // await fetch('/api/deleteUser/' + id, { method: 'DELETE' });
-        // await fetch('/api/deleteUserReport/' + id, { method: 'PUT' });
-        // let copyOfList = [...users];
-        // copyOfList.splice(index, 1);
-        // setUsers(copyOfList);
-    }
-
-    function goToPost(id) {
-        props.history.push(`/profile/${id}`);
+        await fetch('/api/deleteComment/' + id, { method: 'DELETE' });
+        await fetch('/api/deleteCommentReport/' + id, { method: 'PUT' });
+        let copyOfList = [...comments];
+        copyOfList.splice(index, 1);
+        setComments(copyOfList);
     }
 
     return (
