@@ -175,12 +175,10 @@ router.delete('/api/delete/:id', (req, res) => {
 });
 
 
-const createnewRepported = async (reported) => {
-    if (reported.length < 1) {
+const createnewRepported = async () => {
         const reported = new Reported();
         await reported.save()
-        console.log(reported)
-    }
+        return reported;
 }
 
 //add forum post to Reported list
@@ -288,5 +286,19 @@ router.put('/api/deleteUserReport/:id', async (req, res) => {
     res.json(reported);
 })
 
+router.delete('/api/deleteComment/:id', async (req, res) => {
+    let result = await dbModels.Comments.deleteOne({ _id: req.params.id })
+    res.json(result);
+})
+
+router.put('/api/deleteCommentReport/:id', async (req, res) => {
+    let reported = await Reported.find();
+    if(reported[0]){ 
+        let index = reported[0].comments.findIndex(objId => objId == req.params.id);  
+        reported[0].comments.splice(index,1);
+        reported[0].save();
+    }
+    res.json(reported);
+})
 
 module.exports = { router };
