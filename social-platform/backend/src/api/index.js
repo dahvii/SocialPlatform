@@ -1,12 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User')
 const multer = require('multer')
 const uuid = require('uuid')
 const sharp = require('sharp')
 const path = require('path')
 const fs = require('fs')
-const Reported = require('../models/Reported')
 const innit = require('./loadQuestions.js');
 const loadUsers = require('./loadUsers.js');
 const searchAlgorithm = require('./searchAlgorithm.js')
@@ -18,17 +16,7 @@ const MessageController = require('../Controllers/MessageController')
 const MatchController = require('../Controllers/MatchController')
 const ForumController = require('../Controllers/ForumController')
 const CharacteristicsController = require('../Controllers/CharacteristicsController')
-const dbModels = {
-    user: require('../models/User'),
-    forumPost: require('../models/ForumPost'),
-    feedPost: require('../models/FeedPost'),
-    Comments: require('../models/Comments'),
-    questions: require('../models/Questions'),
-    characteristics: require('../models/Characteristics'),
-    reports: require('../models/Reported'),
-    Message: require('../models/Message'),
-    Match: require('../models/Match')
-}
+const ReportController = require('../Controllers/ReportController')
 
 // ------------ IMAGE ----------//
 const storage = multer.diskStorage({
@@ -166,116 +154,27 @@ router.put('/api/removeMyFollow/:id', async (req, res) => ForumController.remove
 
 router.get('/api/iFollow', async (req, res) => ForumController.getFollow(req, res))
 
-
-
-
-router.delete('/api/delete/:id', (req, res) => {
-    User.deleteOne({ _id: req.params.id }, function (err) { }).then(user => res.json('deleted successfully!'))
-        .catch(err => res.status(400).json('Error: ' + err));
-});
-
-
-const createnewRepported = async () => {
-        const reported = new Reported();
-        await reported.save()
-        return reported;
-}
-
 //add forum post to Reported list
-router.put('/api/addForumPostToReportedList/:id', async (req, res) => {
-    let post = await dbModels.forumPost.findById({ _id: req.params.id });
-    let reported = await dbModels['reports'].find();
-    if (reported.length < 1) {
-        reported = await createnewRepported();
-        reported.forumPosts.push(post);
-        reported.save();
-    }else{
-        if(!reported[0].forumPosts.includes(post._id)){
-            reported[0].forumPosts.push(post);
-            reported[0].save();
-        }
-    }
-    res.json({ reported });
-})
+router.put('/api/addForumPostToReportedList/:id', async (req, res) => ReportController.reportForum(req, res))
+
 //add forum coment to Reported list
-router.put('/api/addCommentToReportedList/:id', async (req, res) => {
-    let post = await dbModels.Comments.findById({ _id: req.params.id });
-    let reported = await dbModels['reports'].find();
-    if (reported.length < 1) {
-        reported = await createnewRepported();
-        reported.comments.push(post);
-        reported.save();
-    }else{
-        if(!reported[0].comments.includes(post._id)){            
-            reported[0].comments.push(post);
-            reported[0].save();
-        }
-    }    
-    res.json({ reported });
-})
+router.put('/api/addCommentToReportedList/:id', async (req, res) => ReportController.reportForumComment(req, res))
+
 //add forum feedpost to Reported list
-router.put('/api/addFeedPostToReportedList/:id', async (req, res) => {
-    let post = await dbModels.feedPost.findById({ _id: req.params.id });
-    let reported = await dbModels['reports'].find();
-    if (reported.length < 1) {
-        reported = await createnewRepported();
-        reported.feedPosts.push(post);
-        reported.save();
-    }else{
-        if(!reported[0].feedPosts.includes(post._id)){
-            reported[0].feedPosts.push(post);
-            reported[0].save();
-        }
-    }
-    res.json({ reported });
-})
+router.put('/api/addFeedPostToReportedList/:id', async (req, res) => ReportController.reportFeedPost(req, res))
+
 // add user 
-router.put('/api/addUserToReportedList/:id', async (req, res) => {
-    let post = await dbModels.user.findById({ _id: req.params.id });
-    let reported = await dbModels['reports'].find();
-    if (reported.length < 1) {
-        reported = await createnewRepported();
-        reported.persons.push(post);
-        reported.save();
-    }else{
-        if(!reported[0].persons.includes(post._id)){
-            reported[0].persons.push(post);
-            reported[0].save();
-        }
-    }
-    res.json({ reported });
-})
+router.put('/api/addUserToReportedList/:id', async (req, res) => ReportController.reportUser(req, res))
+
+router.get('/api/reported', async (req, res) => ReportController.getReports(req, res))
    
+router.delete('/api/deleteforumpost/:id', async (req, res) => ReportController.deleteForumPost(req, res))
 
-router.get('/api/reported', async (req, res) => {
-    let reported = await Reported.find()
-    .populate('comments')
-    .populate('forumPosts')
-    .populate('feedPosts')
-    .populate('persons')
-    .exec();
-    res.json(reported);    
-})
+router.put('/api/deleteForumReport/:id', async (req, res) => ReportController.deleteForumReport(req, res))
 
-router.delete('/api/deleteforumpost/:id', async (req, res) => {
-    let result = await ForumPost.deleteOne({ _id: req.params.id })
-    res.json(result);
-})
+router.delete('/api/deleteUser/:id', async (req, res) => ReportController.deleteUser(req, res))
 
-router.put('/api/deleteForumReport/:id', async (req, res) => {
-    let reported = await Reported.find();
-    if(reported[0]){ 
-        let index = reported[0].forumPosts.findIndex(objId => objId == req.params.id);  
-        reported[0].forumPosts.splice(index,1);
-        reported[0].save();
-    }
-    res.json(reported);
-})
-
-router.delete('/api/deleteUser/:id', async (req, res) => {
-    let result = await User.deleteOne({ _id: req.params.id })
-    res.json(result);
-})
+router.put('/api/deleteUserReport/:id', async (req, res) => ReportController.deleteUserReport(req, res))
 
 router.put('/api/deleteUserReport/:id', async (req, res) => {
     let reported = await Reported.find();
