@@ -13,7 +13,6 @@ const createnewRepported = async (reported) => {
     if (reported.length < 1) {
         const reported = new Report();
         await reported.save()
-        console.log(reported)
     }
 }
 
@@ -116,6 +115,34 @@ const deleteUserReport = async (req, res) => {
     res.json(reported);
 }
 
+const deleteComment =  async (req, res) => {
+    let result = await Comments.deleteOne({ _id: req.params.id })
+    res.json(result);
+}
+
+const deleteCommentReport = async (req, res) => {
+    let reported = await Report.find();
+    if(reported[0]){ 
+        let index = reported[0].comments.findIndex(objId => objId == req.params.id);  
+        reported[0].comments.splice(index,1);
+        reported[0].save();
+    }
+    res.json(reported);
+}
+const deleteFeedpostReport=  async (req, res) => {
+    let reported = await Report.find();
+    if(reported[0]){ 
+        let index = reported[0].feedPosts.findIndex(objId => objId == req.params.id);  
+        reported[0].feedPosts.splice(index,1);
+        reported[0].save();
+    }
+    res.json(reported);
+}
+
+const deleteFeedPost =  async (req, res) => {
+    let result = await FeedPost.deleteOne({ _id: req.params.id })
+    res.json(result);
+}
 
 module.exports = {
     deleteUser,
@@ -126,6 +153,9 @@ module.exports = {
     getReports,
     deleteForumPost,
     deleteForumReport,
-    deleteUserReport
-    
+    deleteUserReport,
+    deleteComment,
+    deleteCommentReport,
+    deleteFeedpostReport,
+    deleteFeedPost
 }
