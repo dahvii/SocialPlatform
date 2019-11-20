@@ -40,7 +40,6 @@ export default function AddCommentsToPost(props) {
             headers: { 'Content-Type': 'application/json'}
         });
         let result = await registerFormComments.json();
-        console.log(result)
         props.showNewComment(result);
     }
 

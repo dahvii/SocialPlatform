@@ -6,7 +6,7 @@ import Comment from '../components/Comment'
 import '../css/FeedComment.css'
 import Moment from 'react-moment'
 import 'moment/locale/sv'
-
+import Reportflag from '../components/ReportFlag';
 export default function FeedComments(props) {
     const { state } = useContext(Store);
     const [post, setPost] = useState();
@@ -75,13 +75,15 @@ export default function FeedComments(props) {
                             <Image onClick={goToOwner}
                                 src={state.currentUser.profilePictures[0] ? `http://localhost:3001/${state.currentUser.profilePictures[0]}` : 'http://localhost:3001/uploads/placeholder.jpg'}
                                 roundedCircle className="feed-post-profile-picture" />
-                            <span className="feed-post-text-owner" onClick={goToOwner}>{post.owner.firstName}</span>
+                            <span className="feed-post-text-owner" onClick={goToOwner}>{post.owner.firstName}</span> 
+                            {' '}
+                            <Reportflag props={props} post={post} type={"feedpost"}/>
                             <span className="feed-post-owner-comment"> {post.text} </span> <br />
                             <Moment fromNow>{post.timeStamp}</Moment>
                         </Card.Body>
                         <div className="feed-comments-all-comments">
                             {
-                                post.comments.map(comment => <Comment key={comment._id} comment={comment} history={props.history} />)
+                                post.comments.map(comment => <Comment props={props} key={comment._id} comment={comment} history={props.history} />)
                             }
                         </div>
                     </Card>

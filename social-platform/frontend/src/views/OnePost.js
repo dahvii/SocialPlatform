@@ -59,7 +59,6 @@ export default function OnePost(props) {
             body: JSON.stringify(data),
             headers: { "Content-Type": "application/json" }
         })
-        //let result = await addToMyFollow.json();
         getOnePost();
     }
 
