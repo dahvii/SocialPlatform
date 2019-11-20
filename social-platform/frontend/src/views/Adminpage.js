@@ -6,6 +6,7 @@ import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 import classnames from 'classnames';
 import FormComment from '../components/ForumComments';
 import FeedPost from '../components/FeedPost'
+import { Store } from '../utilities/Store'
 export default function Forum(props) {
     const [activeTab, setActiveTab] = useState('1');
 
@@ -13,10 +14,14 @@ export default function Forum(props) {
     const [comments, setComments] = useState();
     const [feedPosts, setFeedPosts] = useState();
     const [users, setUsers] = useState();
-
+    const { state } = React.useContext(Store);
     useLifeCycle({
         mount: () => {
+            if(!state.currentUser.isAdmin){
+                props.history.push("/")
+            }
             getReports();
+
         }
     })
 

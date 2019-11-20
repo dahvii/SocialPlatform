@@ -81,7 +81,8 @@ router.post('/api/register', async (req, res) => {
         dateOfBirth: req.body.dateOfBirth,
         bio: '',
         myCharacteristics,
-        partnerCharacteristics
+        partnerCharacteristics,
+        admin: false,
 
     });
     bcrypt.genSalt(10, (err, salt) => {
@@ -149,7 +150,8 @@ router.get('/api/person/:id', async (req, res) => {
         hometown: result.hometown,
         gender: result.gender,
         interests: result.interests,
-        profilePictures: result.profilePictures
+        profilePictures: result.profilePictures,
+        
     }
     res.json(publicUser);
 })
@@ -190,7 +192,8 @@ router.get('/api/currentuser/:id', async (req, res) => {
         rejects: result.rejects,
         questionsAnswered: result.questionsAnswered,
         myCharacteristics: result.myCharacteristics,
-        partnerCharacteristics: result.partnerCharacteristics
+        partnerCharacteristics: result.partnerCharacteristics,
+        isAdmin:result.admin
     }
     res.json(currentUser)
 })
@@ -648,5 +651,8 @@ router.delete('/api/deleteforumpost/:id', async (req, res) => {
     let result = await ForumPost.deleteOne({ _id: req.params.id })
     res.json(result);
 })
+
+
+
 
 module.exports = { router };

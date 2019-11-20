@@ -7,7 +7,8 @@ const initialState = {
     isLoggedIn: false,
     currentUser: '',
     currentSession: '',
-    showQuestion: false
+    showQuestion: false,
+    isAdmin: false
 }
 
 function reducer(state, action) {
@@ -24,6 +25,8 @@ function reducer(state, action) {
             return { ...state, currentUser: '', isLoggedIn: false }
         case 'SHOW_QUESTION': 
             return {...state, showQuestion: action.payload}
+        case 'SET_Admin':
+            return {...state, isAdmin: action.payload}
         default:
             return state;
     }
