@@ -44,8 +44,8 @@ export default function Forum(props) {
         }
     }
 
-    async function removeReport(id, index) {
-        await fetch('/api/deleteReport/' + id, { method: 'PUT' });
+    async function removeForumReport(id, index) {
+        await fetch('/api/deleteForumReport/' + id, { method: 'PUT' });
         let copyOfList = [...forumPosts];
         copyOfList.splice(index, 1);
         setForumPosts(copyOfList);
@@ -53,10 +53,28 @@ export default function Forum(props) {
 
     async function removeForumPost(id, index) {
         await fetch('/api/deleteforumpost/' + id, { method: 'DELETE' });
-        await fetch('/api/deleteReport/' + id, { method: 'PUT' });
+        await fetch('/api/deleteForumReport/' + id, { method: 'PUT' });
         let copyOfList = [...forumPosts];
         copyOfList.splice(index, 1);
         setForumPosts(copyOfList);
+    }
+
+    function goToProfile(id){
+        props.history.push(`/profile/${id}`);
+    }
+    async function removeUserReport(id, index) {
+        await fetch('/api/deleteUserReport/' + id, { method: 'PUT' });
+        let copyOfList = [...users];
+        copyOfList.splice(index, 1);
+        setUsers(copyOfList);
+    }
+
+    async function removeUser(id, index) {        
+        await fetch('/api/deleteUser/' + id, { method: 'DELETE' });
+        await fetch('/api/deleteUserReport/' + id, { method: 'PUT' });
+        let copyOfList = [...users];
+        copyOfList.splice(index, 1);
+        setUsers(copyOfList);
     }
 
     return (
@@ -91,13 +109,17 @@ export default function Forum(props) {
             <TabContent activeTab={activeTab}>
                 <TabPane tabId="1">
                 {users &&
-                        users.map((post, index) => {
+                        users.map((user, index) => {
                             return <Card key={index} >
                                 <Card.Body>
                                     <Card.Title>Anmäld användare </Card.Title>
-                                    <Card.Text></Card.Text>
-                                    <Button variant="primary" onClick={e => removeForumPost(post._id, index)}>Ta bort inlägget</Button>
-                                    <Button variant="primary" onClick={e => removeReport(post._id, index)}>Ta bort anmälningen</Button>
+                                    <Card.Text>
+                                        Namn: {user.firstName} {user.lastName} <br/>
+                                        id: {user._id}
+                                        <Button variant="primary" onClick={e => goToProfile(user._id)}>Gå till användare</Button>
+                                    </Card.Text>
+                                    <Button variant="primary" onClick={e => removeUser(user._id, index)}>Ta bort användaren</Button>
+                                    <Button variant="primary" onClick={e => removeUserReport(user._id, index)}>Ta bort anmälningen</Button>
                                 </Card.Body>
                             </Card>
                         })
@@ -114,7 +136,7 @@ export default function Forum(props) {
                                     <Card.Title>Anmält foruminlägg </Card.Title>
                                     <FormPost key={index} post={post} history={props.history} admin={'admin'} />
                                     <Button variant="primary" onClick={e => removeForumPost(post._id, index)}>Ta bort inlägget</Button>
-                                    <Button variant="primary" onClick={e => removeReport(post._id, index)}>Ta bort anmälningen</Button>
+                                    <Button variant="primary" onClick={e => removeForumReport(post._id, index)}>Ta bort anmälningen</Button>
                                 </Card.Body>
                             </Card>
                         })
