@@ -69,12 +69,35 @@ export default function Forum(props) {
         setUsers(copyOfList);
     }
 
-    async function removeUser(id, index) {        
+    async function removeUser(id, index) {
         await fetch('/api/deleteUser/' + id, { method: 'DELETE' });
         await fetch('/api/deleteUserReport/' + id, { method: 'PUT' });
         let copyOfList = [...users];
         copyOfList.splice(index, 1);
         setUsers(copyOfList);
+    }
+
+    async function removeCommentReport(id, index) {
+        console.log("ta bort rapporteringen för ", id);
+        
+        // await fetch('/api/deleteUserReport/' + id, { method: 'PUT' });
+        // let copyOfList = [...users];
+        // copyOfList.splice(index, 1);
+        // setUsers(copyOfList);
+    }
+
+    async function removeComment(id, index) {
+        console.log("ta bort kommentaren ", id);
+
+        // await fetch('/api/deleteUser/' + id, { method: 'DELETE' });
+        // await fetch('/api/deleteUserReport/' + id, { method: 'PUT' });
+        // let copyOfList = [...users];
+        // copyOfList.splice(index, 1);
+        // setUsers(copyOfList);
+    }
+
+    function goToPost(id) {
+        props.history.push(`/profile/${id}`);
     }
 
     return (
@@ -108,13 +131,13 @@ export default function Forum(props) {
             </Nav>
             <TabContent activeTab={activeTab}>
                 <TabPane tabId="1">
-                {users &&
+                    {users &&
                         users.map((user, index) => {
                             return <Card key={index} >
                                 <Card.Body>
                                     <Card.Title>Anmäld användare </Card.Title>
                                     <Card.Text>
-                                        Namn: {user.firstName} {user.lastName} <br/>
+                                        Namn: {user.firstName} {user.lastName} <br />
                                         id: {user._id}
                                         <Button variant="primary" onClick={e => goToProfile(user._id)}>Gå till användare</Button>
                                     </Card.Text>
@@ -131,7 +154,7 @@ export default function Forum(props) {
                 <TabPane tabId="3">
                     {forumPosts &&
                         forumPosts.map((post, index) => {
-                            return <Card  key={index}>
+                            return <Card key={index}>
                                 <Card.Body>
                                     <Card.Title>Anmält foruminlägg </Card.Title>
                                     <FormPost key={index} post={post} history={props.history} admin={'admin'} />
@@ -143,10 +166,20 @@ export default function Forum(props) {
                     }
                 </TabPane>
                 <TabPane tabId="4">
-                    {/*haveLocktForComment ?
-                        comment.map(obj => obj.comments.map((comment, index) => <FormComment key={index} comment={comment} post={post} history={props.history} admin={'admin'} />))
-                        : ''
-                */}
+                    {comments &&
+                        comments.map((comment, index) => {
+                            return <Card key={index}>
+                                <Card.Body>
+                                    <Card.Title>Anmäld kommentar</Card.Title>
+                                    <Card.Text>
+                                        Kommentar: {comment.text}
+                                    </Card.Text>
+                                    <Button variant="primary" onClick={e => removeComment(comment._id, index)}>Ta bort kommentaren</Button>
+                                    <Button variant="primary" onClick={e => removeCommentReport(comment._id, index)}>Ta bort anmälningen</Button>
+                                </Card.Body>
+                            </Card>
+                        })
+                    }
                 </TabPane>
             </TabContent>
 
@@ -155,13 +188,3 @@ export default function Forum(props) {
 
     )
 }
-/*
-               {haveLocktForFeedPost ?
-                console.log(feedpost)
-
-                        //feedpost.map(obj => obj.feedpost.map(post => <FeedPost key={post._id} post={post} history={props.history} admin={'admin'} />))
-                        : ''
-                    }
-
-
-*/
