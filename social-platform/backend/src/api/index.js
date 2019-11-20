@@ -1,12 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User')
 const multer = require('multer')
 const uuid = require('uuid')
 const sharp = require('sharp')
 const path = require('path')
 const fs = require('fs')
-const Reported = require('../models/Reported')
 const innit = require('./loadQuestions.js');
 const loadUsers = require('./loadUsers.js');
 const searchAlgorithm = require('./searchAlgorithm.js')
@@ -19,17 +17,6 @@ const MatchController = require('../Controllers/MatchController')
 const ForumController = require('../Controllers/ForumController')
 const CharacteristicsController = require('../Controllers/CharacteristicsController')
 const ReportController = require('../Controllers/ReportController')
-const dbModels = {
-    user: require('../models/User'),
-    forumPost: require('../models/ForumPost'),
-    feedPost: require('../models/FeedPost'),
-    Comments: require('../models/Comments'),
-    questions: require('../models/Questions'),
-    characteristics: require('../models/Characteristics'),
-    reports: require('../models/Reported'),
-    Message: require('../models/Message'),
-    Match: require('../models/Match')
-}
 
 // ------------ IMAGE ----------//
 const storage = multer.diskStorage({
