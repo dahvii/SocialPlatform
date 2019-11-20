@@ -176,4 +176,12 @@ router.delete('/api/deleteUser/:id', async (req, res) => ReportController.delete
 
 router.put('/api/deleteUserReport/:id', async (req, res) => ReportController.deleteUserReport(req, res))
 
+router.delete('/api/deleteComment/:id', async (req, res) => ReportController.deleteComment(req,res))
+
+router.put('/api/deleteCommentReport/:id', async (req, res) => ReportController.deleteCommentReport(req, res))
+
+router.put('/api/deleteFeedpostReport/:id', async (req, res) => ReportController.deleteFeedpostReport(req,res))
+
+router.delete('/api/deleteFeedPost/:id', async (req, res) => ReportController.deleteFeedPost(req, res))
+
 module.exports = { router };

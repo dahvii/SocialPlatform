@@ -5,7 +5,6 @@ import Moment from 'react-moment'
 import 'moment/locale/sv'
 import Reportflag from '../components/ReportFlag'
 export default function FormComments(props){
-    const [writtenBy, setWrittenBy] = useState({});
     const [haveLocktFordata, setHaveLocktFordata] = useState(false);
     const [comment, setComment] = useState();
     function goToOwner() {
@@ -16,7 +15,6 @@ export default function FormComments(props){
         setHaveLocktFordata(true)
         const data = await fetch('/api/comment/' + props.comment._id);
         const result = await data.json();
-        setWrittenBy(result.writtenBy);
         setComment(result);
     }
 

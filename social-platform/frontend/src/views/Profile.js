@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { Carousel } from 'react-bootstrap'
 import { Store } from '../utilities/Store'
-import imageLoader from '../utilities/ImageHandler';
-import useLifeCycle from '../utilities/useLifeCycle';
 import LikeRejectBtn from '../components/LikeRejectBtn.js';
 import calcAge from '../utilities/CalcAge';
-import Moment from 'react-moment';
 import '../css/Profile.css';
 import Reportflag from '../components/ReportFlag';
 export default function Profile(props) {
-    const [images, setImages] = useState([]);
     const [profile, setProfile] = useState({ profilePictures: [] });
     const [showBtn, setShowBtn] = useState(false);
     const { state } = React.useContext(Store);
@@ -28,12 +24,7 @@ export default function Profile(props) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.displayedPerson]);
 
-    useLifeCycle({
-        mount: () => {
-            const images = imageLoader();
-            setImages(images)
-        }
-    })
+
 
     const getProfile = async () => {
         let result = await (await fetch("/api/person/" + props.match.params.id)).json();

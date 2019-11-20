@@ -12,7 +12,7 @@ import AgeSlider from '../components/AgeSlider'
 export default function EditProfile() {
     const { state, dispatch } = React.useContext(Store);
     const [userBio, setUserBio] = useState(state.currentUser.bio);
-    const [userHometown, setUserHometown] = useState(state.currentUser.hometown);
+    const [userHometown] = useState(state.currentUser.hometown);
     const [checkedGender, setCheckedGender] = useState(state.currentUser.gender);
     const [userInterests, setUserInterests] = useState(state.currentUser.interests);
     const [interestInput, setInterestInput] = useState('');
@@ -33,7 +33,6 @@ export default function EditProfile() {
         mount: () => {
             getAllInterests()
             addPrefToCheckBox()
-            console.log("currUser ", state.currentUser);
             if(state.currentUser.agePreference.length > 1){
                 setAgePref([state.currentUser.agePreference[0],state.currentUser.agePreference[1]]);
             }
@@ -67,9 +66,7 @@ export default function EditProfile() {
         })
         let result = await newImage.json()
         if (result.error) {
-            console.log("fel filtyp");
         } else if (result.success) {
-            console.log(result.file)
             setImagesPaths([...imagesPaths, result.file])
         }
     }
@@ -155,7 +152,6 @@ export default function EditProfile() {
     }
 
     const deleteImage = async () => {
-        console.log(imagesToRemove)
         let data = {
             images: imagesToRemove
         }

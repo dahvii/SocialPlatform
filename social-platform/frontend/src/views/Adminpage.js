@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import useLifeCycle from '../utilities/useLifeCycle';
 import 'moment/locale/sv'
 import FormPost from '../components/FormPost';
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 import classnames from 'classnames';
-import FormComment from '../components/ForumComments';
-import FeedPost from '../components/FeedPost'
 import { Store } from '../utilities/Store'
 import { Card, Button } from 'react-bootstrap'
-import SwipePreview from '../components/SwipePreview';
 
 
 export default function Forum(props) {
@@ -18,6 +15,7 @@ export default function Forum(props) {
     const [feedPosts, setFeedPosts] = useState();
     const [users, setUsers] = useState();
     const { state } = React.useContext(Store);
+    
     useLifeCycle({
         mount: () => {            
             if(!state.currentUser.admin){
@@ -35,7 +33,6 @@ export default function Forum(props) {
     const getReports = async () => {
         let data = await fetch('/api/reported');
         let result = await data.json();
-        console.log("result ", result);
         if (result[0]) {
             setForumPosts(result[0].forumPosts);
             setFeedPosts(result[0].feedPosts);
@@ -62,6 +59,11 @@ export default function Forum(props) {
     function goToProfile(id){
         props.history.push(`/profile/${id}`);
     }
+
+    function goToFeedPost(id){
+        props.history.push(`/feed-post/${id}`);
+    }
+
     async function removeUserReport(id, index) {
         await fetch('/api/deleteUserReport/' + id, { method: 'PUT' });
         let copyOfList = [...users];
@@ -90,6 +92,22 @@ export default function Forum(props) {
         let copyOfList = [...comments];
         copyOfList.splice(index, 1);
         setComments(copyOfList);
+    }
+    
+
+    async function removeFeedPostReport(id, index) {
+        await fetch('/api/deleteFeedPostReport/' + id, { method: 'PUT' });
+        let copyOfList = [...feedPosts];
+        copyOfList.splice(index, 1);
+        setFeedPosts(copyOfList);
+    }
+
+    async function removeFeedPost(id, index) {
+        await fetch('/api/deleteFeedPost/' + id, { method: 'DELETE' });
+        await fetch('/api/deleteFeedPostReport/' + id, { method: 'PUT' });
+        let copyOfList = [...feedPosts];
+        copyOfList.splice(index, 1);
+        setFeedPosts(copyOfList);
     }
 
     return (
@@ -130,7 +148,6 @@ export default function Forum(props) {
                                     <Card.Title>Anmäld användare </Card.Title>
                                     <Card.Text>
                                         Namn: {user.firstName} {user.lastName} <br />
-                                        id: {user._id}
                                         <Button variant="primary" onClick={e => goToProfile(user._id)}>Gå till användare</Button>
                                     </Card.Text>
                                     <Button variant="primary" onClick={e => removeUser(user._id, index)}>Ta bort användaren</Button>
@@ -141,7 +158,21 @@ export default function Forum(props) {
                     }
                 </TabPane>
                 <TabPane tabId="2">
-
+                {feedPosts &&
+                        feedPosts.map((feedPost, index) => {
+                            return <Card key={index} >
+                                <Card.Body>
+                                    <Card.Title>Anmäld FeedPost </Card.Title>
+                                    <Card.Text>
+                                        text: {feedPost.text} <br/>
+                                        <Button variant="primary" onClick={e => goToFeedPost(feedPost._id)}>Gå till FeedPost</Button>
+                                    </Card.Text>
+                                    <Button variant="primary" onClick={e => removeFeedPost(feedPost._id, index)}>Ta bort FeedPost</Button>
+                                    <Button variant="primary" onClick={e => removeFeedPostReport(feedPost._id, index)}>Ta bort anmälningen</Button>
+                                </Card.Body>
+                            </Card>
+                        })
+                    }
                 </TabPane>
                 <TabPane tabId="3">
                     {forumPosts &&
@@ -174,9 +205,6 @@ export default function Forum(props) {
                     }
                 </TabPane>
             </TabContent>
-
-
         </>
-
     )
 }

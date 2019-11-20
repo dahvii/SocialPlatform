@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Carousel } from 'react-bootstrap'
-import imageLoader from '../utilities/ImageHandler';
-import useLifeCycle from '../utilities/useLifeCycle';
 import '../css/SwipePreview.css';
 import calcAge from '../utilities/CalcAge';
 
 export default function Profile(props) {
-    const [images, setImages] = useState([]);
     const [shortBio, setShortBio] = useState("");
 
     useEffect(() => {
@@ -14,13 +11,6 @@ export default function Profile(props) {
             setShortBio(props.displayedPerson.bio.substring(0, 40) + '...');
         }
     }, [props])
-
-    useLifeCycle({
-        mount: () => {
-            const images = imageLoader();
-            setImages(images)
-        }
-    })
 
     let showProfilePictures;
 

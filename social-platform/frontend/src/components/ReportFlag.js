@@ -3,24 +3,17 @@ import React, { useState } from 'react'
 
 export default function ReportFlag(props) {
     const [isReported, setIsReported] = useState(false);
-    //console.log(props);
     
     const swhitch = async () =>{
         setIsReported(true);
         if (props.type === "forumpost") {
-            console.log('forum');
            await reportForumPost();            
         }else if(props.type === "comment"){
-            console.log('comment');
             await reportForumComment();
         }else if(props.type === "feedpost") {
-            console.log('feedpost');
             await reportFeedPostComment();
         }else if(props.type === 'User'){
-            console.log('user');
             await reportUser();
-        }else{
-            console.log('Kunde ej rappotera deta');
         }
     }
 
@@ -57,7 +50,6 @@ export default function ReportFlag(props) {
     }
     
     const reportUser = async () => {
-        console.log(props.post.id);
         await fetch(`/api/addUserToReportedList/${props.post.id}`, {
             method: "PUT",
             body: JSON.stringify(flagat),

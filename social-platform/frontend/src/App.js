@@ -29,7 +29,6 @@ function App() {
     useLifeCycle({
         mount: () => {
             checkLoginStatus()
-            console.log(state.currentUser)
         }
     })
 
@@ -38,7 +37,6 @@ function App() {
         try {
             data = await data.json();
         } catch { }
-        console.log("currentuser: ", data)
         dispatch({
             type: 'SET_CURRENT_USER',
             payload: data

@@ -5,7 +5,7 @@ import LikeRejectBtn from '../components/LikeRejectBtn.js';
 import { Store } from '../utilities/Store'
 import Profile from './Profile';
 import useLifeCycle from '../utilities/useLifeCycle';
-import { Image, Button } from 'react-bootstrap'
+import { Image } from 'react-bootstrap'
 
 
 export default function Swipe() {
@@ -26,7 +26,6 @@ export default function Swipe() {
     async function getTopTen() {
         let response = await fetch('/api/searchAlgorithm/'+currUserId);
         let data = await response.json();
-        // console.log("swipe getTopTen ", data);
         setPeople(data);         
         setDisplayedPersonindex(0);
         if (data.length === 0) {

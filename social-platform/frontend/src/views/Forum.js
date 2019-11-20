@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from 'react';
-//import Button from 'react-bootstrap/Button';
 import AddForumPost from '../components/AddFormPost';
 import FormPost from '../components/FormPost';
 import '../css/Forum.css'
-
-import { Store } from '../utilities/Store'
-
-
 import { TabContent, TabPane, Nav, NavItem, NavLink, Button } from 'reactstrap';
 import classnames from 'classnames';
 
@@ -16,8 +11,6 @@ export default function Forum(props) {
   const [post, setPost] = useState([]);
   const [haveLocktFordata, setHaveLocktFordata] = useState(false);
   const [activeTab, setActiveTab] = useState('1');
-  const { state } = React.useContext(Store);
-
   const [follow, setFollow] = useState([]);
 
   const toggle = tab => {
