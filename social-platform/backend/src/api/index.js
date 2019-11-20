@@ -652,7 +652,7 @@ router.delete('/api/deleteforumpost/:id', async (req, res) => {
     res.json(result);
 })
 
-router.put('/api/deleteReport/:id', async (req, res) => {
+router.put('/api/deleteForumReport/:id', async (req, res) => {
     let reported = await Reported.find();
     if(reported[0]){ 
         let index = reported[0].forumPosts.findIndex(objId => objId == req.params.id);  
@@ -661,5 +661,21 @@ router.put('/api/deleteReport/:id', async (req, res) => {
     }
     res.json(reported);
 })
+
+router.delete('/api/deleteUser/:id', async (req, res) => {
+    let result = await User.deleteOne({ _id: req.params.id })
+    res.json(result);
+})
+
+router.put('/api/deleteUserReport/:id', async (req, res) => {
+    let reported = await Reported.find();
+    if(reported[0]){ 
+        let index = reported[0].persons.findIndex(objId => objId == req.params.id);  
+        reported[0].persons.splice(index,1);
+        reported[0].save();
+    }
+    res.json(reported);
+})
+
 
 module.exports = { router };

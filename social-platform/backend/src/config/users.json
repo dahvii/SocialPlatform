@@ -29,7 +29,7 @@
         "gender": "Male",
         "homeTown": "Austin",
         "bio": "Morbi ut odio. Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.",
-        "admin": false,
+        "admin": true,
         "dateOfBirth": "1991-08-10T18:29:30Z"
     },
     {
