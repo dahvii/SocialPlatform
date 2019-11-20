@@ -20,11 +20,14 @@ import useLifeCycle from './utilities/useLifeCycle';
 import FeedComments from './views/FeedComments';
 import ReactNotifications from 'react-notifications-component';
 import Adminpage from './views/Adminpage';
+import { store } from 'react-notifications-component';
 import Chat from './views/Chat';
+import socket from './utilities/Socket'
 
 function App() {
     const { state, dispatch } = React.useContext(Store);
     const [loading, setLoading] = useState(true)
+
 
     useLifeCycle({
         mount: () => {
@@ -32,6 +35,24 @@ function App() {
             console.log(state.currentUser)
         }
     })
+
+    socket.on('testtest2', function (data) {
+        console.log("WHYYYYYYYY")
+        store.addNotification({
+            title: 'Din profil har uppdaterats',
+            message: ' ',
+            type: 'success',                         // 'default', 'success', 'info', 'warning'
+            container: 'top-center',                // where to position the notifications
+            animationIn: ["animated", "fadeIn"],     // animate.css classes that's applied
+            animationOut: ["animated", "fadeOut"],   // animate.css classes that's applied
+            dismiss: {
+                duration: 3000,
+                onScreen: false,
+            }
+        })
+    })
+
+
 
     const checkCurrentUser = async (id) => {
         let data = await fetch('/api/currentuser/' + id)
@@ -60,6 +81,8 @@ function App() {
                 type: 'SET_CURRENT_SESSION',
                 payload: data
             })
+            console.log(data)
+            socket.emit('login', { id: data.id })
             await checkCurrentUser(data.id)
             setLoading(false)
         } else if (!data.loggedIn && state.isLoggedIn === true) {
@@ -80,23 +103,23 @@ function App() {
                 {state.isLoggedIn ?
                     <Navbar /> : ''
                 }
-                <div className = "content-wrapper">
-        <PrivateRoute exact path="/" component={Feed} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start"/>
-        <PrivateRoute exact path="/swipe" component={Swipe} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start"/>
-        <PrivateRoute exact path="/profile" component={Profile} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start"/>
-        <PrivateRoute exact path="/messages" component={Messages} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start"/>
-        <PrivateRoute exact path="/myprofile" component={MyProfile} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start"/>
-        <PrivateRoute exact path="/profile/:id" component={Profile} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
-        <PrivateRoute exact path="/edit-profile" component={EditProfile} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
-        <PrivateRoute exact path="/feed-post/:id" component={FeedComments} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
-        <PrivateRoute exact path="/new-feed-post" component={NewFeed} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
-        <PrivateRoute exact path="/chat/:id" component={Chat} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
-        <PrivateRoute path="/start" component={Start} isAuthenticated={!state.isLoggedIn} loading={loading} redirectPath="/"/>
-        <PrivateRoute path="/register" component={Register} isAuthenticated={!state.isLoggedIn} loading={loading} redirectPath="/"/>
-        <PrivateRoute path="/login" component={Login} isAuthenticated={!state.isLoggedIn} loading={loading} redirectPath="/"/>
-        <PrivateRoute path="/forum" component={Forum} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start"/>
-        <PrivateRoute exact path="/onepost/:id" component={OnePost} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
-        <PrivateRoute exact path="/adminpage" component={Adminpage} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
+                <div className="content-wrapper">
+                    <PrivateRoute exact path="/" component={Feed} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
+                    <PrivateRoute exact path="/swipe" component={Swipe} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
+                    <PrivateRoute exact path="/profile" component={Profile} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
+                    <PrivateRoute exact path="/messages" component={Messages} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
+                    <PrivateRoute exact path="/myprofile" component={MyProfile} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
+                    <PrivateRoute exact path="/profile/:id" component={Profile} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
+                    <PrivateRoute exact path="/edit-profile" component={EditProfile} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
+                    <PrivateRoute exact path="/feed-post/:id" component={FeedComments} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
+                    <PrivateRoute exact path="/new-feed-post" component={NewFeed} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
+                    <PrivateRoute exact path="/chat/:id" component={Chat} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
+                    <PrivateRoute path="/start" component={Start} isAuthenticated={!state.isLoggedIn} loading={loading} redirectPath="/" />
+                    <PrivateRoute path="/register" component={Register} isAuthenticated={!state.isLoggedIn} loading={loading} redirectPath="/" />
+                    <PrivateRoute path="/login" component={Login} isAuthenticated={!state.isLoggedIn} loading={loading} redirectPath="/" />
+                    <PrivateRoute path="/forum" component={Forum} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
+                    <PrivateRoute exact path="/onepost/:id" component={OnePost} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
+                    <PrivateRoute exact path="/adminpage" component={Adminpage} isAuthenticated={state.isLoggedIn} loading={loading} redirectPath="/start" />
                     <ReactNotifications />
                 </div>
             </div>

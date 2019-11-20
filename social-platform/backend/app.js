@@ -30,18 +30,31 @@ app.use('/uploads', express.static('uploads'))
 app.use(express.static('www'));
 app.use('/', router);
 
-io.on('connection', function (socket) {
-    console.log('User connected');
-    socket.on('disconnect', function () {
-        console.log('User disconnected');
-    });
-    socket.on('save-message', function (data) {
-        console.log(data);
-        io.emit('new-message', { message: data });
-    });
-    socket.on('login', function (data) {
+const allSockets = {}
+const socketIdUserId = {}
+
+io.on('connection', (socket) => {
+    console.log('New client connected', socket.id);
+    socket.on('login', (data) => {
+        allSockets[data.id] = socket;
+        socketIdUserId[socket.id] = data.id
+    })
+    socket.on('testtest', function (data) {
+        io.emit('testtest2', { message: data })
+        // io.to('5dd3ae4eb57aaa4208800660').emit('testtest2', 'kooo')
+        // io.to('5dd3ae4eb57aaa4208800660').emit('testtest2', "blabla");
         console.log(data)
     })
+    socket.on('new-message', (data) => {
+        console.log(data.newMessage.receiver)
+        console.log(allSockets)
+        // allSockets[data.newMessage.receiver].emit('update-messages', data.newMessage)
+        // io.emit('update-messages', data)
+    })
+    socket.on('disconnect', () => {
+        delete allSockets[socketIdUserId[socket.id]]
+        console.log('User disconnected');
+    });
 });
 
 

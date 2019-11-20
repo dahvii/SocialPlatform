@@ -5,6 +5,7 @@ import MessageReceiver from '../components/MessageReceiver'
 import { Store } from '../utilities/Store'
 import useLifeCycle from '../utilities/useLifeCycle'
 import '../css/Chat.css'
+import socket from '../utilities/Socket'
 
 export default function Chat(props) {
     const { state, dispatch } = React.useContext(Store);
@@ -13,7 +14,6 @@ export default function Chat(props) {
 
     useLifeCycle({
         mount: () => {
-            console.log(state.currentUser)
             getMessages()
             if (props.location.state.seen === false) {
                 updateMatchStatus()
@@ -21,13 +21,18 @@ export default function Chat(props) {
             else if (props.location.state.latestMessage !== undefined) {
                 if (props.location.state.latestMessage.receiver === state.currentUser.id && props.location.state.latestMessage.seen === false) {
                     updateMessageStatus()
-                }   
+                }
             }
         },
         unmount: () => {
             updateStateWithNewProfile()
         }
     })
+
+    const scrollToBottom = () => {
+        let chatWindow = document.getElementById('chat-window');
+        chatWindow.scrollTop = chatWindow.scrollHeight
+    }
 
     const updateStateWithNewProfile = async () => {
         let data = await fetch('/api/currentuser/' + state.currentUser.id)
@@ -38,15 +43,29 @@ export default function Chat(props) {
         })
     }
 
+    const scrollWin = () => {
+        window.scrollTo(100, 0);
+      };
+
     const backToMessages = () => {
         props.history.push('/messages')
     }
 
+    socket.on('update-messages', async data => {
+        console.log(data)
+        // console.log("INNE I UPDATE MESSAGES")
+        // let result = await fetch(`/api/get-messages/${state.currentUser.id}/${props.match.params.id}`)
+        // result = await result.json()
+        // console.log(result)
+        // setAllMessages(result)
+    })
+
     const getMessages = async () => {
+        console.log("getting messages")
         let result = await fetch(`/api/get-messages/${state.currentUser.id}/${props.match.params.id}`)
         result = await result.json()
         setAllMessages(result)
-        console.log(result)
+        scrollToBottom()
     }
 
     const updateMatchStatus = async () => {
@@ -92,15 +111,16 @@ export default function Chat(props) {
                 headers: { "Content-Type": "application/json" }
             })
             result = await result.json()
-            console.log(result)
+            socket.emit('new-message', result)
             message.current.value = ''
+            setAllMessages([...allMessages, data])
+            scrollToBottom()
         }
-        getMessages()
     }
 
     const displayMessages = allMessages.map(message => message.sender === state.currentUser.id ?
-        <MessageReceiver key={message._id} message={message.message} time={message.sentAt} /> :
-        <MessageSender key={message._id} img={props.location.state.img} time={message.sentAt} message={message.message} />
+        <MessageReceiver key={message.sentAt} message={message.message} time={message.sentAt} /> :
+        <MessageSender key={message.sentAt} img={props.location.state.img} time={message.sentAt} message={message.message} />
     )
 
     return (
@@ -110,7 +130,7 @@ export default function Chat(props) {
                 <Image src={props.location.state.img ? `http://localhost:3001/${props.location.state.img}` : 'http://localhost:3001/uploads/placeholder.jpg'} alt="profile-picture" roundedCircle className="chat-header-picture" />
                 <h2 className="chat-name">{props.location.state.firstName}</h2>
             </div>
-            <div className="chat-messages">
+            <div id="chat-window" className="chat-messages">
                 {displayMessages}
             </div>
 

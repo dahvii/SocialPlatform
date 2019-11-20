@@ -392,15 +392,12 @@ router.post('/api/new-message', async (req, res) => {
         ]})
 
         matches.forEach((match) => {
-            console.log(match)
             match.messages = newMessage
             match.updatedAt = Date.now()
             match.save()
         })
-        
-        
-        // match.messages.push(newMessage)
-        res.status(200).json({ status: 'message sent' })
+
+        res.status(200).json({newMessage, status: 'message sent' })
 
     } else {
         res.status(400).json({ status: 'something went wrong' })

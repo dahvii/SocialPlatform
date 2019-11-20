@@ -2,6 +2,7 @@ import React, { } from 'react'
 import { Store } from '../utilities/Store'
 import { Image, Button } from 'react-bootstrap'
 import '../css/MyProfile.css'
+import socket from '../utilities/Socket'
 
 export default function MyProfile(props) {
     const { state, dispatch } = React.useContext(Store);
@@ -14,6 +15,10 @@ export default function MyProfile(props) {
         if (result.success) {
             dispatch({ type: "LOGOUT_USER" })
         }
+    }
+
+    const test = () => {
+        socket.emit('testtest', { id: '5dd3ae4eb57aaa4208800660' })
     }
 
     const goToProfile = () => {
@@ -35,6 +40,7 @@ export default function MyProfile(props) {
                 <Button className="profile-button" variant="light" onClick={goToEditProfile}>Redigera profil<i className="fas fa-cog"></i></Button>
             </div>
             <div className="myprofile-logout">
+                <Button variant="light" onClick={test}>Shiny button</Button>
                 <Button variant="light" className="myprofile-logout-button" onClick={logout}>Logga ut</Button>
             </div>
         </div>
