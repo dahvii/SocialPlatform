@@ -1,6 +1,6 @@
 const express = require('express');
-const router = express.Router();
 const User = require('../models/User')
+const router = express.Router();
 
 
 async function getTop10(req, res) {
