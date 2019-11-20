@@ -18,6 +18,10 @@ export default function Forum(props) {
     const [feedPosts, setFeedPosts] = useState();
     const [users, setUsers] = useState();
     const { state } = React.useContext(Store);
+
+    console.log(props);
+    
+
     useLifeCycle({
         mount: () => {            
             if(!state.currentUser.admin){
@@ -96,6 +100,22 @@ export default function Forum(props) {
         copyOfList.splice(index, 1);
         setComments(copyOfList);
     }
+    
+
+    async function removeFeedPostReport(id, index) {
+        await fetch('/api/deleteFeedPostReport/' + id, { method: 'PUT' });
+        let copyOfList = [...feedPosts];
+        copyOfList.splice(index, 1);
+        setFeedPosts(copyOfList);
+    }
+
+    async function removeFeedPost(id, index) {
+        await fetch('/api/deleteFeedPost/' + id, { method: 'DELETE' });
+        await fetch('/api/deleteFeedPostReport/' + id, { method: 'PUT' });
+        let copyOfList = [...feedPosts];
+        copyOfList.splice(index, 1);
+        setFeedPosts(copyOfList);
+    }
 
     return (
         <>
@@ -154,10 +174,10 @@ export default function Forum(props) {
                                     <Card.Text>
                                         text: {feedPost.text} <br/>
                                         id: {feedPost._id}
-                                        <Button variant="primary" onClick={e => goToFeedPost(feedPost._id)}>Gå till Komentaren</Button>
+                                        <Button variant="primary" onClick={e => goToFeedPost(feedPost._id)}>Gå till FeedPost</Button>
                                     </Card.Text>
-                                    <Button variant="primary" onClick={e => removeUser(feedPost._id, index)}>Ta bort användaren</Button>
-                                    <Button variant="primary" onClick={e => removeUserReport(feedPost._id, index)}>Ta bort anmälningen</Button>
+                                    <Button variant="primary" onClick={e => removeFeedPost(feedPost._id, index)}>Ta bort FeedPost</Button>
+                                    <Button variant="primary" onClick={e => removeFeedPostReport(feedPost._id, index)}>Ta bort anmälningen</Button>
                                 </Card.Body>
                             </Card>
                         })

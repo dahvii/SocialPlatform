@@ -302,4 +302,19 @@ router.put('/api/deleteCommentReport/:id', async (req, res) => {
     res.json(reported);
 })
 
+router.put('/api/deleteFeedpostReport/:id', async (req, res) => {
+    let reported = await Reported.find();
+    if(reported[0]){ 
+        let index = reported[0].feedPosts.findIndex(objId => objId == req.params.id);  
+        reported[0].feedPosts.splice(index,1);
+        reported[0].save();
+    }
+    res.json(reported);
+})
+
+router.delete('/api/deleteFeedPost/:id', async (req, res) => {
+    let result = await dbModels.feedPost.deleteOne({ _id: req.params.id })
+    res.json(result);
+})
+
 module.exports = { router };
