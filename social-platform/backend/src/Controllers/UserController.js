@@ -35,7 +35,6 @@ const register = async (req, res) => {
 }
 
 const login = async (req, res) => {
-    console.log(req.session.user)
     const email = req.body.email;
     const password = req.body.password;
     //Find user by email

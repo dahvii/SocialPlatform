@@ -19,8 +19,8 @@ export default function Forum(props) {
     const [users, setUsers] = useState();
     const { state } = React.useContext(Store);
     useLifeCycle({
-        mount: () => {
-            if(!state.currentUser.isAdmin){
+        mount: () => {            
+            if(!state.currentUser.admin){
                 props.history.push("/")
             }
             getReports();

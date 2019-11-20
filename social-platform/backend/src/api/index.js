@@ -247,10 +247,6 @@ router.put('/api/addUserToReportedList/:id', async (req, res) => {
     }
     res.json({ reported });
 })
-    await createnewRepported(reported);
-    reported[0].forumPosts.push(post);
-    reported[0].save();
-    res.json({ reported });
 
 router.get('/api/reported', async (req, res) => {
     let reported = await Reported.find()
