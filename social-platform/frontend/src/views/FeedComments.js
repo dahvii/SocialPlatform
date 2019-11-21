@@ -75,11 +75,13 @@ export default function FeedComments(props) {
                             <Image onClick={goToOwner}
                                 src={state.currentUser.profilePictures[0] ? `http://localhost:3001/${state.currentUser.profilePictures[0]}` : 'http://localhost:3001/uploads/placeholder.jpg'}
                                 roundedCircle className="feed-post-profile-picture" />
-                            <span className="feed-post-text-owner" onClick={goToOwner}>{post.owner.firstName}</span> 
+                            <span className="feed-post-text-owner" onClick={goToOwner}>{post.owner.firstName}</span>
                             {' '}
-                            <Reportflag props={props} post={post} type={"feedpost"}/>
                             <span className="feed-post-owner-comment"> {post.text} </span> <br />
-                            <Moment fromNow>{post.timeStamp}</Moment>
+                            <div className="feed-post-owner-comment-div">
+                                <Moment fromNow>{post.timeStamp}</Moment>
+                                <Reportflag props={props} post={post} type={"feedpost"} />
+                            </div>
                         </Card.Body>
                         <div className="feed-comments-all-comments">
                             {

@@ -23,6 +23,10 @@
     right: 15px;
     top: 10px;
 }
+
+.feed-post-three-dot-empty{
+    margin-left: 70%;
+}
 .feed-post-text-owner{
     margin-left: 5px;
     font-weight: 900;
@@ -89,4 +93,8 @@
 
 .feed-post-heart-red{
     color:rgb(255, 74, 74);
+}
+.feed-post-owner-comment-div {
+    display: flex;
+    justify-content: space-between;
 }

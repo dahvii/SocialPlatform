@@ -32,7 +32,7 @@ export default function Profile(props) {
                 {props.displayedPerson &&
                     <div className="preview-info" onClick={props.changeView}>
                         <div className="name-age">
-                <h3>{props.displayedPerson.firstName}&nbsp;-</h3 >&nbsp;<h3>{calcAge(props.displayedPerson.dateOfBirth)}</h3>
+                <h3>{props.displayedPerson.firstName}&nbsp;-&nbsp;{calcAge(props.displayedPerson.dateOfBirth)}</h3>
                         </div>
                         <div className="bio"><p>{shortBio}</p></div>
                     </div>}

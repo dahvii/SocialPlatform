@@ -24,3 +24,8 @@
 .forum-cardbody{
     padding: 0.7rem;
 }
+
+.comment-footer-div{
+    display: flex;
+    justify-content: space-between;
+}
