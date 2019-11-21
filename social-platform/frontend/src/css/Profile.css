@@ -5,6 +5,7 @@
 
 .name-age{
     display: flex;
+    justify-content: space-between;
 }
 
 .hometown, .location{

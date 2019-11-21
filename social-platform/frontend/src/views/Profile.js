@@ -74,7 +74,8 @@ export default function Profile(props) {
             }
             <div className="profile-info">
                 <div className="name-age">
-                    <h3>{profile.firstName}&nbsp;-</h3 >&nbsp;<h3>{age}</h3>
+                    <h3>{profile.firstName}&nbsp;-{age}</h3>
+                <Reportflag className="profile-report-flag" props={props} post={profile} type={"User"}/>
                 </div>
                 <div className="town-location">
                     <div className="hometown">
@@ -85,11 +86,9 @@ export default function Profile(props) {
                         <i className="fas fa-map-marker-alt"></i>
                         <p>5 km</p>
                     </div>
-                    <hr />
-                    <div className="bio"><p>{profile.bio}</p></div>
+                    {/* <div className="bio"><p>{profile.bio}</p></div> */}
                 </div>
                 <div>
-                <Reportflag props={props} post={profile} type={"User"}/>
                 </div>
                 <hr />
                 <div className="bio"><p>{profile.bio}</p></div>
