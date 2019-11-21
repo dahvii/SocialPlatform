@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react'
 import { Form, Button } from 'react-bootstrap';
 import { Store } from '../utilities/Store'
 import '../css/login.css'
+import { Link } from 'react-router-dom'
 import socket from '../utilities/Socket'
 
 export default function Login(props) {
@@ -104,6 +105,11 @@ export default function Login(props) {
 
                 <Button variant="light" type="submit" className="login-button">Logga in</Button>
             </Form>
+            <Link to="/register">
+                <p className="register-already-account">
+                    Har du inte ett konto?
+        </p>
+            </Link>
         </div>
     )
 }

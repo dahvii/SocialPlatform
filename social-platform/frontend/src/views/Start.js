@@ -13,7 +13,7 @@ export default function Start() {
                 <h1 className="start-page-tri">Tri<span className="start-page-dot">.</span></h1>
             </div>
             <div>
-                <Link to="/register"><Button variant="light" className="start-page-button">FORSTÄTT MED LOGIN</Button></Link>
+                <Link to="/login"><Button variant="light" className="start-page-button">Gå vidare</Button></Link>
             </div>
         </div>
     )
