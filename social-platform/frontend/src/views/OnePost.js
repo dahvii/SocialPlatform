@@ -73,7 +73,7 @@ export default function OnePost(props) {
                                 {!post.isAnonym ? post.owner && post.owner.firstName : ''}
                             </span>
                             {' '}
-                            {!post.followers.find(obj => obj._id == state.currentUser.id) ?
+                            {!post.followers.find(obj => obj._id === state.currentUser.id) ?
                                 <span onClick={addToMyFollow}>
                                     <i className="far fa-plus-square"></i>
                                 </span>
@@ -84,7 +84,7 @@ export default function OnePost(props) {
                             {' '}
                             <Reportflag props={props} post={post} type={"forumpost"}/>
                             {' '}
-                            {post.image == null ? '' : <Card.Img variant="top" src={`http://localhost:3001/` + post.image} className="feed-post-image" />}
+                            {post.image === null ? '' : <Card.Img variant="top" src={`http://localhost:3001/` + post.image} className="feed-post-image" />}
                         </Card.Text>
                         <Card.Text className="forum-text">{post.text}</Card.Text>
                     </Card.Body>
