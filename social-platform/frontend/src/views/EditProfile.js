@@ -26,6 +26,8 @@ export default function EditProfile() {
     const [genderPrefNonBinary, setGenderPrefNonBinary] = useState(false);
     const [genderPrefMale, setGenderPrefMale] = useState(false);
     const [agePref, setAgePref]= useState([18, 60]);
+    const [agePrefToDB, setAgePrefToDB]= useState([18, 60]);
+
 
 
 
@@ -122,8 +124,8 @@ export default function EditProfile() {
             imagesPaths,
             hometown: hometown.current.value,
             genderPreference: genderPref,
-            agePreference: agePref
-        }
+            agePreference: agePrefToDB
+        }        
         
         let result = await fetch(`/api/update/${state.currentUser.id}`, {
             method: 'PUT',
@@ -207,6 +209,11 @@ export default function EditProfile() {
     }
 
     const ageSliderCallback = (value) => {
+        if(value[1] === 60 ){
+            setAgePrefToDB([value[0], 120])
+        }else{            
+            setAgePrefToDB(value);
+        }
         setAgePref(value);
     }
 
