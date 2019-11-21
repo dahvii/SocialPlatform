@@ -90,7 +90,7 @@ export default function Profile(props) {
                 <div className="public-profile-interests">
                     {
                         profile.interests ?
-                            profile.interests.map(interest => <p className="public-user-one-interest" key={interest.name}>{interest.name}</p>)
+                            profile.interests.map(interest => <div className="edit-profile-interest mr-3 mb-2" key={interest.name}>{interest.name}</div>)
                             : ""
                     }
                 </div>

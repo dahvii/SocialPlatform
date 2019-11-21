@@ -3,6 +3,7 @@
     position: fixed;
     bottom: 10vh;
     right: 3vw;
+    z-index: 1000;
 }
 .forum-button-icon{
     font-size: 2em;
