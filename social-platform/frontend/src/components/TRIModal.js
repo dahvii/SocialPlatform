@@ -21,15 +21,15 @@ export default function TRIModal(props) {
                   <Image src={props.match.profilePictures[0] ? `http://localhost:3001/${props.match.profilePictures[0]}` : 'http://localhost:3001/uploads/placeholder.jpg'} alt="profile-picture" roundedCircle className="profile-picture" />
                 </Link>
               </div>
-              <h1>It's a match!</h1>
-              <p>It seems like you two would get along just fine! Start a conversation before this hottie gets other stuff to do!</p>
+              <h1>Det blev en match!</h1>
+              <p>Det verkar som ni två tycker om varrandra... Du kanske ska skriva någonting till personen?</p>
             </>
           }
           {!props.match &&
             <>
-              <h1>Tell us more about you!</h1>
-              <p>It seems like you haven't filled in all the info about you in your presentation. Add a few pictures and a presentation text to get some hotties interested in you!</p>
-              <Button color="secondary" onClick={redirect}>Take me to edit presentation!</Button>
+              <h1>Berätta mer om dig själv!</h1>
+              <p>Det verkar som du inte skrivit något om dig. Du kan också ta några snygga bilder och lägg till i din profil!</p>
+              <Button color="secondary" onClick={redirect}>Ta mig till min profil!</Button>
             </>
           }
         </ModalBody>
