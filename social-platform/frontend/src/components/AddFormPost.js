@@ -3,7 +3,7 @@ import { Form, Button, Image } from 'react-bootstrap'
 import '../css/AddForumPost.css'
 export default function AddFormPost(props){
   
-    
+  
     const text = useRef();
     const [textError,setTextError] = useState(false);
     const[anonym, setAnonym] = useState(false)
@@ -20,6 +20,11 @@ export default function AddFormPost(props){
         let newImage = URL.createObjectURL(event.target.files[0]);
         setDisplayImage(newImage);
     }
+
+    function goTonewpost(result) {
+        props.props.history.push('/onepost/' + result.newPost._id)
+    }
+
 
     function validate(e) {
         let allGood = false;
@@ -74,6 +79,7 @@ export default function AddFormPost(props){
         }
         let result = await addtodb(data);
         props.showNewPost(result);
+        goTonewpost(result)
     }
    
     async function registerwhithoutImg(text) {
@@ -83,6 +89,7 @@ export default function AddFormPost(props){
         }
         let result = await addtodb(data);
         props.showNewPost(result);
+        goTonewpost(result)
     }
     return (
         <> 
