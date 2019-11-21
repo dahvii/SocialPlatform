@@ -45,6 +45,16 @@
 
 }
 
+.public-profile-interests{
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
+.public-user-one-interest{
+    margin: 1em;
+}
+
 
 
 

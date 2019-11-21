@@ -3,7 +3,7 @@ import { Form, Button, Image } from 'react-bootstrap';
 import { Store } from '../utilities/Store'
 import '../css/NewFeedPost.css'
 
-export default function NewFeed() {
+export default function NewFeed(props) {
     const text = useRef();
     const { state } = React.useContext(Store);
     const [feedImage, setFeedImage] = useState();
@@ -53,6 +53,9 @@ export default function NewFeed() {
         let result = await newPost.json();
         if (result.status === 200) {
             setError(false)
+            setTimeout(() => {
+                props.history.push('/')
+            },400)
         } else {
             setError(true)
         }
