@@ -83,10 +83,6 @@ export default function Profile(props) {
                         <i className="fas fa-home"></i>
                         <p>{profile.hometown}</p>
                     </div>
-                    <div className="location">
-                        <i className="fas fa-map-marker-alt"></i>
-                        <p>5 km</p>
-                    </div>
                     {/* <div className="bio"><p>{profile.bio}</p></div> */}
                 </div>
                 <hr />
