@@ -1,0 +1,35 @@
+.content{
+    position: relative;
+    }
+
+.preview-info{
+    text-align: left;
+    z-index: 5;
+    position: absolute;
+    padding: 10px;
+    padding-left: 2vw;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.342);
+    bottom: 0;
+}
+
+
+.preview-info p{
+    margin: 0;
+}
+
+.name-age{
+    display: flex;
+}
+
+.carousel-img{
+    width: 130vw;
+    margin-left: -15vw;
+}
+
+ol {
+    bottom: auto !important;
+}
+
+
+

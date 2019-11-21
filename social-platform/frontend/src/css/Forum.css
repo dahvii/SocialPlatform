@@ -1,0 +1,23 @@
+.add-forum-buton{
+    border-radius: 50%;
+    position: fixed;
+    bottom: 10vh;
+    right: 3vw;
+    z-index: 1000;
+}
+.forum-button-icon{
+    font-size: 2em;
+}
+.forum-tab{
+    color: black;
+}
+.addpost-form-background{
+    height: 0;
+    transition: height 400ms;
+}
+.slider{
+    height: 100vh;
+}
+.slider.done{
+    height: auto;
+}

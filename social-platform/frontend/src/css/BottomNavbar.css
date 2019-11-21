@@ -1,0 +1,44 @@
+.navbar-item{
+    display: flex;
+    flex-direction: column;
+    color: rgba(0, 0, 0, 0.65);
+}
+
+.navbar-item:hover{
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.65);
+}
+
+.navbar-item:hover.active{
+    color: rgba(150, 29, 29, 0.808);
+}
+
+.navbar-item:focus.active{
+    color: rgba(150, 29, 29, 0.808);
+}
+
+.navbar-title{
+    margin: 0;
+    font-size: 0.8rem;
+}
+
+.navbar-icon{
+    font-size: 1.4rem;
+}
+
+.navbar{
+    width: 100%;
+}
+
+.active{
+    color: rgba(150, 29, 29, 0.808);
+}
+
+.notification-dot{
+    color: rgb(201, 57, 57);
+    position: absolute;
+    top: 0;
+    font-size: 0.8rem;
+    margin-left: 5px;
+}
+

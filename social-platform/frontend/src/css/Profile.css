@@ -1,0 +1,60 @@
+.profile-info{
+    text-align: left;
+    padding: 10px 10px 0px 10px;
+}
+
+.name-age{
+    display: flex;
+    justify-content: space-between;
+}
+
+.hometown, .location{
+    display: flex;
+    align-items: center;
+}
+
+.fa-home, .fa-map-marker-alt{
+    width: 30px;
+}
+
+.hometown p{
+    margin: 0;
+}
+
+.location p{
+    margin: 0;
+}
+
+.profile-down-btn{
+    float: right;
+    background-color: #f8f9fa;
+    border-radius: 30px;
+    height: 40px;
+    width: 40px;
+    color: black;
+    display: flex;
+    justify-content: space-around;
+    z-index: 5;
+    position: relative;
+    margin-top: -20px;
+    margin-right: 4vw;
+}
+.profile-down-btn > i{
+    color:black;
+    padding-top: 12px;
+
+}
+
+.public-profile-interests{
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
+.public-user-one-interest{
+    margin: 1em;
+}
+
+
+
+

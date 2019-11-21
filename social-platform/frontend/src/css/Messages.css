@@ -1,0 +1,19 @@
+.match-picture{
+    width: 80px;
+}
+
+.recent-matches{
+    display: flex;
+    justify-content: space-around;    
+    margin: 10px;
+}
+
+.matches-search{
+    display: flex;
+    justify-content: center;
+    margin: 2vh 2vw;
+    }
+    
+    .matches-search-input{
+        border-radius: 40px;
+    }

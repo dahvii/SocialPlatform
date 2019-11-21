@@ -1,0 +1,42 @@
+.profile-picture{
+    width: 200px;
+    margin-top: 3vh;
+    margin-bottom: 2vh;
+    border: 2px solid white;
+}
+
+.myprofile-info{
+    display: flex;
+    justify-content: center;
+}
+
+.profile-button{
+    display: inline-flex;
+    flex-direction: row;
+    border-radius: 40px;  
+    align-items: center;  
+}
+
+.myprofile-logout-button{
+    position: absolute;
+    bottom: 0;
+    left: calc(50% - 91px);
+    border-radius: 50px;
+    padding: 8px 60px 8px 60px;
+    color: #eb6f6d;
+}
+
+.myprofile-buttons{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.myprofile-content{
+    position: relative;
+    height: 90vh;
+}
+
+.fa-eye, .fa-cog{
+    margin-left: 10px;
+    font-size: 1rem;
+}

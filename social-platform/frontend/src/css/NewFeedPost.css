@@ -1,0 +1,74 @@
+.new-feed-text-input{
+    width: 90%;
+}
+
+.newfeed-input{
+    width: 100%;
+}
+
+.newfeed-upload-button{
+    position: fixed;
+    bottom: 15vh;
+    left: 10%;
+}
+
+.new-feed-display-image{
+    margin-top: 20px;
+    border-radius: 4px;
+    padding: 5px;
+    width: 250px;
+}
+
+.newfeed-upoad-image-button{
+    width: 80%;
+    border-radius: 50px;
+    padding: 8px 60px 8px 60px;
+    color: #eb6f6d;
+    margin-top: 10%;
+}
+
+.new-feed-error{
+    color: whitesmoke;
+}
+
+.new-feed-profile-pictures{
+    margin-top: 50px;
+}
+
+.new-feed-inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.new-feed-add-image-icon{
+    font-size: 3rem;
+}
+
+.new-feed-edit-profile-pictures{
+    object-fit: cover;
+    width: 250px;
+    height: 250px;
+    border-radius: 8px;
+}
+
+.new-feed-placeholder{
+    background-color: rgb(119, 102, 102);
+    width: 250px;
+    height: 250px;
+    border-radius: 8px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.new-feed-form-group{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+}
+

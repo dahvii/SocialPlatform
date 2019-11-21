@@ -1,0 +1,20 @@
+.start-page-button{
+    border-radius: 50px;
+    padding: 8px 60px 8px 60px;
+    color: #eb6f6d;
+    margin-top: 30vh;
+}
+.start-page-dot{
+    margin-left: -15px;
+}
+.start-page-content {
+    max-height: 100vh;
+}
+
+.start-page-tri{
+    margin-top: 40vh;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: whitesmoke;
+    letter-spacing: 0.4em;
+    font-weight: 800;
+}

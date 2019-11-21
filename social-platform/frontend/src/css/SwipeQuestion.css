@@ -1,0 +1,32 @@
+.swipe-question-modal{
+  background-color: #f09795;
+  padding: 0;
+}
+
+
+.swipe-question-button{
+  width: 80%;
+  border-radius: 50px;
+  color: #eb6f6d;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+  align-self: center;
+}
+
+.swipe-question-form{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 1em !important;
+}
+
+.swipe-question-question{
+  margin-bottom: 3vh;
+  margin-top: 1vh;
+}
+
+.swipe-question-type{
+  text-align: center;
+}
