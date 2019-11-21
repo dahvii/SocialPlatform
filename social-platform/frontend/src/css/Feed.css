@@ -94,3 +94,7 @@
 .feed-post-heart-red{
     color:rgb(255, 74, 74);
 }
+.feed-post-owner-comment-div {
+    display: flex;
+    justify-content: space-between;
+}
