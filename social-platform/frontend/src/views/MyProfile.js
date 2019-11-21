@@ -4,6 +4,7 @@ import { Image, Button } from 'react-bootstrap'
 import '../css/MyProfile.css'
 import useLifeCycle from '../utilities/useLifeCycle';
 import calcAge from '../utilities/CalcAge';
+import socket from '../utilities/Socket'
 
 export default function MyProfile(props) {
     const { state, dispatch } = React.useContext(Store);
@@ -24,7 +25,6 @@ export default function MyProfile(props) {
             dispatch({ type: "LOGOUT_USER" })
         }
     }
-
 
     const goToProfile = () => {
         props.history.push(`/profile/${state.currentUser.id}`)

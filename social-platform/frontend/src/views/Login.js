@@ -2,12 +2,14 @@ import React, { useRef, useState } from 'react'
 import { Form, Button } from 'react-bootstrap';
 import { Store } from '../utilities/Store'
 import '../css/login.css'
+import socket from '../utilities/Socket'
 
 export default function Login(props) {
     const email = useRef();
     const password = useRef();
     const [loginError, setLoginError] = useState(false)
     const { dispatch } = React.useContext(Store);
+
 
     function validate(e) {
         login(email.current.value, password.current.value)
@@ -26,7 +28,6 @@ export default function Login(props) {
         })
 
         let result = await loginUser.json();
-
         if (result.error === "login-error") {
             setLoginError(true);
         } else {
@@ -38,6 +39,7 @@ export default function Login(props) {
                 type: 'SET_CURRENT_SESSION',
                 payload: result.sessUser
             })
+            socket.emit('login', { id: result.sessUser.id })
             let currUser = await checkCurrentUser(result.sessUser.id);
             if (currUser.isAdmin) {
                 dispatch({

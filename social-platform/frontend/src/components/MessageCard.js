@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Image } from 'react-bootstrap';
 import '../css/MessageCard.css'
 import { Link } from 'react-router-dom'
@@ -12,21 +12,24 @@ export default function MessageCard(props) {
 
     useLifeCycle({
         mount: () => {
-            console.log(props.match)
             if (state.currentUser) {
                 shouldNotificationShow()
             }
         }
     })
 
+    useEffect(() => {
+        shouldNotificationShow()
+    })
+
     const shouldNotificationShow = () => {
-            if (props.match.match_seen === false) {
+        if (props.match.match_seen === false) {
+            setShowNotification(true)
+        } else if (props.match.messages !== undefined) {
+            if (props.match.messages.receiver === state.currentUser.id && props.match.messages.seen === false) {
                 setShowNotification(true)
-            } else if (props.match.messages !== undefined) {
-                if (props.match.messages.receiver === state.currentUser.id && props.match.messages.seen === false) {
-                    setShowNotification(true)
-                }
             }
+        }
     }
 
     return (

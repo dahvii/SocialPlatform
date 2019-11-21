@@ -20,6 +20,7 @@ const postMessage = async (req, res) => {
         const newMessage = new Message({
             message: req.body.message,
             sender: req.body.sender,
+            senderName: req.body.senderName,
             receiver: req.body.receiver,
             seen: req.body.seen,
             sentAt: req.body.sentAt
@@ -41,7 +42,7 @@ const postMessage = async (req, res) => {
 
 
         // match.messages.push(newMessage)
-        res.status(200).json({ status: 'message sent' })
+        res.status(200).json({newMessage, status: 'message sent' })
 
     } else {
         res.status(400).json({ status: 'something went wrong' })

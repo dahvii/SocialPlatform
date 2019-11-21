@@ -9,6 +9,7 @@ let messageSchema = new Schema ({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
+    senderName: String,
     receiver: {
         type: Schema.Types.ObjectId,
         ref: 'User'
