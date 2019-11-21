@@ -37,7 +37,6 @@ export default function Profile(props) {
                         <div className="bio"><p>{shortBio}</p></div>
                     </div>}
                 <Carousel interval={null} fade={true}>
-
                     {props.displayedPerson ?
                         props.displayedPerson.profilePictures.length > 0 ?
                             showProfilePictures
