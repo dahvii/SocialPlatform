@@ -17,10 +17,11 @@ export default function Messages(props) {
 
     return (
         <div>
-            <p>Meddelande</p>
+            <p>Senaste matchningarna</p>
             <div className="recent-matches">
                 {displayLatestMatches}
             </div>
+            <hr />
             <div className="matches-search">
                 <Form.Control as="input" placeholder="Sök" className="matches-search-input" maxLength="20" />
             </div>
