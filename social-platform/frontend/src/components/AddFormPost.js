@@ -18,10 +18,10 @@ export default function AddFormPost(props) {
         mount: () => {
             setTimeout(() => {
                 document.querySelector('.addpost-form-background').classList.add('slider');
-                setTimeout(() => {
-                    document.querySelector('.addpost-form-background').classList.add('done')
-                }, 400);
-            }, 100);
+                    setTimeout(() => {
+                        document.querySelector('.addpost-form-background').classList.add('done')
+                    }, 400);
+            }, 0);
         }
     })
 
