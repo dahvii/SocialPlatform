@@ -10,7 +10,7 @@ export default function BottomNavbar() {
   const [showNotification, setShowNotification] = useState(false)
 
 
-
+  // eslint-disable-next-line
   useEffect(() => {
     if (state.currentUser) {
       setShowNotification(false)

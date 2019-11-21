@@ -23,6 +23,13 @@ export default function Chat(props) {
                     updateMessageStatus()
                 }
             }
+            socket.on('update-messages', data => {
+                if (window.location.pathname.includes('chat')) {
+                    // setAllMessages([...allMessages, data])
+                    getMessages()
+                }
+                updateStateWithNewProfile()
+            })
         },
         unmount: () => {
             updateStateWithNewProfile()
@@ -30,8 +37,10 @@ export default function Chat(props) {
     })
 
     const scrollToBottom = () => {
-        let chatWindow = document.getElementById('chat-window');
-        chatWindow.scrollTop = chatWindow.scrollHeight
+        if (window.location.pathname.includes('chat')) {
+            let chatWindow = document.getElementById('chat-window');
+            chatWindow.scrollTop = chatWindow.scrollHeight
+        }
     }
 
     const updateStateWithNewProfile = async () => {
@@ -43,25 +52,13 @@ export default function Chat(props) {
         })
     }
 
-    const scrollWin = () => {
-        window.scrollTo(100, 0);
-      };
-
     const backToMessages = () => {
         props.history.push('/messages')
     }
 
-    socket.on('update-messages', async data => {
-        console.log(data)
-        // console.log("INNE I UPDATE MESSAGES")
-        // let result = await fetch(`/api/get-messages/${state.currentUser.id}/${props.match.params.id}`)
-        // result = await result.json()
-        // console.log(result)
-        // setAllMessages(result)
-    })
+
 
     const getMessages = async () => {
-        console.log("getting messages")
         let result = await fetch(`/api/get-messages/${state.currentUser.id}/${props.match.params.id}`)
         result = await result.json()
         setAllMessages(result)
@@ -72,8 +69,7 @@ export default function Chat(props) {
         let data = {
             matchId: props.location.state.match
         }
-        console.log(props.location.state.match)
-        let result = await fetch('/api/update-match-status', {
+        await fetch('/api/update-match-status', {
             method: 'PUT',
             body: JSON.stringify(data),
             headers: { 'Content-Type': 'application/json' }
@@ -86,7 +82,7 @@ export default function Chat(props) {
             messageId: props.location.state.latestMessage._id
         }
 
-        let result = await fetch('/api/update-message-status', {
+        await fetch('/api/update-message-status', {
             method: 'PUT',
             body: JSON.stringify(data),
             headers: { 'Content-Type': 'application/json' }
@@ -99,12 +95,12 @@ export default function Chat(props) {
             let data = {
                 message: message.current.value,
                 sender: state.currentUser.id,
+                senderName: state.currentUser.firstName,
                 receiver: props.match.params.id,
                 seen: false,
                 sentAt: Date.now()
             }
 
-            console.log(data)
             let result = await fetch('/api/new-message', {
                 method: 'POST',
                 body: JSON.stringify(data),

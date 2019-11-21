@@ -39,17 +39,10 @@ io.on('connection', (socket) => {
         allSockets[data.id] = socket;
         socketIdUserId[socket.id] = data.id
     })
-    socket.on('testtest', function (data) {
-        io.emit('testtest2', { message: data })
-        // io.to('5dd3ae4eb57aaa4208800660').emit('testtest2', 'kooo')
-        // io.to('5dd3ae4eb57aaa4208800660').emit('testtest2', "blabla");
-        console.log(data)
-    })
     socket.on('new-message', (data) => {
-        console.log(data.newMessage.receiver)
-        console.log(allSockets)
-        // allSockets[data.newMessage.receiver].emit('update-messages', data.newMessage)
-        // io.emit('update-messages', data)
+        allSockets[data.newMessage.receiver].emit('update-messages', data.newMessage)
+        allSockets[data.newMessage.receiver].emit('incoming-message')
+        allSockets[data.newMessage.receiver].emit('show-notification', data.newMessage)
     })
     socket.on('disconnect', () => {
         delete allSockets[socketIdUserId[socket.id]]
