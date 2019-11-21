@@ -31,7 +31,7 @@ export default function Feed(props) {
             if (result.error) {
                 setHasMore(false)
             } else if (result.success) {
-                if (posts.length === 0) {
+                if (posts.length == 0) {
                     if (!result.fullLength) {
                         setHasMore(false)
                         setPosts(result.result)
