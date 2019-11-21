@@ -31,9 +31,8 @@ export default function Forum(props) {
     setFollow(result);
   }
 
-
   const showNewPost = (result) => {
-      if (result.type === 'click') {
+    if (result.type === 'click') {
       result.preventDefault();
       result.stopPropagation();
     }
