@@ -18,10 +18,12 @@ export default function AddFormPost(props) {
         mount: () => {
             setTimeout(() => {
                 document.querySelector('.addpost-form-background').classList.add('slider');
-                setTimeout(() => {
-                    document.querySelector('.addpost-form-background').classList.add('done')
-                }, 400);
-            }, 100);
+                if (!document.querySelector('.addpost-form-background').classList.add('slider') == null){
+                    setTimeout(() => {
+                        document.querySelector('.addpost-form-background').classList.add('done')
+                    }, 400);
+                }
+            }, 0);
         }
     })
 
