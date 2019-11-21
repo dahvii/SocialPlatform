@@ -4,6 +4,8 @@ import { withRouter } from 'react-router-dom';
 import { Store } from '../utilities/Store'
 import useLifeCycle from '../utilities/useLifeCycle'
 import Reportflag from '../components/ReportFlag';
+import '../css/Feed.css'
+
 function FeedPost(props) {
     const { state } = React.useContext(Store);
     const [likes, setLikes] = useState(props.post.likes.length)
@@ -73,7 +75,9 @@ function FeedPost(props) {
                     <Image onClick={goToOwner} src={props.post.owner.profilePictures[0] ? `http://localhost:3001/${props.post.owner.profilePictures[0]}` : 'http://localhost:3001/uploads/placeholder.jpg'}
                         roundedCircle className="feed-post-profile-picture" />
                     <span className="feed-post-text-owner" onClick={goToOwner}>{props.post.owner.firstName}</span>
-                    <i className="fas fa-ellipsis-h feed-post-three-dots"></i>
+                    <span className="feed-post-three-dot-empty"></span>
+                    <Reportflag className="feed-post-three-dots" props={props} post={props.post} type={"feedpost"}/>
+                    {/* <i className="fas fa-ellipsis-h feed-post-three-dots"></i> */}
                 </Card.Text>
                 <Card.Img variant="top" src={`http://localhost:3001/` + props.post.feedImage} className="feed-post-image" />
                 <Card.Text className="feed-post-comment-heart">
@@ -86,7 +90,7 @@ function FeedPost(props) {
                     <i className="far fa-comment feed-post-comment" onClick={goToComments}></i>
                     }
                     {' '}
-                    <Reportflag props={props} post={props.post} type={"feedpost"}/>
+                    
                 </Card.Text>
                 <Card.Text className="feed-post-amout-likes">
                     
