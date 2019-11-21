@@ -26,10 +26,6 @@ export default function MyProfile(props) {
         }
     }
 
-    const test = () => {
-        socket.emit('testtest', { id: '5dd3ae4eb57aaa4208800660' })
-    }
-
     const goToProfile = () => {
         props.history.push(`/profile/${state.currentUser.id}`)
     }
@@ -56,7 +52,6 @@ export default function MyProfile(props) {
                 <Button className="profile-button" variant="light" onClick={goToAdmin}>Gå till admin-sidan</Button>
             }
             <div className="myprofile-logout">
-                <Button variant="light" onClick={test}>Shiny button</Button>
                 <Button variant="light" className="myprofile-logout-button" onClick={logout}>Logga ut</Button>
             </div>
         </div>
