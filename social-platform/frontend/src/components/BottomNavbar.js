@@ -34,7 +34,7 @@ export default function BottomNavbar() {
 
   return (
     <div>
-      <Navbar fixed="bottom" bg="light">
+      {state.currentUser ? <Navbar fixed="bottom" bg="light">
         <Nav className="navbar pr-0 pb-0">
           <NavLink className="navbar-item" activeClassName="active" to="/forum"><i className="fas fa-align-left navbar-icon"></i><p className="navbar-title">Forum</p></NavLink>
           <NavLink className="navbar-item" activeClassName="active" to="/swipe"><i className="fas fa-exchange-alt navbar-icon"></i><p className="navbar-title">Swipa</p></NavLink>
@@ -47,7 +47,8 @@ export default function BottomNavbar() {
           </div>
           <NavLink className="navbar-item" activeClassName="active" to="/myprofile"><i className="far fa-user navbar-icon"></i><p className="navbar-title">Profil</p></NavLink>
         </Nav>
-      </Navbar>
+      </Navbar> : ''}
+
     </div>
   )
 }
