@@ -4,7 +4,6 @@ import { Image, Button } from 'react-bootstrap'
 import '../css/MyProfile.css'
 import useLifeCycle from '../utilities/useLifeCycle';
 import calcAge from '../utilities/CalcAge';
-import socket from '../utilities/Socket'
 
 export default function MyProfile(props) {
     const { state, dispatch } = React.useContext(Store);
