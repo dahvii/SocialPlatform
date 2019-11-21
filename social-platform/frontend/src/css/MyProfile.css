@@ -26,11 +26,17 @@
     color: #eb6f6d;
 }
 
+.myprofile-buttons{
+    display: flex;
+    justify-content: space-evenly;
+}
+
 .myprofile-content{
     position: relative;
     height: 90vh;
 }
 
 .fa-eye, .fa-cog{
-font-size: 2rem;
+    margin-left: 10px;
+    font-size: 1rem;
 }
