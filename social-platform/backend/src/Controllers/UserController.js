@@ -78,7 +78,7 @@ const getLoggedIn = (req, res) => {
 }
 
 const getOne = async (req, res) => {
-    let result = await User.findOne({ _id: req.params.id });
+    let result = await User.findOne({ _id: req.params.id }).populate('interests');
     const publicUser = {
         id: result._id,
         firstName: result.firstName,

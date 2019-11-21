@@ -68,6 +68,9 @@ export default function SwipeQuestion() {
                     centered>
                     <Modal.Body className="swipe-question-modal">
                         <Form className="selection swipe-question-form">
+                            {
+                                questions.type === "partnerCharacteristics" ? <p className="swipe-question-type">Frågor om din partner</p> : <p className="swipe-question-type">Frågor om dig</p>
+                            }
                             <h4 className="swipe-question-question">{questions.question}</h4>
                             <div>
                                 {

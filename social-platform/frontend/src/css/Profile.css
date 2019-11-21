@@ -5,6 +5,7 @@
 
 .name-age{
     display: flex;
+    justify-content: space-between;
 }
 
 .hometown, .location{
@@ -42,6 +43,16 @@
     color:black;
     padding-top: 12px;
 
+}
+
+.public-profile-interests{
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
+.public-user-one-interest{
+    margin: 1em;
 }
 
 

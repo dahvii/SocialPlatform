@@ -31,8 +31,12 @@ export default function Forum(props) {
     setFollow(result);
   }
 
-
   const showNewPost = (result) => {
+    if (result.type === 'click') {
+      result.preventDefault();
+      result.stopPropagation();
+    }
+    
     if (result.newPost) {
       let newPosts = post
       newPosts.unshift(result.newPost)
@@ -72,9 +76,9 @@ export default function Forum(props) {
       </Nav>
       <TabContent activeTab={activeTab}>
         <TabPane tabId="1">
-          {newForumPost === true ? <AddForumPost showNewPost={showNewPost} /> : ''}
+          {newForumPost === true ? <AddForumPost showNewPost={showNewPost} props={props}/> : ''}
           {post.map((post, index) => <FormPost key={index} post={post} history={props.history} />)}
-          <Button className="add-forum-buton" variant="light" onClick={showNewPost}>
+          <Button className="add-forum-buton" variant="light" onClick={(e) => showNewPost(e)}>
             {!newForumPost ? <i className="fas fa-plus forum-button-icon"></i> : <i className="fas fa-minus forum-button-icon"></i>}
           </Button>
         </TabPane>

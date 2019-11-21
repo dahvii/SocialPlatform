@@ -31,6 +31,7 @@ export default function Profile(props) {
         setProfile(result)
         setAge(calcAge(result.dateOfBirth));
         toShowOrNotToShowBtn(result);
+        console.log(result)
     }
 
     const showProfilePictures = profile.profilePictures.map(image => (
@@ -74,25 +75,26 @@ export default function Profile(props) {
             }
             <div className="profile-info">
                 <div className="name-age">
-                    <h3>{profile.firstName}&nbsp;-</h3 >&nbsp;<h3>{age}</h3>
+                    <h3>{profile.firstName}&nbsp;-{age}</h3>
+                    <Reportflag className="profile-report-flag" props={props} post={profile} type={"User"} />
                 </div>
                 <div className="town-location">
                     <div className="hometown">
                         <i className="fas fa-home"></i>
                         <p>{profile.hometown}</p>
                     </div>
-                    <div className="location">
-                        <i className="fas fa-map-marker-alt"></i>
-                        <p>5 km</p>
-                    </div>
-                    <hr />
-                    <div className="bio"><p>{profile.bio}</p></div>
-                </div>
-                <div>
-                <Reportflag props={props} post={profile} type={"User"}/>
+                    {/* <div className="bio"><p>{profile.bio}</p></div> */}
                 </div>
                 <hr />
                 <div className="bio"><p>{profile.bio}</p></div>
+                <div className="public-profile-interests">
+                    {
+                        profile.interests ?
+                            profile.interests.map(interest => <div className="edit-profile-interest mr-3 mb-2" key={interest.name}>{interest.name}</div>)
+                            : ""
+                    }
+                </div>
+
             </div>
             {
                 showBtn &&
