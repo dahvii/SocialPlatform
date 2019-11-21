@@ -76,8 +76,7 @@ function FeedPost(props) {
                         roundedCircle className="feed-post-profile-picture" />
                     <span className="feed-post-text-owner" onClick={goToOwner}>{props.post.owner.firstName}</span>
                     <span className="feed-post-three-dot-empty"></span>
-                    <Reportflag className="feed-post-three-dots" props={props} post={props.post} type={"feedpost"}/>
-                    {/* <i className="fas fa-ellipsis-h feed-post-three-dots"></i> */}
+                    <Reportflag props={props} post={props.post} type={"feedpost"}/>
                 </Card.Text>
                 <Card.Img variant="top" src={`http://localhost:3001/` + props.post.feedImage} className="feed-post-image" />
                 <Card.Text className="feed-post-comment-heart">
