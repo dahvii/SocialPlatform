@@ -9,18 +9,20 @@ const deleteUser = async (req, res) => {
     res.json(result);
 }
 
-const createnewRepported = async (reported) => {
-    if (reported.length < 1) {
+const createnewRepported = (reported) => {
+    if (!reported || reported.length < 1) {
         const reported = new Report();
-        await reported.save()
+        return reported;
     }
+    return reported;
 }
 
 const reportForum = async(req, res) => {
     let post = await ForumPost.findById({ _id: req.params.id });
     let reported = await Report.find();
+
     if (reported.length < 1) {
-        reported = await createnewRepported();
+        reported = createnewRepported(reported);
         reported.forumPosts.push(post);
         reported.save();
     }else{
@@ -36,7 +38,7 @@ const reportForumComment = async (req, res) => {
     let post = await Comments.findById({ _id: req.params.id });
     let reported = await Report.find();
     if (reported.length < 1) {
-        reported = await createnewRepported();
+        reported = createnewRepported(reported);
         reported.comments.push(post);
         reported.save();
     }else{
@@ -52,7 +54,7 @@ const reportFeedPost = async (req, res) => {
     let post = await FeedPost.findById({ _id: req.params.id });
     let reported = await Report.find();
     if (reported.length < 1) {
-        reported = await createnewRepported();
+        reported = createnewRepported(reported);
         reported.feedPosts.push(post);
         reported.save();
     }else{
@@ -68,7 +70,7 @@ const reportUser = async (req, res) => {
     let post = await User.findById({ _id: req.params.id });
     let reported = await Report.find();
     if (reported.length < 1) {
-        reported = await createnewRepported();
+        reported = createnewRepported(reported);
         reported.persons.push(post);
         reported.save();
     }else{
