@@ -5,6 +5,7 @@ import FeedPost from '../components/FeedPost'
 import InfiniteScroll from 'react-infinite-scroller';
 import TRIModal from '../components/TRIModal';
 import { Store } from '../utilities/Store'
+import Loading from '../utilities/Loading'
 
 export default function Feed(props) {
     const { state } = React.useContext(Store);
@@ -55,6 +56,7 @@ export default function Feed(props) {
 
     return (
         <div>
+            {state.currentUser ? '' : <Loading/>}
             <TRIModal matchModal={false} show={showModal} callback={modalCallback}></TRIModal>
 
             <InfiniteScroll

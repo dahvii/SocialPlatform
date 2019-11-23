@@ -22,9 +22,9 @@ export default function Messages(props) {
                 {displayLatestMatches}
             </div>
             <hr />
-            <div className="matches-search">
+            {/* <div className="matches-search">
                 <Form.Control as="input" placeholder="Sök" className="matches-search-input" maxLength="20" />
-            </div>
+            </div> */}
             {displayChats}
         </div>
     )

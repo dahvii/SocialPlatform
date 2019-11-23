@@ -40,9 +40,11 @@ io.on('connection', (socket) => {
         socketIdUserId[socket.id] = data.id
     })
     socket.on('new-message', (data) => {
-        allSockets[data.newMessage.receiver].emit('update-messages', data.newMessage)
-        allSockets[data.newMessage.receiver].emit('incoming-message')
-        allSockets[data.newMessage.receiver].emit('show-notification', data.newMessage)
+        if (allSockets[data.newMessage.receiver]) {
+            allSockets[data.newMessage.receiver].emit('update-messages', data.newMessage)
+            allSockets[data.newMessage.receiver].emit('incoming-message')
+            allSockets[data.newMessage.receiver].emit('show-notification', data.newMessage)
+        }
     })
     socket.on('disconnect', () => {
         delete allSockets[socketIdUserId[socket.id]]

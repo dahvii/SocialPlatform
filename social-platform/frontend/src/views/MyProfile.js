@@ -36,7 +36,7 @@ export default function MyProfile(props) {
     const goToEditProfile = () => {
         props.history.push('/edit-profile')
     }
-
+    
     return (
         <div className="myprofile-content">
             <Image src={state.currentUser.profilePictures[0] ? `http://localhost:3001/${state.currentUser.profilePictures[0]}` : 'http://localhost:3001/uploads/placeholder.jpg'} alt="profile-picture" roundedCircle className="profile-picture" />

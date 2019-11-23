@@ -235,11 +235,6 @@ export default function Register(props) {
                 </Form.Group>
                 <Button variant="light" type="submit" className="register-button">SKAPA KONTO</Button>
             </Form>
-            <Link to="/login">
-                <p className="register-already-account">
-                    Har du redan ett konto?
-        </p>
-            </Link>
         </div>
     )
 }
