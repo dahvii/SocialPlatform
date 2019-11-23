@@ -181,14 +181,6 @@ export default function EditProfile() {
     const handleRemoveImage = async (image) => {
         setImagesToRemove([...imagesToRemove, image])
         setImagesPaths(imagesPaths.filter(img => img !== image))
-        // let data = {
-        //     image: image
-        // }
-        // await fetch('/api/delete-image/', {
-        //     method: 'POST',
-        //     body: JSON.stringify(data),
-        //     headers: { 'Content-Type': 'application/json' }
-        // })
     }
 
     const handleGenderOptionChange = (e) => {
@@ -284,7 +276,6 @@ export default function EditProfile() {
                                 <div className="profile-pic-container"><div onClick={() => handleRemoveImage(imagesPaths[2])} className="remove-pic-icon"><i className="fas fa-minus-circle"></i></div><Image id="profile-image3" className="edit-profile-pictures" src={`http://localhost:3001/${imagesPaths[2]}`} alt="your image" /></div>
                             }
                         </div>
-                        {/* <Button onClick={addImages}>test</Button> */}
                     </Form>
                 </div>
                 <Form className="mb-2">

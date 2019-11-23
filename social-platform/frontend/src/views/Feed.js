@@ -56,9 +56,7 @@ export default function Feed(props) {
 
     return (
         <div>
-            {state.currentUser ? '' : <Loading/>}
             <TRIModal matchModal={false} show={showModal} callback={modalCallback}></TRIModal>
-
             <InfiniteScroll
                 className="feed-div"
                 pageStart={0}
