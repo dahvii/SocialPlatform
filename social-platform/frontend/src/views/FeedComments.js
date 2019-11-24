@@ -40,6 +40,7 @@ export default function FeedComments(props) {
             let newPost = { ...post }
             newPost.comments.push(result.newComment)
             setPost(newPost)
+            newComment.current.value = ''
         } else {
             //error message
             console.log("something went wrong");
